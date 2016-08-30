@@ -1,0 +1,14 @@
+doctype
+html(lang='en')
+  head
+    link(rel='stylesheet',href="/css/main.css",type='text/css',media='all')
+    script(type='text/javascript', src='/js/lib/vendor.min.js')
+    script(type='text/javascript', src='/js/data.js')
+    script(type='text/javascript', src='/js/main.js')
+  body
+    .loadingscreen
+    include ../include/spinner
+
+    script.
+      Spinner.i($('.loadingscreen'))
+      console.log('spinner is on');

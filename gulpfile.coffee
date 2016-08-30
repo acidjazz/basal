@@ -31,6 +31,9 @@ objectify = ->
   objectus 'config/', (error, result) ->
     notify error if error
     config = result
+    pubconfig = config
+    delete pubconfig.auth
+    fs.writeFileSync('public/js/config.js', "var config = " + JSON.stringify(pubconfig) + ";", 'utf8')
   return config
 
 config = objectify()
@@ -41,14 +44,27 @@ gulp.task 'goprod', ->
   env = 'prod'
 
 gulp.task 'vendor', ->
+
   gulp.src([
     'node_modules/jquery/dist/jquery.js',
+    'node_modules/json-browse/json-browse/jquery.json-browse.js',
   ])
+
   .pipe(gulpif(env != 'dev',uglify()))
   .pipe(concat('vendor.js'))
   .pipe gulp.dest('public/js/')
 
+
+  gulp.src([
+    'node_modules/json-browse/json-browse/jquery.json-browse.css',
+  ])
+
+  .pipe(gulpif(env != 'dev',clean()))
+  .pipe(concat('vendor.css'))
+  .pipe gulp.dest('public/css/')
+
 gulp.task 'rollup', ->
+  
   rollup(
     entry: dirs.coffee + '/main.coffee'
     plugins: [
@@ -105,7 +121,11 @@ gulp.task 'pug', ->
     .pipe(gulp.dest('public'))
     .pipe sync.stream()
 
+gulp.task 'php', ->
+  sync.reload()
+
 watch = ->
+  gulp.watch '**/*.php', ['php']
   gulp.watch 'config/**/*', ['objectus','pug','stylus']
   gulp.watch dirs.coffee + '/**/*.coffee', ['rollup']
   gulp.watch dirs.stylus + '/**/*.styl', ['stylus']
@@ -113,16 +133,22 @@ watch = ->
   gulp.watch dirs.svg + '/**/*.svg', ['pug']
   gulp.watch 'public/images/**/*', ['pug']
 
+
+
 gulp.task 'sync', ->
   sync.init
     notify: false
     open: false
-    server: baseDir: 'public/'
+    proxy:
+      target: 'basal.dev:8080',
+      reqHeaders: ->
+        host: 'localhost:3000'
     ghostMode:
       clicks: false
       forms: false
       scroll: false
     scrollProportionally: false
+
   watch()
 
 gulp.task 'watch', watch

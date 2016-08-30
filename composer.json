@@ -18,7 +18,9 @@
         "barryvdh/laravel-debugbar": "^2.2",
         "acidjazz/larpug": "^0.02.0",
         "acidjazz/larjectus": "^0.4.0",
-        "filp/whoops": "dev-master"
+        "filp/whoops": "dev-master",
+        "acidjazz/summon": "^1.2",
+        "lusitanian/oauth": "^0.8.9"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
