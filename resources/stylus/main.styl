@@ -1,0 +1,29 @@
+vendor-prefixes ?= webkit moz o ms official
+
+@import '/include/mixins'
+@import guide
+@import '/include/*'
+
+.clear
+  clearfix()
+
+body
+  background-color gc(white1)
+  margin 0
+  padding 0
+  gf(copy1)
+
+.hidden
+  visibility hidden
+.loadingscreen
+  position absolute
+  fullsize()
+
+.page
+  margin auto
+  min-height 300px
+  margin 50px
+
+@import 'items.styl'
+@import 'item.styl'
+

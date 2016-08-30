@@ -1,0 +1,127 @@
+header
+  border-bottom 2px solid gc(black2)
+  background-color gc(white2)
+  > .inner
+    padding 10px
+    max-width 900px
+    margin auto
+    > .logo
+      float left
+      > .dots
+        size = 40
+        background-color gc(black2)
+        width unit(size, px)
+        height unit(size, px)
+        border-radius 50%
+        text-align center
+        border 2px solid gc(black2)
+        > .dot
+          float left
+          width unit(size/5, px)
+          height unit(size/5, px)
+          border-radius 50%
+          margin unit(size/2.63, px) unit(size/15, px) 0 unit(size/15, px)
+          &:nth-child(1)
+            background-color gc(skin1)
+          &:nth-child(2)
+            background-color gc(cyan1)
+          &:nth-child(3)
+            background-color gc(orange1)
+      > .copy
+        gf(h1)
+        margin -10px 0 0 -8px
+    > .user
+      float right
+      > .picture
+        onoff()
+        cursor pointer
+        width 40px
+        height 40px
+        border 2px solid gc(black2)
+        border-radius 50%
+        overflow hidden
+        position relative
+        > img
+          width 40px
+          height 40px
+        &:hover > .logout
+          opacity 1
+        > .logout
+          position absolute
+          top 0
+          bottom 0
+          left 0
+          right 0
+          opacity 0
+          background-color rgba(gc(white2), 0.5)
+          transition opacity 0.2s linear
+          border-radius 50%
+
+      > .profile
+        float left
+        cursor pointer
+        width 40px
+        height 40px
+        border-radius 50%
+        border 2px solid gc(black2)
+        overflow hidden
+        transition background-color 0.2s linear
+        animation fadeIn 0.2s linear 0.1s both
+        onoff()
+        &:hover
+          background-color gc(white1)
+        margin 0 0 0 5px
+        > svg
+          width 50px
+          height 50px
+          margin -5px 0 0 -5px
+      > .oauths
+        text-align center
+        onoff()
+        float left
+        &.offing > .oauth.facebook
+          animation fadeOut 0.2s linear 0.3s both
+        &.offing > .oauth.github
+          animation fadeOut 0.2s linear 0.2s both
+        &.offing > .oauth.google
+          animation fadeOut 0.2s linear 0.1s both
+        > .oauth
+          float left
+          cursor pointer
+          width 20px
+          height 20px
+          padding 10px
+          margin 0 0 0 5px
+          border-radius 50%
+          border 2px solid gc(black2)
+          cursor pointer
+          transition background-color 0.2s linear
+          &.facebook
+            animation fadeIn 0.2s linear 0.1s both
+            > svg path
+              fill gc(facebook_blue)
+          &.github
+            animation fadeIn 0.2s linear 0.2s both
+            > svg path
+              fill gc(github_blue)
+          &.google
+            animation fadeIn 0.2s linear 0.3s both
+            > svg path
+              fill gc(google_red)
+          &.twitter
+            animation fadeIn 0.2s linear 0.4s both
+            > svg path
+              fill gc(twitter_blue)
+          &:hover
+            background-color gc(white1)
+          > svg
+            width inherit
+            height inherit
+
+@keyframes blink
+  from
+    opacity 0.1
+  to
+    opacity 1
+
+

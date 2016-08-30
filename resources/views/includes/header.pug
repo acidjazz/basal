@@ -1,0 +1,20 @@
+header
+  .inner
+    a.logo(href='/')
+      .dots
+        .dot
+        .dot
+        .dot
+    .user
+      .oauths.off
+        .oauth.google(data-type='google')
+          include ../../vector/google.svg
+      .profile.on
+        include ../../vector/profile.svg
+        include ../../vector/cancel.svg
+      .picture.off
+        img()
+        .logout
+          include ../../vector/cancel.svg
+
+    .clear

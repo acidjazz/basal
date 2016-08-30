@@ -1,0 +1,14 @@
+
+# osx
+.DS_Store
+
+# vim
+*.swp
+
+# js
+node_modules
+
+# php
+composer.lock
+/vendor
+.env

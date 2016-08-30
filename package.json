@@ -1,0 +1,44 @@
+{
+  "name": "basal",
+  "version": "0.0.2",
+  "description": "minimal content management",
+  "main": "index.js",
+  "scripts": {
+    "sync": "./node_modules/gulp/bin/gulp.js sync",
+    "prod": "./node_modules/gulp/bin/gulp.js prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acidjazz/basal.git"
+  },
+  "keywords": [
+    "cms"
+  ],
+  "author": "Kevin Olson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/acidjazz/basal/issues"
+  },
+  "homepage": "https://github.com/acidjazz/basal#readme",
+  "dependencies": {
+    "browser-sync": "^2.14.0",
+    "coffee-script": "^1.10.0",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.12",
+    "gulp-concat": "^2.6.0",
+    "gulp-htmlmin": "^2.0.0",
+    "gulp-if": "^2.0.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-pug": "^3.0.4",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-stylus": "^2.5.0",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.7",
+    "jquery": "^3.1.0",
+    "objectus": "^1.1.1",
+    "rollup-plugin-coffee-script": "^1.1.0",
+    "rollup-stream": "^1.12.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}

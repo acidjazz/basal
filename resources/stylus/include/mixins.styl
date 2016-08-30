@@ -1,0 +1,50 @@
+ onoff()
+  &.on
+    display block
+  &.off
+    display none
+
+fullsize()
+  top 0
+  left 0
+  right 0
+  bottom 0
+
+desktop()
+  max-width 1200px
+  margin auto
+
+clearfix()
+  &:before
+  &:after
+    content: ""
+    display: table
+  &:after
+    clear: both
+  zoom: 1 if support-for-ie
+
+gf(k)
+  for key, value in config.font[k]
+    {key} unquote(value)
+
+gc(k)
+  return convert(config.color[k])
+
+fontfaces(dir, fonts, exts)
+
+  for font in fonts
+    @font-face
+      font-family dir font
+      for ext in exts
+        if ext == 'eot'
+          src url(fnt/dir/font.eot) format('embedded-opentype')
+        if ext == 'otf'
+          src url(fnt/dir/font.otf) format('opentype')
+        if ext == 'ttf'
+          src url(fnt/dir/font.ttf) format('truetype')
+        if ext == 'svg'
+          src url(fnt/dir/font.svg) format('svg')
+        if ext == 'woff'
+          src url(fnt/dir/font.woff) format('woff')
+      font-weight normal
+      font-style normal

@@ -1,0 +1,30 @@
+---
+
+copy1:
+  font-family: Roboto
+  font-size: 14px
+  font-weight: '300'
+
+copy1s:
+  font-family: Roboto
+  font-size: 14px
+  font-weight: '300'
+
+copy1b:
+  font-family: Roboto
+  font-size: 16px
+  font-weight: '500'
+
+copy2:
+  font-family: Roboto
+  font-size: 18px
+  font-weight: '300'
+
+h1: 
+  font-family: Roboto
+  font-size: 24px
+  font-weight: '300'
+
+h2:
+  font-family: Roboto
+  font-size: 20px

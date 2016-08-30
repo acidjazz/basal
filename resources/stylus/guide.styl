@@ -1,0 +1,35 @@
+.guide
+  padding 20px 0 0 0 
+  background-color gc(white1)
+
+  > .sections
+    padding 20px
+    > .gsection
+      min-width 200px
+      float left
+      > .title
+        gf(copy1)
+        padding 0 0 0 10px
+
+      > .color
+        padding 10px 20px
+        margin 5px
+        for name, color in config.color
+          &.color_{name}
+            background-color: convert(color)
+            if dark(convert(color))
+              border: 1px solid white
+              color: white
+            else
+              border: 1px solid black
+              color: black
+      > .detail
+        padding 0 0 0 20px
+        text-align right
+      > .font
+        padding 0 20px
+        overflow-x scroll
+        for name, font in config.font
+          &.font_{name}
+            gf(name)
+

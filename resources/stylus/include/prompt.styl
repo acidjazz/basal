@@ -1,0 +1,68 @@
+.prompt
+  position fixed
+  top 50%
+  left 50%
+  transform translate(-50%, -50%)
+  max-width 640px
+  min-width 320px
+  background-color gc(white1)
+  border 1px solid gc(black1)
+  box-shadow 0 0 16px 2px gc(black2), 0.5
+  z-index 21
+
+  &.off
+    opacity 0
+    transition opacity 0.1s linear, transform 0s ease-out
+    transform perspective(500px) rotateX(-90deg) translate(-50%, -50%)
+  &.on
+    opacity 1
+    transform perspective(500px) rotateX(0deg) translate(-50%, -50%)
+    transition opacity 0.1s linear 0.1s, transform 00s ease-out 0.1s
+      
+  > .inner
+    padding 10px 20px
+    position relative
+    > .cancel
+      position absolute
+      top 0
+      right 0
+      cursor pointer
+      font-size 20px
+      width 20px
+      padding 10px
+      text-align center
+    > .title
+      gf(h1)
+    > .copy
+      margin 20px 0
+      > b
+        gf(copy1b)
+    > .textarea
+      &.off
+        display none
+      &.on
+        display block
+      > textarea
+        gf(copy1)
+        display block
+        width 500px
+        height 125px
+        margin 0 0 20px 0
+        padding 10px
+    > .options
+      margin 0 -10px 0 0
+      text-align right
+      white-space nowrap
+      > .option
+        cursor pointer
+        display inline-block
+        padding 10px 20px
+        background-color gc(white2)
+        border-radius 5px
+        &.on
+          display inline-block
+        &.off
+          display none
+        &.active
+          background-color gc(red1)
+          color gc(white1)
