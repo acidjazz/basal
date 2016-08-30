@@ -100,38 +100,17 @@ gulp.task 'stylus', ->
     .pipe(gulp.dest('public/css/'))
     .pipe(sync.stream())
 
-gulp.task 'pug', ->
-  gulp.src(dirs.pug + '/**/index.pug')
-    .pipe(pug(
-      pretty: true
-      locals:
-        config: config
-    ).on('error', notify.onError((error) ->
-      title: 'Pug error: ' + error.name
-      message: error.message
-      sound: 'Pop'
-    )).on('error', (error) ->
-      console.log error
-      return
-    ))
-    .pipe(gulpif(env != 'dev',htmlmin(
-      collapseWhitespace: true
-      processScripts: ['application/ld+json', 'text/javascript']
-    )))
-    .pipe(gulp.dest('public'))
-    .pipe sync.stream()
-
 gulp.task 'php', ->
   sync.reload()
 
 watch = ->
   gulp.watch '**/*.php', ['php']
-  gulp.watch 'config/**/*', ['objectus','pug','stylus']
+  gulp.watch 'config/**/*', ['objectus','php','stylus']
   gulp.watch dirs.coffee + '/**/*.coffee', ['rollup']
   gulp.watch dirs.stylus + '/**/*.styl', ['stylus']
-  gulp.watch dirs.pug + '/**/*.pug', ['pug']
-  gulp.watch dirs.svg + '/**/*.svg', ['pug']
-  gulp.watch 'public/images/**/*', ['pug']
+  gulp.watch dirs.pug + '/**/*.pug', ['php']
+  gulp.watch dirs.svg + '/**/*.svg', ['php']
+  gulp.watch 'public/images/**/*', ['php']
 
 
 
@@ -152,5 +131,5 @@ gulp.task 'sync', ->
   watch()
 
 gulp.task 'watch', watch
-gulp.task 'default', ['objectus','stylus','pug','vendor','rollup']
+gulp.task 'default', ['objectus','stylus','vendor','rollup']
 gulp.task 'prod', ['goprod','default']

@@ -1,5 +1,10 @@
-link(rel='stylesheet',href="/css/vendor.css",type='text/css',media='all')
-script(type='text/javascript', src='/js/vendor.js')
-#json.json-body=self.json
-script.
-  $(function() { $('#json').jsonBrowse(!{self.json}); });
+doctype
+html
+  head
+    link(rel='stylesheet',href="/css/vendor.css",type='text/css',media='all')
+    link(rel="shortcut icon", href="/images/icons/favicon.ico")
+    script(type='text/javascript', src='/js/vendor.js')
+  body
+    #json.json-body=self.json
+    script.
+      $(function() { $('#json').jsonBrowse(!{self.json}); });
