@@ -10,12 +10,6 @@ use OAuth\Common\Consumer\Credentials;
 
 use OAuth\OAuth2\Service\Google;
 
-/*
-use OAuth\OAuth2\Service\GitHub;
-use OAuth\OAuth2\Service\Twitter;
-use OAuth\OAuth2\Service\Facebook;
-*/
-
 class AuthController extends MetApiController
 {
 

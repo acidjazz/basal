@@ -5,7 +5,7 @@ namespace App\Api;
 use App\Models\Item;
 use Illuminate\Http\Request;
 
-class ItemController extends MetApiController
+class ItemController extends MetApi
 {
 
   public function __construct(Request $request) {

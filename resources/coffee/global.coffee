@@ -1,8 +1,3 @@
-`import _ from './256.coffee'`
-`import Me from './me.coffee'`
-`import Spinner from './spinner.coffee'`
-`import Notice from './notice.coffee'`
-
 Global =
 
   # kevin olson (kevin@256.io) aka 🌀🎷
@@ -84,8 +79,5 @@ Global =
     _.on '.user > .picture'
 
   loginCheck: ->
-
     Me.authed (result) ->
       Global.login(result) if result isnt false
-
-`export default Global`

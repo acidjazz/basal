@@ -1,5 +1,3 @@
-`import _ from './256.coffee'`
-
 Spinner =
   el: {}
 
@@ -28,5 +26,3 @@ Spinner =
     setTimeout =>
       _.off @el
     , 100
-
-`export default Spinner`

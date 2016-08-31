@@ -1,5 +1,3 @@
-`import _ from './256.coffee'`
-
 Prompt =
   el: {}
   options: {}
@@ -99,5 +97,3 @@ Prompt =
       Prompt.callback? response: value, val: val
     else
       Prompt.callback? value
-
-`export default Prompt`

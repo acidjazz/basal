@@ -5,6 +5,8 @@ notify       = require 'gulp-notify'
 rollup       = require 'rollup-stream'
 rollupc      = require 'rollup-plugin-coffee-script'
 
+coffee       = require 'gulp-coffee'
+
 source       = require 'vinyl-source-stream'
 buffer       = require 'vinyl-buffer'
 uglify       = require 'gulp-uglify'
@@ -28,15 +30,14 @@ dirs =
 
 objectify = ->
   config = {}
-  objectus 'config/', (error, result) ->
+  objectus 'config/', (error, result) =>
     notify error if error
-    config = result
-    pubconfig = config
+    @config = result
+    pubconfig = @config
     delete pubconfig.auth
     fs.writeFileSync('public/js/config.js', "var config = " + JSON.stringify(pubconfig) + ";", 'utf8')
-  return config
-
-config = objectify()
+    
+objectify()
 
 gulp.task 'objectus', objectify
 
@@ -64,6 +65,22 @@ gulp.task 'vendor', ->
   .pipe(gulpif(env != 'dev',clean()))
   .pipe(concat('vendor.css'))
   .pipe gulp.dest('public/css/')
+
+
+gulp.task 'coffee', ->
+  gulp.src(dirs.coffee + '/*.coffee')
+    .pipe(gulpif(env == 'dev', sourcemaps.init(loadMaps: true)))
+    .pipe(coffee(bare: true)
+      .on('error', notify.onError((error) ->
+        title: "Coffee error"
+        message: error.message + "\r\n" + error.filename + ':' + error.location.first_line
+        sound: 'Pop'
+      )))
+    .pipe(gulpif(env != 'dev',uglify()))
+    .pipe(concat('bundle.js'))
+    .pipe(gulpif(env == 'dev',sourcemaps.write()))
+    .pipe(gulp.dest('./public/js'))
+    .pipe(sync.stream())
 
 gulp.task 'rollup', ->
   
@@ -109,7 +126,7 @@ gulp.task 'php', ->
 watch = ->
   gulp.watch '**/*.php', ['php']
   gulp.watch 'config/**/*', ['objectus','php','stylus']
-  gulp.watch dirs.coffee + '/**/*.coffee', ['rollup']
+  gulp.watch dirs.coffee + '/**/*.coffee', ['coffee']
   gulp.watch dirs.stylus + '/**/*.styl', ['stylus']
   gulp.watch dirs.pug + '/**/*.pug', ['php']
   gulp.watch dirs.svg + '/**/*.svg', ['php']
@@ -124,7 +141,7 @@ gulp.task 'sync', ->
     proxy:
       target: 'basal.dev:8080',
       reqHeaders: ->
-        host: 'localhost:3000'
+        host: 'basal.dev:3000'
     ghostMode:
       clicks: false
       forms: false
@@ -134,5 +151,5 @@ gulp.task 'sync', ->
   watch()
 
 gulp.task 'watch', watch
-gulp.task 'default', ['objectus','stylus','vendor','rollup']
+gulp.task 'default', ['objectus','stylus','vendor','coffee']
 gulp.task 'prod', ['goprod','default']

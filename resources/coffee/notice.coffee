@@ -1,5 +1,3 @@
-`import _ from './256.coffee'`
-
 Notice =
 
   types: ['info','success','warning']
@@ -39,5 +37,3 @@ Notice =
     Notice.handlers.off()
     _.off Notice.el, offing: true, offtime: 0.2
     Notice.on = false
-
-`export default Notice`

@@ -1,5 +1,3 @@
-`import _ from './256.coffee'`
-
 _.constructor()
 
 class Index
@@ -12,5 +10,3 @@ class Index
   mobile: ->
     _.swap '.top > .burger'
     _.swap '.top > .menu'
-
-`export default Index`

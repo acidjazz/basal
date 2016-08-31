@@ -38,6 +38,19 @@ abstract class MetApiController extends Controller
     $this->meta[$name] = $value;
   }
 
+  protected function addPaginate($collection) {
+
+    return $this->addMeta('paginate', [
+      'total' => $collection->total(),
+      'per_page' => $collection->perPage(),
+      'current_page' => $collection->currentPage(),
+      'last_page' => $collection->lastPage(),
+      'next_page_url' => $collection->nextPageUrl(),
+      'prev_page_url' => $collection->previousPageUrl(),
+    ]);
+
+  }
+
   protected function compileQuery() {
 
     foreach ($this->query['options'] as $option=>$type) {

@@ -1,6 +1,6 @@
 _ =
 
-  constructor: ->
+  i: ->
     @console = setInterval(@detect.bind(@), 200)
 
   p:
@@ -143,4 +143,4 @@ _ =
       @llc()
       clearInterval @console
 
-`export default _`
+_.i()

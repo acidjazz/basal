@@ -1,6 +1,3 @@
-
-`import _ from './256.coffee'`
-
 Me =
 
   logout: (complete) ->
@@ -19,5 +16,3 @@ Me =
     _.get '/api/auth'
       .done (response) ->
         result response.data.user
-
-`export default Me`
