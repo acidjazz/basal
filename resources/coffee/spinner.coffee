@@ -1,0 +1,33 @@
+`import _ from './256.coffee'`
+
+Spinner =
+  el: {}
+
+
+  i: (el, override) ->
+
+    Spinner.el = $('.spinner')
+
+    rect = el[0].getBoundingClientRect()
+
+    coords =
+      top: "#{rect.top + $(window).scrollTop()}px"
+      left: "#{rect.left}px"
+      width: "#{rect.width}px"
+      height: "#{rect.height}px"
+
+    if override isnt undefined
+      for key, coord of override
+        coords[key] = coord
+
+    Spinner.el.css coords
+
+
+    _.on Spinner.el
+
+  d: ->
+    setTimeout ->
+      _.off Spinner.el
+    , 100
+
+`export default Spinner`

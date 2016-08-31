@@ -1,5 +1,7 @@
+`import _ from './256.coffee'`
+`import Notice from './notice.coffee'`
 
-`import Index from './index.coffee'`
+_.constructor()
 
-index = new Index()
+Notice.i 'this is a test'
 
