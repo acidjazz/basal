@@ -6,7 +6,7 @@ Spinner =
 
   i: (el, override) ->
 
-    Spinner.el = $('.spinner')
+    @el = $('.spinner')
 
     rect = el[0].getBoundingClientRect()
 
@@ -20,14 +20,13 @@ Spinner =
       for key, coord of override
         coords[key] = coord
 
-    Spinner.el.css coords
+    @el.css coords
 
-
-    _.on Spinner.el
+    _.on @el
 
   d: ->
-    setTimeout ->
-      _.off Spinner.el
+    setTimeout =>
+      _.off @el
     , 100
 
 `export default Spinner`

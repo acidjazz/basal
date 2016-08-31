@@ -48,6 +48,8 @@ gulp.task 'vendor', ->
   gulp.src([
     'node_modules/jquery/dist/jquery.js',
     'node_modules/json-browse/json-browse/jquery.json-browse.js',
+    'node_modules/gsap/src/uncompressed/TweenMax.js',
+    'public/js/MorphSVGPlugin.min.js',
   ])
 
   .pipe(gulpif(env != 'dev',uglify()))
@@ -70,10 +72,11 @@ gulp.task 'rollup', ->
     plugins: [
       rollupc()
     ]
+    format: 'iife'
     sourceMap: (env == 'dev')
   )
     .on('error', notify.onError((error) ->
-      title: 'Coffee error: ' + error.name
+      title: 'Rollup error: ' + error.name
       message: error.message
       sound: 'Pop'
     ))

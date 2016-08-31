@@ -25,7 +25,7 @@ _ =
     if p.offing and p.offtime > 0
 
       @turn el, false, 'offing'
-      setTimeout ->
+      setTimeout =>
         @turn el, 'offing', false
         @turn el, 'on', 'off'
       , p.offtime*1000 + 100
@@ -64,6 +64,55 @@ _ =
 
   rand: (min, max) ->
     return Math.floor(Math.random() * max) + min
+
+  fit: (srcWidth, srcHeight, maxWidth, maxHeight) ->
+    ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight)
+    width: srcWidth*ratio, height: srcHeight*ratio
+
+  jinit: ->
+    $.ajaxSetup
+      dataType: "json"
+
+  patch: (url, data) ->
+
+    _.jinit()
+
+    jpatch = $.ajax
+      url: url
+      data: data
+      type: 'PATCH'
+
+    jpatch.always (response) ->
+      Spinner.d()
+
+    jpatch.fail (response) ->
+      error = response.responseJSON.error
+      body = """
+        <b>#{error.message}</b><br /><br />
+        #{error.file}:#{error.line}
+      """
+      Prompt.i error.type, body, ['OK']
+
+    return jpatch
+
+  get: (args...) ->
+
+    _.jinit()
+
+    jget = $.get args...
+
+    jget.always (response) ->
+      Spinner.d()
+
+    jget.fail (response) ->
+      error = response.responseJSON.error
+      body = """
+        <b>#{error.message}</b><br /><br />
+        #{error.file}:#{error.line}
+      """
+      Prompt.i error.type, body, ['OK']
+
+    return jget
 
   llc: ->
     ascii = """

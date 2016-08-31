@@ -13,6 +13,7 @@
 
 $app->get('guide', ['uses' => 'Pages@guide']);
 $app->get('/', ['uses' => 'Pages@index']);
+$app->get('/loading', ['uses' => 'Pages@loading']);
 
 $app->group([
   'prefix' => 'api',

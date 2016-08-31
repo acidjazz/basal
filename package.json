@@ -23,6 +23,7 @@
   "dependencies": {
     "browser-sync": "^2.14.0",
     "coffee-script": "^1.10.0",
+    "gsap": "^1.19.0",
     "gulp": "^3.9.1",
     "gulp-clean-css": "^2.0.12",
     "gulp-concat": "^2.6.0",

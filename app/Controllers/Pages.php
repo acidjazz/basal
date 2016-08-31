@@ -12,4 +12,8 @@ class Pages extends Controller
   {
     return view('pages.guide');
   }
+  public function loading()
+  {
+    return view('pages.loading');
+  }
 }

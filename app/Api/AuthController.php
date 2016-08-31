@@ -44,7 +44,7 @@ class AuthController extends MetApiController
 
   private function creds($provider) {
 
-    $auth = config('data.auth');
+    $auth = config('auth');
 
     return new Credentials(
       $auth[$provider]['id'],
@@ -102,6 +102,7 @@ class AuthController extends MetApiController
 
     } else {
 
+      // registration
       $user = new User();
       foreach ($params as $key=>$value) {
         $user->$key = $value;
@@ -110,7 +111,7 @@ class AuthController extends MetApiController
       $user->sessions = [];
       $user->save();
 
-      return $this->render($user->sessionize());
+      $user->sessionize();
     }
 
     return view('partial.complete', ['user' => $user]);
@@ -118,8 +119,6 @@ class AuthController extends MetApiController
   }
 
   public function logout() {
-
-    sleep(2);
 
     if ($this->user == false) {
       return $this->error('Not logged in');

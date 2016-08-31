@@ -1,14 +1,15 @@
+
 doctype
 html(lang='en')
   head
     link(rel='stylesheet',href="/css/main.css",type='text/css',media='all')
-    script(type='text/javascript', src='/js/lib/vendor.min.js')
-    script(type='text/javascript', src='/js/data.js')
-    script(type='text/javascript', src='/js/main.js')
+    script(type='text/javascript', src='/js/vendor.js')
+    script(type='text/javascript', src='/js/config.js')
+    script(type='text/javascript', src='/js/bundle.js')
+    include ../partial/favicon
   body
     .loadingscreen
-    include ../include/spinner
+    include ../includes/spinner
 
     script.
       Spinner.i($('.loadingscreen'))
-      console.log('spinner is on');
