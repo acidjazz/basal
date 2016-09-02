@@ -1,35 +1,45 @@
 ---
 
-copy1:
-  font-family: Roboto
-  font-size: 14px
-  font-weight: '300'
-
-copy1s:
-  font-family: Roboto
-  font-size: 14px
-  font-weight: '300'
-
-copy1b:
-  font-family: Roboto
-  font-size: 16px
-  font-weight: '500'
-
-copy2:
-  font-family: Roboto
-  font-size: 18px
-  font-weight: '300'
-
-copy2b:
-  font-family: Roboto
-  font-size: 18px
-  font-weight: '500'
-
 h1: 
+  font-family: Roboto
+  font-size: 34px
+  font-weight: '300'
+h1b: 
+  font-family: Roboto
+  font-size: 34px
+  font-weight: '700'
+
+h2: 
   font-family: Roboto
   font-size: 24px
   font-weight: '300'
 
-h2:
+h3:
   font-family: Roboto
   font-size: 20px
+
+c1:
+  font-family: Roboto
+  font-size: 14px
+  font-weight: '300'
+
+c1s:
+  font-family: Roboto
+  font-size: 14px
+  font-weight: '300'
+
+c1b:
+  font-family: Roboto
+  font-size: 16px
+  font-weight: '500'
+
+c2:
+  font-family: Roboto
+  font-size: 18px
+  font-weight: '300'
+
+c2b:
+  font-family: Roboto
+  font-size: 18px
+  font-weight: '500'
+

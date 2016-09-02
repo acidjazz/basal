@@ -14,18 +14,9 @@
   mmo.............:::::::::::::::.......-:///::-...........-:///:-..omm
   mmm/............................................................./mmm
 
-  #{self.config.meta.repo}
-
-  Copyright 2016 256 llc. All rights reserved.
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-    http://www.apache.org/licenses/LICENSE-2.0
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
+  :: syntactic sugar by 256
+  :: http://256.io/
+  :: #{self.config.meta.repo}
 | !{'\n\n'}
 doctype
 html(lang='en')
@@ -33,9 +24,8 @@ html(lang='en')
     title #{self.config.meta.title}
 
     script(type='text/javascript', src='/js/vendor.js')
-    script(type='text/javascript', src='/js/config.js')
     script(type='text/javascript', src='/js/bundle.js')
-    script(type='text/javascript').
+    script.
       Global.i()
 
     meta(http-equiv="X-UA-Compatible",content="IE=Edge,chrome=1")
@@ -76,7 +66,6 @@ html(lang='en')
 
     //- twitter
     meta(name='twitter:card',content='summary_large_image')
-
     meta(name='twitter:title',content=self.config.meta.title)
     meta(name='twitter:description',content=self.config.meta.description)
     meta(name='twitter:image',content=self.config.meta.url + self.config.meta.share)
@@ -86,10 +75,10 @@ html(lang='en')
     include ../partial/favicon
 
   body
-    include ../includes/header
-    .container
-      block content
     include ../includes/notice
     include ../includes/prompt
     include ../includes/spinner
+    include ../includes/header
+    .container
+      block content
     include ../includes/footer

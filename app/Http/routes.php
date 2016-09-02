@@ -12,8 +12,11 @@
 */
 
 $app->get('guide', ['uses' => 'Pages@guide']);
-$app->get('/', ['uses' => 'Pages@index']);
+
 $app->get('/loading', ['uses' => 'Pages@loading']);
+
+$app->get('/', ['uses' => 'Pages@index']);
+$app->get('users', ['uses' => 'Pages@users']);
 
 $app->group([
 

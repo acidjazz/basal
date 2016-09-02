@@ -35,7 +35,7 @@ objectify = ->
     @config = result
     pubconfig = @config
     delete pubconfig.auth
-    fs.writeFileSync('public/js/config.js', "var config = " + JSON.stringify(pubconfig) + ";", 'utf8')
+    fs.writeFileSync(dirs.coffee + '/config.coffee', "config = " + JSON.stringify(pubconfig) + ";", 'utf8')
     
 objectify()
 

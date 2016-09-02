@@ -9,9 +9,18 @@ vendor-prefixes ?= webkit moz o ms official
 
 body
   background-color gc(white1)
+  color gc(black2)
   margin 0
   padding 0
-  gf(copy1)
+  gf(c1)
+
+a
+  text-decoration none
+  color gc(black2)
+
+::selection
+  color gc(skin1)
+  background-color gc(cyan1)
 
 .hidden
   visibility hidden
@@ -22,7 +31,7 @@ body
 .page
   margin auto
   min-height 300px
-  margin 50px
+  margin 20px 50px
 
-@import 'index.styl'
+@import 'page.styl'
 

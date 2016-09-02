@@ -1,6 +1,9 @@
-Spinner =
-  el: {}
 
+Spinner =
+
+  state: false
+
+  el: {}
 
   i: (el, override) ->
 
@@ -21,8 +24,11 @@ Spinner =
     @el.css coords
 
     _.on @el
+    @state = true
 
   d: ->
+    console.log 'Spinner destruction'
     setTimeout =>
       _.off @el
+      @state = false
     , 100

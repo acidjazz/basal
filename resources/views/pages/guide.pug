@@ -15,7 +15,7 @@ block content
         .title Fonts
         each atts, name in self.config.font
           .font(class="font_"+name) #{name} #{atts['font-family']}
-          .detail size: #{atts['font-size']}
-          .detail spacing: #{atts['font-size']}
+          each value, att in atts
+            .detail #{att}: <b>#{value}</b>
 
       .clear

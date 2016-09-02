@@ -2,12 +2,13 @@ extends ../extends/layout
 
 block content
   .page.index 
+    .title dashboard
     .dashboard
-
       .collections
-
-        .collection.users
+        a.collection.users(href='/users')
           .title Users
           .stat
             .copy Total
-            .value 0
+            .value(data-value='users.paginate.total') 0
+    script.
+      Dashboard.i();

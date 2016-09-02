@@ -7,17 +7,23 @@ use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+use Validator;
+
 abstract class MetApiController extends Controller
 {
 
   protected $request;
   protected $benchmark;
+
   protected $query = [
     'defaults' => [],
     'options' => [],
     'params' => [],
     'combined' => [],
   ];
+
+  protected $errors = [];
+
 
   protected $meta = [];
   protected $compiled = false;
@@ -27,11 +33,9 @@ abstract class MetApiController extends Controller
     $this->request = $request;
   }
 
-  protected function addOption($name, $type) {
+  protected function addOption($name, $type, $default=false) {
     $this->query['options'][$name] = $type;
-  }
-  protected function addDefault($name, $type) {
-    $this->query['defaults'][$name] = $type;
+    $this->query['defaults'][$name] = $default;
   }
 
   protected function addMeta($name, $value) {
@@ -53,34 +57,24 @@ abstract class MetApiController extends Controller
 
   protected function compileQuery() {
 
-    foreach ($this->query['options'] as $option=>$type) {
+    $validate = Validator::make($this->request->all(), $this->query['options']);
 
-      switch ($type) {
+    if ($validate->fails()) {
 
-        case is_array($type): 
-          if (!empty($this->request->query($option)) && in_array($this->request->query($option), $type)) {
-            $this->query['params'][$option] = $this->request->query($option);
-          }
-
-          break;
-
-        case 'number':
-          if (!empty($this->request->query($option)) && is_numeric($this->request->query($option))) {
-            $this->query['params'][$option] = (float) $this->request->query($option);
-          }
-
-        case 'boolean':
-          if (!empty($this->request->query($option)) && in_array($this->request->query($option), ['true','false'])) {
-            if ($this->request->query($option) === 'true') {
-              $this->query['params'][$option] = true;
-            } else {
-              $this->query['params'][$option] = false;
-            } 
-          }
-
-          break;
+      foreach ($validate->errors()->toArray() as $key=>$value) {
+        foreach($value as $error) {
+          $this->errors[$key] = $error;
+        }
       }
 
+      return false;
+
+    }
+
+    foreach ($this->request->all() as $key=>$value) {
+      if (isset($this->query['options'][$key])) {
+        $this->query['params'][$key] = $value;
+      }
     }
 
     $this->query['combined'] = $this->query['defaults'];
@@ -89,16 +83,12 @@ abstract class MetApiController extends Controller
       $this->query['combined'][$key] = $value;
     }
 
-  }
+    return $this->query;
 
-  protected function getCombined() {
-    $this->compileQuery();
-    return $this->query['combined'];
   }
 
   protected function getQuery() {
-    $this->compileQuery();
-    return $this->query;
+    return $this->compileQuery();
   }
 
   protected function getMeta() {
@@ -117,37 +107,64 @@ abstract class MetApiController extends Controller
 
   }
 
-  protected function error($message,$type='Invalid') {
+  protected function error() {
 
-    return Response()->json([
-      'error' => [
-        'status' => 500,
-        'type' => $type,
-        'message' => $message,
-        'file' => null,
-        'line' =>  null,
-      ]
-    ], 500);
+    $errors = [];
+
+    foreach ($this->errors as $type=>$message) {
+      $errors[] =
+        [
+          'type' => $type,
+          'message' => $message,
+          'file' => null,
+          'line' => null,
+        ];
+
+    }
+
+    return $this->render(['erorrs' => $errors], false, 500);
 
   }
 
-  protected function render($data) {
+  /**
+   *
+   * Final output 
+   * @param array $data data to be sent
+   * @param string $view optional rendered view
+   * @param Transformer $transformer optioanl transformer to be merged
+   * @param integer $code resposne code, defaulting to 200
+   */
+  protected function render($data,$view=false,$transformer=false, $code=200) {
 
-    $response = $this->getMeta();
-    $response['query'] = $this->getQuery();
-    $response['data'] = $data;
+    if ($transformer !== false) {
+      $resource = new Fractal\Resource\Collection($data, $transformer);
+      $fractal = new Fractal\Manager();
+      $data = $fractal->createdata($resource)->toArray()['data'];
+    }
+
+    if ($code === 500 || count($this->errors) > 0) {
+      $response = $data;
+      $code = 500;
+    } else {
+      $response = $this->getMeta();
+      $response['query'] = $this->getQuery();
+      $response['data'] = $data;
+      $response['view'] = $view;
+    }
 
     if ($this->request->query('callback') !== null) {
       $json = json_encode($response, JSON_PRETTY_PRINT);
       $response = ['callback' => $this->request->query('callback'),'json' => $json];
-      return response(view('pages.jsonp', $response))->header('Content-type', 'text/javascript');
+      return response(view('pages.jsonp', $response), 200)->header('Content-type', 'text/javascript');
     }
 
     if (strpos($this->request->header('accept'),'text/html') !== false) {
-      return view('pages.json', ['json' => json_encode($response, JSON_PRETTY_PRINT)]);
+
+      return response(view('pages.json', ['json' => json_encode($response, JSON_PRETTY_PRINT)]), $code);
+
     }
 
-    return $response;
+    return response()->json($response, $code);
 
   }
 

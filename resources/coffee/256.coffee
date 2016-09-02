@@ -101,11 +101,8 @@ _ =
 
     jget = $.get args...
 
-    jget.always (response) ->
-      Spinner.d()
-
     jget.fail (response) ->
-      error = response.responseJSON.error
+      error = response.responseJSON.errors[0]
       body = """
         <b>#{error.message}</b><br /><br />
         #{error.file}:#{error.line}

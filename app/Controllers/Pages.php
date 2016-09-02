@@ -16,4 +16,8 @@ class Pages extends Controller
   {
     return view('pages.loading');
   }
+  public function users()
+  {
+    return view('pages.users');
+  }
 }
