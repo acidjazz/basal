@@ -13,6 +13,7 @@ uglify       = require 'gulp-uglify'
 clean        = require 'gulp-clean-css'
 htmlmin      = require 'gulp-htmlmin'
 concat       = require 'gulp-concat'
+exec         = require('child_process').exec
 stylus       = require 'gulp-stylus'
 pug          = require 'gulp-pug'
 sourcemaps   = require 'gulp-sourcemaps'
@@ -30,9 +31,10 @@ dirs =
 
 objectify = ->
   config = {}
-  objectus 'config/', (error, result) =>
+  #objectus 'config/', (error, result) =>
+  exec 'php artisan config', (error, result, stderr) ->
     notify error if error
-    @config = result
+    @config = JSON.parse result
     pubconfig = @config
     delete pubconfig.auth
     fs.writeFileSync(dirs.coffee + '/config.coffee', "config = " + JSON.stringify(pubconfig) + ";", 'utf8')

@@ -75,41 +75,51 @@ _ =
 
   patch: (url, data) ->
 
-    _.jinit()
+    @jinit()
 
     jpatch = $.ajax
       url: url
       data: data
       type: 'PATCH'
 
-    jpatch.always (response) ->
-      Spinner.d()
-
     jpatch.fail (response) ->
-      error = response.responseJSON.error
-      body = """
-        <b>#{error.message}</b><br /><br />
-        #{error.file}:#{error.line}
-      """
-      Prompt.i error.type, body, ['OK']
+      @fail(response)
 
     return jpatch
 
   get: (args...) ->
 
-    _.jinit()
+    @jinit()
 
     jget = $.get args...
 
-    jget.fail (response) ->
-      error = response.responseJSON.errors[0]
-      body = """
-        <b>#{error.message}</b><br /><br />
-        #{error.file}:#{error.line}
-      """
-      Prompt.i error.type, body, ['OK']
+    jget.fail (response) =>
+      @fail(response)
 
     return jget
+
+  fail: (response) ->
+    error = response.responseJSON.errors[0]
+    pug = error.message.match /Pug Error: (.*?):([0-9]+):([0-9]+)/
+    if pug isnt null
+      error.message = error.message.replace /Pug Error: (.*?):([0-9]+):([0-9]+)/, ''
+      error.file = pug[1]
+      error.line = pug[2]
+
+    file = @encode "#{error.file}"
+
+    switch config.app.editor
+      when 'macvim' then editor = 'mvim://open?url=file://'
+      when 'sublime' then editor = 'subl://open?url=file://'
+      when 'emacs' then editor = 'emacs://open?url=file://'
+      when 'textmate' then editor = 'textmate://open/?url=file://'
+      when 'phpstorm' then editor = 'phpstorm://open?file='
+
+    body = """
+      <pre>#{error.message}</pre>
+      <a href="#{editor}#{file}&line=#{error.line}"><b>#{error.file}:#{error.line}</b></a>
+    """
+    Prompt.i error.type, body, ['OK']
 
   llc: ->
     ascii = """

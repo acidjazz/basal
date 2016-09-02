@@ -22,16 +22,14 @@ class UserController extends MetApiController
       return $this->error();
     }
 
-
     $users = User::paginate(20);
     $this->addPaginate($users);
-
-    echo $bob;
 
     $view = false;
     if ($query['combined']['view'] === 'true') {
       $view = view('partial.users', ['users' => $users->items()])->render();
     }
+
 
     return $this->render($users->items(),$view);
 

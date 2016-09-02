@@ -86,11 +86,10 @@ Prompt =
 
   trigger: (value) ->
     _.off Prompt.el.find '.textarea'
-    _.off Prompt.el
-    _.off '.fade'
+    _.off Prompt.el, offing: true, offtime: 0.2
+    _.off '.fade', offing: true, offitme: 0.2
     Prompt.options.unbind 'click', Prompt.click
     $(document).unbind 'keydown', Prompt.keydown
-    console.log Prompt.params
     if Prompt.params.textarea
       val = Prompt.el.find '.textarea > textarea'
         .val()

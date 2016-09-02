@@ -1,1 +1,27 @@
-.test hello there
+each user in self.users
+  .user 
+    .profile
+      img(src=user.picture)
+    .name=user.name
+    .paramses
+      .params  
+        // each value, key in user
+        each param in ['email','provider','updated_at','created_at']
+          .param
+            .key=param
+            .value #{user[param]}
+            .clear
+        .param
+          .key session(s)
+
+        each session in user.sessions
+          .clear
+          .session
+            .params
+              each value, key in session
+                .param
+                  .key=key
+                  .value=value
+                  .clear
+
+      

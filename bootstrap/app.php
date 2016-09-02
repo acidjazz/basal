@@ -27,6 +27,7 @@ $app->register(Jenssegers\Mongodb\MongodbServiceProvider::class);
 $app->withFacades();
 $app->withEloquent();
 $app->configure('database');
+$app->configure('app');
 
 $app->register(larpug\LarpugServiceProvider::class);
 $app->register(larjectus\LarjectusServiceProvider::class);

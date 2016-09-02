@@ -10,17 +10,17 @@ Global =
 
   handlers: ->
 
-    $('header > .inner > .user > .profile').click Global.userProfileHandler
-    $('header > .inner > .user > .oauths > .oauth').click Global.userOauthHandler
-    $('header > .inner > .user > .picture > .logout').click Global.logoutHandler
+    $('header > .inner > .me > .profile').click Global.userProfileHandler
+    $('header > .inner > .me > .oauths > .oauth').click Global.userOauthHandler
+    $('header > .inner > .me > .picture > .logout').click Global.logoutHandler
 
   logoutHandler: ->
 
     Spinner.i $('header')
 
     Me.logout ->
-      _.swap '.user > .profile'
-      _.swap '.user > .picture'
+      _.swap '.me > .profile'
+      _.swap '.me > .picture'
       Notice.i 'Logout Successful', 'success'
 
   userProfileHandler: ->
@@ -73,10 +73,10 @@ Global =
 
     window.User = user
 
-    $('header > .inner > .user > .picture > img').attr 'src', User.picture
-    _.off '.user > .profile'
-    _.off '.user > .oauths'
-    _.on '.user > .picture'
+    $('header > .inner > .me > .picture > img').attr 'src', User.picture
+    _.off '.me > .profile'
+    _.off '.me > .oauths'
+    _.on '.me > .picture'
 
   loginCheck: ->
     Me.authed (result) ->

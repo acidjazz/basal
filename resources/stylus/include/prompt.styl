@@ -2,26 +2,22 @@
   position fixed
   top 50%
   left 50%
-  transform translate(-50%, -50%)
   max-width 640px
   min-width 320px
   background-color gc(white1)
   border 1px solid gc(black1)
   box-shadow 0 0 16px 2px gc(black2), 0.5
   z-index 21
-
-  &.off
-    opacity 0
-    transition opacity 0.1s linear, transform 0s ease-out
-    transform perspective(500px) rotateX(-90deg) translate(-50%, -50%)
-  &.on
-    opacity 1
-    transform perspective(500px) rotateX(0deg) translate(-50%, -50%)
-    transition opacity 0.1s linear 0.1s, transform 00s ease-out 0.1s
+  onoff()
+  animation scaleInMid 0.6s ease-in-out 0s both
+  animation-timing-function: cubic-bezier(0.87, -0.41, 0.19, 1.44);
+  &.offing
+    animation scaleOutMid 0.2s linear 0s both
       
   > .inner
-    padding 10px 20px
+    padding 20px 50px
     position relative
+    animation fadeIn 0.1s linear 0.6s both
     > .cancel
       position absolute
       top 0
@@ -32,7 +28,7 @@
       padding 10px
       text-align center
     > .title
-      gf(h1)
+      gf(h2)
     > .copy
       margin 20px 0
       > b
@@ -63,6 +59,10 @@
           display inline-block
         &.off
           display none
+        transition background-color 0.1s ease-in-out 0s, color 0.2s ease-in-out 0s
+        &:hover
+          background-color rgba(gc(red1), 0.5)
+          color gc(white1)
         &.active
           background-color gc(red1)
-          color gc(white1)
+          color gc(white2)

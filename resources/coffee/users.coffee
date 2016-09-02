@@ -6,9 +6,9 @@ Users =
     @load()
 
   load: ->
-    Spinner.i($('.content'))
+    Spinner.i($('.users > .content'))
     _.get '/api/users',
       view: true
     .done (response) ->
-      console.log response
-
+      $('.users > .content').html response.view
+      Spinner.d()

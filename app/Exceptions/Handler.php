@@ -52,7 +52,9 @@ class Handler extends ExceptionHandler
         $whoops->pushHandler(new \Whoops\Handler\JsonResponseHandler);
       } else {
         $handler = new \Whoops\Handler\PrettyPageHandler();
-        $handler->setEditor('macvim');
+        if (config('app.editor')) {
+          $handler->setEditor(config('app.editor'));
+        }
         $whoops->pushHandler($handler);
       }
 
