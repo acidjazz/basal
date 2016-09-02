@@ -2,5 +2,5 @@
 
 minimal content management
 
-![](public/images/icons/favicon-32x32.png)
+![](public/images/icons/apple-touch-icon.png)
 > early development
