@@ -49,7 +49,8 @@ class Handler extends ExceptionHandler
       $whoops = new \Whoops\Run;
 
       if ($request->wantsJson()) {
-        $whoops->pushHandler(new \Whoops\Handler\JsonResponseHandler);
+        $handler = (new \Whoops\Handler\JsonResponseHandler())->setJsonApi(true);
+        $whoops->pushHandler($handler);
       } else {
         $handler = new \Whoops\Handler\PrettyPageHandler();
         if (config('app.editor')) {

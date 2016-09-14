@@ -32,16 +32,17 @@ dirs =
 objectify = ->
   config = {}
   #objectus 'config/', (error, result) =>
-  exec 'php artisan config', (error, result, stderr) ->
+  secure = [ 'auth', 'database' ]
+  exec 'php artisan larjectus:config', (error, result, stderr) ->
     notify error if error
     @config = JSON.parse result
     pubconfig = @config
-    delete pubconfig.auth
+    delete pubconfig[dim] for dim in secure
     fs.writeFileSync(dirs.coffee + '/config.coffee', "config = " + JSON.stringify(pubconfig) + ";", 'utf8')
     
 objectify()
 
-gulp.task 'objectus', objectify
+gulp.task 'larjectus', objectify
 
 gulp.task 'goprod', ->
   env = 'prod'
@@ -127,7 +128,7 @@ gulp.task 'php', ->
 
 watch = ->
   gulp.watch '**/*.php', ['php']
-  gulp.watch 'config/**/*', ['objectus','php','stylus']
+  gulp.watch 'config/**/*', ['larjectus','php','stylus']
   gulp.watch dirs.coffee + '/**/*.coffee', ['coffee']
   gulp.watch dirs.stylus + '/**/*.styl', ['stylus']
   gulp.watch dirs.pug + '/**/*.pug', ['php']
@@ -153,5 +154,5 @@ gulp.task 'sync', ->
   watch()
 
 gulp.task 'watch', watch
-gulp.task 'default', ['objectus','stylus','vendor','coffee']
+gulp.task 'default', ['larjectus','stylus','vendor','coffee']
 gulp.task 'prod', ['goprod','default']

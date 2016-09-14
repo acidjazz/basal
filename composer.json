@@ -12,19 +12,19 @@
     ],
     "require": {
         "php": ">=7",
-        "laravel/lumen-framework": "5.*",
+        "laravel/lumen-framework": "5.3.*",
         "vlucas/phpdotenv": "~2.2",
         "jenssegers/mongodb": "^3.0",
         "barryvdh/laravel-debugbar": "^2.2",
-        "acidjazz/larpug": "^0.02.0",
-        "acidjazz/larjectus": "*",
+        "acidjazz/larpug": "dev-master",
         "filp/whoops": "dev-master",
         "acidjazz/summon": "^1.2",
-        "lusitanian/oauth": "^0.8.9"
+        "lusitanian/oauth": "^0.8.9",
+        "acidjazz/larjectus": "^0.8.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
-        "phpunit/phpunit": "~4.0",
+        "phpunit/phpunit": "~5.0",
         "mockery/mockery": "~0.9"
     },
     "autoload": {
@@ -42,5 +42,7 @@
         "post-root-package-install": [
             "php -r \"copy('.env.example', '.env');\""
         ]
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

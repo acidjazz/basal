@@ -27,7 +27,6 @@ Spinner =
     @state = true
 
   d: ->
-    console.log 'Spinner destruction'
     setTimeout =>
       _.off @el
       @state = false

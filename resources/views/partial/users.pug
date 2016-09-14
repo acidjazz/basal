@@ -3,25 +3,24 @@ each user in self.users
     .profile
       img(src=user.picture)
     .name=user.name
-    .paramses
-      .params  
-        // each value, key in user
-        each param in ['email','provider','updated_at','created_at']
-          .param
-            .key=param
-            .value #{user[param]}
-            .clear
+    .params  
+      // each value, key in user
+      each param in ['email','provider','updated_at','created_at']
         .param
-          .key session(s)
-
-        each session in user.sessions
+          .key=param
+          .value #{user[param]}
           .clear
-          .session
-            .params
-              each value, key in session
-                .param
-                  .key=key
-                  .value=value
-                  .clear
+      .param
+        .key session(s)
 
-      
+      each session in user.sessions
+        .clear
+        .session
+          .params
+            each value, key in session
+              .param
+                .key=key
+                .value=value
+                .clear
+
+    

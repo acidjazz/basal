@@ -29,8 +29,8 @@ $app->withEloquent();
 $app->configure('database');
 $app->configure('app');
 
-$app->register(larpug\LarpugServiceProvider::class);
-$app->register(larjectus\LarjectusServiceProvider::class);
+$app->register(Larpug\ServiceProvider::class);
+$app->register(Larjectus\ServiceProvider::class);
 
 DB::connection()->enableQueryLog();
 $app->register(Barryvdh\Debugbar\LumenServiceProvider::class);

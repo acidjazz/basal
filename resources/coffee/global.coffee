@@ -22,6 +22,7 @@ Global =
       _.swap '.me > .profile'
       _.swap '.me > .picture'
       Notice.i 'Logout Successful', 'success'
+      Spinner.d()
 
   userProfileHandler: ->
 
@@ -30,9 +31,9 @@ Global =
 
     if oa.hasClass 'off'
       _.on oa
-      tl.to '#profileSVG', 0.8, {morphSVG: '#cancelSVG', ease:Back.easeInOut}
+      tl.to '#profileSVG', 0.8, {morphSVG: '#cancelSVG', ease:Power4.easeInOut}
     else
-      tl.to '#profileSVG', 0.8, {morphSVG: '#profileSVG', ease:Back.easeInOut}
+      tl.to '#profileSVG', 0.8, {morphSVG: '#profileSVG', ease:Power4.easeInOut}
       _.off oa, offing: 0.5
 
   userOauthHandler: ->
