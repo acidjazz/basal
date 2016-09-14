@@ -54,6 +54,7 @@ gulp.task 'vendor', ->
     'node_modules/json-browse/json-browse/jquery.json-browse.js',
     'node_modules/gsap/src/uncompressed/TweenMax.js',
     'public/js/MorphSVGPlugin.min.js',
+    'node_modules/novacancy.js/javascript/jquery.novacancy.min.js',
   ])
 
   .pipe(gulpif(env != 'dev',uglify()))

@@ -43,3 +43,6 @@ c2b:
   font-size: 18px
   font-weight: '500'
 
+notfound:
+  font-family: Monoton
+  font-size: 75px

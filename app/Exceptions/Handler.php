@@ -6,7 +6,10 @@ use Exception;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -45,6 +48,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+
+      // custom 404 page
+      if ($e instanceof NotFoundHttpException) {
+        return response(view('pages.notfound'), 404);
+      }
 
       $whoops = new \Whoops\Run;
 

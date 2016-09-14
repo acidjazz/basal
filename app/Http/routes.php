@@ -33,13 +33,3 @@ $app->group([
 
   }
 );
-
-
-/**
- * Routes for resource testy
- */
-$app->get('testy', 'TestiesController@all');
-$app->get('testy/{id}', 'TestiesController@get');
-$app->post('testy', 'TestiesController@add');
-$app->put('testy/{id}', 'TestiesController@put');
-$app->delete('testy/{id}', 'TestiesController@remove');
