@@ -31,9 +31,19 @@ a
 .page
   margin auto
   min-height 300px
- // margin 20px 50px
+  &.margined
+    margin 20px 50px
+  > .title
+    gf(h1)
+    padding 0 0 20px 0
+  > .content
+    min-height 200px
 
-@import 'page.styl'
-@import 'users.styl'
+
+
 @import 'notfound.styl'
+
+@import 'dashboard.styl'
+@import 'users.styl'
+@import 'clients.styl'
 

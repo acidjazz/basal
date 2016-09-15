@@ -15,8 +15,9 @@ $app->get('guide', ['uses' => 'Pages@guide']);
 
 $app->get('/loading', ['uses' => 'Pages@loading']);
 
-$app->get('/', ['uses' => 'Pages@index']);
+$app->get('/', ['uses' => 'Pages@dashboard']);
 $app->get('users', ['uses' => 'Pages@users']);
+$app->get('clients', ['uses' => 'Pages@clients']);
 
 $app->group([
 
@@ -30,6 +31,8 @@ $app->group([
     $app->get('auth/logout', ['uses' =>'AuthController@logout']);
 
     $app->get('users', ['uses' =>'UserController@get']);
+    $app->get('clients', ['uses' =>'ClientController@get']);
+    $app->get('client/add', ['uses' =>'ClientController@add']);
 
   }
 );

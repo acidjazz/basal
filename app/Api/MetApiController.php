@@ -6,8 +6,8 @@ use Laravel\Lumen\Application;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-
 use Validator;
+use League\Fractal;
 
 abstract class MetApiController extends Controller
 {
@@ -57,6 +57,7 @@ abstract class MetApiController extends Controller
 
   protected function compileQuery() {
 
+    // https://laravel.com/docs/5.3/validation#available-validation-rules
     $validate = Validator::make($this->request->all(), $this->query['options']);
 
     if ($validate->fails()) {
@@ -122,7 +123,7 @@ abstract class MetApiController extends Controller
 
     }
 
-    return $this->render(['erorrs' => $errors], false, 500);
+    return $this->render(['erorrs' => $errors], false, false, 500);
 
   }
 
@@ -134,7 +135,7 @@ abstract class MetApiController extends Controller
    * @param Transformer $transformer optioanl transformer to be merged
    * @param integer $code resposne code, defaulting to 200
    */
-  protected function render($data,$view=false,$transformer=false, $code=200) {
+  protected function render($data=false,$view=false,$transformer=false, $code=200) {
 
     if ($transformer !== false) {
       $resource = new Fractal\Resource\Collection($data, $transformer);

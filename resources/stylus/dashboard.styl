@@ -1,14 +1,6 @@
-.page
-  > .title
-    gf(h1)
-    padding 0 0 20px 0
-
-  > .content
-    min-height 200px
-
-.dashboard
+.page.dashboard
+  margin 20px 50px
   > .collections
-
     > .collection
       float left
       border 2px solid gc(black2)
@@ -16,7 +8,8 @@
       transition background-color 0.1s linear 0.1s
       margin 0 20px 20px 0
       &:hover
-        background-color gc(skin1)
+        background-color gc(cyan1)
+        color gc(white1)
         transition background-color 0.1s linear
       > .title
         gf(h2)

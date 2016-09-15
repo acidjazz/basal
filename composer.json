@@ -20,7 +20,8 @@
         "filp/whoops": "dev-master",
         "acidjazz/summon": "^1.2",
         "lusitanian/oauth": "^0.8.9",
-        "acidjazz/larjectus": "^0.8.0"
+        "acidjazz/larjectus": "^0.8.0",
+        "league/fractal": "^0.14.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

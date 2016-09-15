@@ -4,9 +4,9 @@ namespace App\Controllers;
 
 class Pages extends Controller
 {
-  public function index()
+  public function dashboard()
   {
-    return view('pages.index');
+    return view('pages.dashboard');
   }
   public function guide()
   {
@@ -19,5 +19,9 @@ class Pages extends Controller
   public function users()
   {
     return view('pages.users');
+  }
+  public function clients()
+  {
+    return view('pages.clients');
   }
 }
