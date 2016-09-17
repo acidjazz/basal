@@ -123,7 +123,7 @@ abstract class MetApiController extends Controller
 
     }
 
-    return $this->render(['erorrs' => $errors], false, false, 500);
+    return $this->render(['errors' => $errors], false, false, 500);
 
   }
 

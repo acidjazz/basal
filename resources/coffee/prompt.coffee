@@ -41,6 +41,7 @@ Prompt =
     _.on '.fade'
 
     Prompt.handlers()
+    Prompt.options.first().focus()
 
   handlers: ->
     $(document).keydown Prompt.keydown

@@ -99,10 +99,11 @@ _ =
     return jget
 
   fail: (response) ->
+
     error = response.responseJSON.errors[0]
-    pug = error.message.match /Pug Error: (.*?):([0-9]+):([0-9]+)/
+    pug = error.message.match /Pug Error: (.*?):([0-9]+)/
     if pug isnt null
-      error.message = error.message.replace /Pug Error: (.*?):([0-9]+):([0-9]+)/, ''
+      error.message = error.message.replace /Pug Error: (.*?):([0-9]+)/, ''
       error.file = pug[1]
       error.line = pug[2]
 
@@ -115,10 +116,14 @@ _ =
       when 'textmate' then editor = 'textmate://open/?url=file://'
       when 'phpstorm' then editor = 'phpstorm://open?file='
 
-    body = """
-      <pre>#{error.message}</pre>
-      <a href="#{editor}#{file}&line=#{error.line}"><b>#{error.file}:#{error.line}</b></a>
-    """
+    if error.file isnt null
+      body = """
+        <pre>#{error.message}</pre>
+        <a href="#{editor}#{file}&line=#{error.line}"><b>#{error.file}:#{error.line}</b></a>
+      """
+    else
+      body = error.message
+
     Prompt.i error.type, body, ['OK']
 
   llc: ->

@@ -28,18 +28,20 @@ Clients =
     inputel = $('.add > .input')
     input = $('.add > .input > input')
 
-    return _.on inputel if inputel.hasClass 'off'
+    if inputel.hasClass 'off'
+      _.on inputel
+      return input.focus()
 
     if input.val() == ""
       Notice.i 'Place specify a name', 'warning'
       return input.focus()
 
-
     Spinner.i($('.clients > .content'))
     _.get '/api/client/add', name: input.val()
+    .always ->
+      Spinner.d()
     .done (response) ->
       console.log response
-      Spinner.d()
       input.val('')
       _.off inputel
       Notice.i 'Client added successfully', 'success'
