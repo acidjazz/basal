@@ -1,5 +1,30 @@
 .page.clients
   margin 20px 50px
+  > .add
+    float right
+    > .cta
+      float right
+      width 40px
+      height 40px
+      border 2px solid gc(black1)
+      line-height 40px
+      text-align center
+      border-radius 50px
+      gf(h2)
+      cursor pointer
+      transition background-color 0.1s linear
+      &:hover
+        background-color gc(cyan1)
+        color gc(white1)
+    > .input
+      float right
+      onoff()
+      animation cellInX 0.2s linear
+      > input
+        gf(c2)
+        padding 5px 10px
+        border 1px solid gc(black2)
+        margin 5px 20px 0 0
   > .content
     border 1px solid gc(grey1)
 
