@@ -31,8 +31,12 @@ $app->group([
     $app->get('auth/logout', ['uses' =>'AuthController@logout']);
 
     $app->get('users', ['uses' =>'UserController@get']);
+
     $app->get('clients', ['uses' =>'ClientController@get']);
     $app->get('client/add', ['uses' =>'ClientController@add']);
+
+    $app->get('structures', ['uses' =>'StructureController@get']);
+    $app->get('structures/add', ['uses' =>'StructureController@add']);
 
   }
 );

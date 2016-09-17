@@ -12,7 +12,7 @@ Dashboard =
 
   getdata: (complete) ->
 
-    gets = ['users','clients']
+    gets = ['users','clients', 'structures']
 
     $(gets).each (index, get) =>
       _.get "/api/#{get}"
