@@ -1,4 +1,9 @@
 each client in self.clients
   .client
     .name=client.name
-    .created=client.created_at
+    .created created 
+      time(title=client.created_at)
+        include ../../vector/time.svg
+    .updated updated 
+      time(title=client.updated_at)
+        include ../../vector/time.svg

@@ -1,6 +1,6 @@
 Dashboard =
 
-  data: {}
+  data:{}
 
   i: ->
     @getdata =>
@@ -12,10 +12,14 @@ Dashboard =
 
   getdata: (complete) ->
 
-    _.get '/api/users'
-      .done (response ) =>
-        @data.users = response
-        complete()
+    gets = ['users','clients']
+
+    $(gets).each (index, get) =>
+      _.get "/api/#{get}"
+        .done (response) =>
+          @data[get] = response
+          if Object.keys(@data).length == gets.length
+            complete()
 
   dotstovalue: (dots) ->
     result = @data

@@ -29,16 +29,16 @@ dirs =
   stylus: 'resources/stylus'
   svg:    'resources/vector'
 
+config = {}
 objectify = ->
-  config = {}
-  #objectus 'config/', (error, result) =>
   secure = [ 'auth', 'database' ]
   exec 'php artisan larjectus:config', (error, result, stderr) ->
     notify error if error
-    @config = JSON.parse result
-    pubconfig = @config
+    config = JSON.parse result
+    pubconfig = config
     delete pubconfig[dim] for dim in secure
     fs.writeFileSync(dirs.coffee + '/config.coffee', "config = " + JSON.stringify(pubconfig) + ";", 'utf8')
+  
     
 objectify()
 
@@ -55,6 +55,7 @@ gulp.task 'vendor', ->
     'node_modules/gsap/src/uncompressed/TweenMax.js',
     'public/js/MorphSVGPlugin.min.js',
     'node_modules/novacancy.js/javascript/jquery.novacancy.min.js',
+    'node_modules/moment/min/moment.min.js',
   ])
 
   .pipe(gulpif(env != 'dev',uglify()))

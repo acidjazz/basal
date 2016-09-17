@@ -8,8 +8,8 @@ class Client extends \Moloquent
   protected $collection = 'client';
   protected $primaryKey = '_id';
 
-  protected $fillable = [
-    'name'
-  ];
+  protected $fillable = [ 'name' ];
+
+  protected $dateFormat = 'c';
 
 }

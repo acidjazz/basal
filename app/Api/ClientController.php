@@ -38,16 +38,15 @@ class ClientController extends MetApiController
       return $this->error();
     }
 
-    $users = Client::paginate(20);
-    $this->addPaginate($users);
+    $clients = Client::paginate(20);
+    $this->addPaginate($clients);
 
     $view = false;
     if ($query['combined']['view'] === 'true') {
-      $view = view('partial.users', ['users' => $users->items()])->render();
+      $view = view('partial.clients', ['clients' => $clients->items()])->render();
     }
 
-
-    return $this->render($users->items(),$view);
+    return $this->render($clients->items(),$view);
 
   }
 

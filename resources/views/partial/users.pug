@@ -5,22 +5,8 @@ each user in self.users
     .name=user.name
     .params  
       // each value, key in user
-      each param in ['email','provider','updated_at','created_at']
+      each param in ['email','provider','updated_at','created_at', 'sessions']
         .param
           .key=param
           .value #{user[param]}
           .clear
-      .param
-        .key session(s)
-
-      each session in user.sessions
-        .clear
-        .session
-          .params
-            each value, key in session
-              .param
-                .key=key
-                .value=value
-                .clear
-
-    

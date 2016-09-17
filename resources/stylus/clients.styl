@@ -1,3 +1,22 @@
 .page.clients
   margin 20px 50px
+  > .content
+    border 1px solid gc(grey1)
+
+    > .client
+      padding 10px
+      border-bottom 1px solid gc(grey1)
+      &:hover
+        background-color gc(grey2)
+      &:last-child
+        border-bottom 1px solid transparent
+      > .name
+        gf(c1b)
+        display inline-block
+        min-width 200px
+      > .created, > .updated
+        display inline-block
+        min-width 200px
+        > time
+          gf(c1b)
 
