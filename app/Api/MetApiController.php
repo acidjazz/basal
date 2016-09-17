@@ -24,7 +24,6 @@ abstract class MetApiController extends Controller
 
   protected $errors = [];
 
-
   protected $meta = [];
   protected $compiled = false;
 
