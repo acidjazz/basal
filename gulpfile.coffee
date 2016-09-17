@@ -54,17 +54,18 @@ gulp.task 'vendor', ->
     'node_modules/json-browse/json-browse/jquery.json-browse.js',
     'node_modules/gsap/src/uncompressed/TweenMax.js',
     'public/js/MorphSVGPlugin.min.js',
-    'node_modules/novacancy.js/javascript/jquery.novacancy.min.js',
+    'node_modules/novacancy.js/javascript/jquery.novacancy.js',
     'node_modules/moment/min/moment.min.js',
+    'node_modules/select2/dist/js/select2.js',
   ])
 
   .pipe(gulpif(env != 'dev',uglify()))
   .pipe(concat('vendor.js'))
   .pipe gulp.dest('public/js/')
 
-
   gulp.src([
     'node_modules/json-browse/json-browse/jquery.json-browse.css',
+    'node_modules/select2/dist/css/select2.css',
   ])
 
   .pipe(gulpif(env != 'dev',clean()))

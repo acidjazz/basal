@@ -18,6 +18,7 @@ $app->get('/loading', ['uses' => 'Pages@loading']);
 $app->get('/', ['uses' => 'Pages@dashboard']);
 $app->get('users', ['uses' => 'Pages@users']);
 $app->get('clients', ['uses' => 'Pages@clients']);
+$app->get('structures', ['uses' => 'Pages@structures']);
 
 $app->group([
 

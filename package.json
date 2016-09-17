@@ -42,6 +42,7 @@
     "objectus": "^1.1.1",
     "rollup-plugin-coffee-script": "^1.1.0",
     "rollup-stream": "^1.12.0",
+    "select2": "^4.0.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }

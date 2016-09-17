@@ -44,9 +44,48 @@ time > svg
   height 15px
   margin 0 10px
 
+input
+  gf(c1)
+  border 1px solid gc(grey3)
+
+*:focus
+  outline: 1px solid gc(green3)
+
+.ctap
+  user-select none
+  cursor pointer
+  border-top 1px solid gc(green1)
+  border-left 1px solid gc(green1)
+  border-right 1px solid gc(green1)
+  background-color gc(green2)
+  color gc(white1)
+  background linear-gradient(top, gc(green2), gc(green1))
+  border-radius 4px
+  &:hover
+    background linear-gradient(top, gc(green3), gc(green1))
+  &:active
+    background radial-gradient(gc(green2), gc(green1))
+
+.cta
+  user-select none
+  cursor pointer
+  border-top 1px solid gc(grey3)
+  border-left 1px solid gc(grey3)
+  border-right 1px solid gc(grey3)
+  background-color gc(grey2)
+  background linear-gradient(top, gc(grey2), gc(grey3))
+  border-radius 4px
+  &:hover
+    background linear-gradient(top, gc(grey1), gc(grey3))
+  &:active
+    background radial-gradient(gc(grey2), gc(grey3))
+
+
+
 @import 'notfound.styl'
 
 @import 'dashboard.styl'
 @import 'users.styl'
 @import 'clients.styl'
+@import 'structures.styl'
 

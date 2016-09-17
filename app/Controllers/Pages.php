@@ -24,4 +24,8 @@ class Pages extends Controller
   {
     return view('pages.clients');
   }
+  public function structures()
+  {
+    return view('pages.structures');
+  }
 }

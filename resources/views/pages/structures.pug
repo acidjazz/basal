@@ -1,0 +1,33 @@
+extends ../extends/layout
+
+block content
+  .page.margined.structures
+    .title structures
+    .content
+      .add
+        .label Add a Structure
+        .name
+          input(type="text",placeholder="Structure Name")
+        .entities
+          .more.ctap +
+          .label Entities
+
+          #template
+            .entity
+              .input
+                input(type="text",placeholder="Name")
+              .input
+                select
+                  option
+                  option(value="Text") Text
+                  option(value="Blog") Blog
+                  option(value="Image") Image
+              .remove.cta -
+              .clear
+
+        .submit
+          .ctap Submit
+
+
+    script.
+      Structures.i()
