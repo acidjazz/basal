@@ -17,7 +17,7 @@ Clients =
       Spinner.d()
 
   handlers: ->
-    $('.add > .cta').click @addHandler
+    $('.add > .ctap').click @addHandler
     $('.add > .input > input').keyup @addEnterHandler
 
   addEnterHandler: (e) ->

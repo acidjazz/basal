@@ -11,6 +11,8 @@ Structures =
     $('.content > .add > .entities > .more').click @entityAddHandler
     $('.content > .add > .entities').on 'click','.entity > .remove', @entityRemoveHandler
 
+    $('.content > .add > .submit > .ctap').click @submitHandler
+
   entityAddHandler: ->
     Structures.entityAdd()
 
@@ -22,6 +24,9 @@ Structures =
     @select2()
 
   select2: ->
-
     $('.entities > .entity > .input > select').select2
       placeholder: "Type", minimumResultsForSearch: -1
+
+  submitHandler: ->
+
+    console.log 'submit'
