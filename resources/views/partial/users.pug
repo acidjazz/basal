@@ -3,10 +3,5 @@ each user in self.users
     .profile
       img(src=user.picture)
     .name=user.name
-    .params  
-      // each value, key in user
-      each param in ['email','provider','updated_at','created_at', 'sessions']
-        .param
-          .key=param
-          .value #{user[param]}
-          .clear
+    .clear
+

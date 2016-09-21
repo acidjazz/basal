@@ -1,0 +1,24 @@
+.listing
+  border 1px solid gc(grey1)
+  > .item
+    padding 10px
+    border-bottom 1px solid gc(grey1)
+    animation cellInX 0.1s 0s ease-in both
+    for num in 0..20
+      &:nth-child({num})
+        animation-delay unit(num*0.1, 's')
+    &:hover
+      background-color gc(grey2)
+    &:last-child
+      border-bottom 1px solid transparent
+    > .name
+      gf(c1b)
+      display inline-block
+      min-width 200px
+    > .created, > .updated
+      display inline-block
+      min-width 200px
+      > time
+        gf(c1b)
+    > .detail
+      display inline-block

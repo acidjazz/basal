@@ -2,10 +2,10 @@
 
 namespace App\Api;
 
-use App\Models\Client;
+use App\Models\Entry;
 use Illuminate\Http\Request;
 
-class ClientController extends MetApiController
+class EntryController extends MetApiController
 {
 
   public function __construct(Request $request)
@@ -22,11 +22,11 @@ class ClientController extends MetApiController
       return $this->error();
     }
 
-    $client = new Client();
+    $client = new Entry();
     $client->name = $query['combined']['name'];
     $client->save();
 
-    return $this->render(['status' => 'Client added successfully']);
+    return $this->render(['status' => 'Entry added successfully']);
   }
 
   public function get(Request $request)
@@ -38,15 +38,15 @@ class ClientController extends MetApiController
       return $this->error();
     }
 
-    $clients = Client::paginate(20);
-    $this->addPaginate($clients);
+    $entries = Entry::paginate(20);
+    $this->addPaginate($entries);
 
     $view = false;
     if ($query['combined']['view'] === 'true') {
-      $view = view('partial.clients', ['clients' => $clients->items()])->render();
+      $view = view('partial.entries', ['entries' => $entries->items()])->render();
     }
 
-    return $this->render($clients->items(),$view);
+    return $this->render($entries->items(),$view);
 
   }
 

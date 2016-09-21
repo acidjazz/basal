@@ -28,4 +28,8 @@ class Pages extends Controller
   {
     return view('pages.structures');
   }
+  public function entries()
+  {
+    return view('pages.entries');
+  }
 }

@@ -19,6 +19,7 @@ $app->get('/', ['uses' => 'Pages@dashboard']);
 $app->get('users', ['uses' => 'Pages@users']);
 $app->get('clients', ['uses' => 'Pages@clients']);
 $app->get('structures', ['uses' => 'Pages@structures']);
+$app->get('entries', ['uses' => 'Pages@entries']);
 
 $app->group([
 
@@ -34,10 +35,13 @@ $app->group([
     $app->get('users', ['uses' =>'UserController@get']);
 
     $app->get('clients', ['uses' =>'ClientController@get']);
-    $app->get('client/add', ['uses' =>'ClientController@add']);
+    $app->get('clients/add', ['uses' =>'ClientController@add']);
 
     $app->get('structures', ['uses' =>'StructureController@get']);
     $app->get('structures/add', ['uses' =>'StructureController@add']);
+
+    $app->get('entries', ['uses' =>'EntryController@get']);
+    $app->get('entries/add', ['uses' =>'EntryController@add']);
 
   }
 );

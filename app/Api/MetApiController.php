@@ -34,7 +34,9 @@ abstract class MetApiController extends Controller
 
   protected function addOption($name, $type, $default=false) {
     $this->query['options'][$name] = $type;
-    $this->query['defaults'][$name] = $default;
+    if ($default !== false) {
+      $this->query['defaults'][$name] = $default;
+    }
   }
 
   protected function addMeta($name, $value) {

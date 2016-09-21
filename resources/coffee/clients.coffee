@@ -13,7 +13,7 @@ Clients =
     _.get '/api/clients',
       view: true
     .done (response) ->
-      $('.clients > .content').html response.view
+      $('.clients > .content > .listing').html response.view
       Spinner.d()
 
   handlers: ->
@@ -37,7 +37,7 @@ Clients =
       return input.focus()
 
     Spinner.i($('.clients > .content'))
-    _.get '/api/client/add', name: input.val()
+    _.get '/api/clients/add', name: input.val()
     .always ->
       Spinner.d()
     .done (response) ->

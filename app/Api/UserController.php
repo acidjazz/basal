@@ -16,7 +16,7 @@ class UserController extends MetApiController
   public function get(Request $request)
   {
 
-    $this->addOption('view', "in:true,false");
+    $this->addOption('view', "in:true,false", "false");
 
     if (!$query = $this->getQuery()) {
       return $this->error();

@@ -20,5 +20,11 @@ block content
           .copy Total
           .value(data-value='structures.paginate.total') ?
 
+      a.collection.entries(href='/entries')
+        .title Entries
+        .stat
+          .copy Total
+          .value(data-value='entries.paginate.total') ?
+
     script.
       Dashboard.i();

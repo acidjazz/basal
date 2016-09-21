@@ -5,6 +5,8 @@ namespace App\Api;
 use App\Models\Structure;
 use Illuminate\Http\Request;
 
+use App\Structure\Kernel;
+
 class StructureController extends MetApiController
 {
 
@@ -16,7 +18,10 @@ class StructureController extends MetApiController
   public function add(Request $request)
   {
 
-    $this->addOption('name', 'required|alpha_dash|unique:structure');
+    $this->addOption('name', 'required|string');
+    $this->addOption('entities', 'required|array');
+    $this->addOption('entities.*.name', 'required|string|distinct');
+    $this->addOption('entities.*.type', 'required|in:'.implode((new Kernel())->getTypes(), ','));
 
     if (!$query = $this->getQuery()) {
       return $this->error();
@@ -24,6 +29,7 @@ class StructureController extends MetApiController
 
     $structure = new Structure();
     $structure->name = $query['combined']['name'];
+    $structure->entities = $query['combined']['entities'];
     $structure->save();
 
     return $this->render(['status' => 'Structure added successfully']);
@@ -32,7 +38,7 @@ class StructureController extends MetApiController
   public function get(Request $request)
   {
 
-    $this->addOption('view', "in:true,false");
+    $this->addOption('view', 'in:true,false', 'false');
 
     if (!$query = $this->getQuery()) {
       return $this->error();

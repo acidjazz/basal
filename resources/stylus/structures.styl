@@ -1,48 +1,83 @@
 .page.structures
-  > .content
-    > .add
-      width 347px
-      > #template
-        display none
+  > .ctap
+    float right
+    width 30px
+    height 30px
+    line-height 30px
+    gf(h2)
+    text-align center
+    margin 14.5px 0 0 0
+  > .add
+    onoff()
+    width 347px
+    padding 20px
+    margin auto
+    animation cellOutY 0.2s linear
+    border 1px solid gc(grey1)
+    > #template
+      display none
+    > .label
+      margin 0 0 10px 0
+      gf(c1b)
+    > .name
+      > input
+        padding 5px 10px
+        width 280px
+        margin 0 0 20px 0
+    > .entities
       > .label
         margin 0 0 10px 0
+        padding 6px 0 2px 0
         gf(c1b)
-      > .name
-        > input
-          padding 5px 10px
-          width 280px
-          margin 0 0 20px 0
-      > .entities
-        > .label
-          margin 0 0 10px 0
-          padding 6px 0 2px 0
-          gf(c1b)
-        > .more
-          float right
+      > .more
+        float right
+        width 25px
+        height 25px
+        text-align center
+        line-height 24px
+        gf(c2)
+      > .entity
+        margin 0 0 20px 0
+        animation cellOutY 0.2s linear
+        > .input
+          width 140px
+          float left
+          margin 0 20px 0 0
+          > input
+            padding 5px 10px
+            width 120px
+          > select
+            width 140px
+        > .remove
+          float left
           width 25px
           height 25px
           text-align center
           line-height 24px
-          gf(c2)
-        > .entity
-          margin 0 0 20px 0
-          animation cellOutY 0.2s linear
-          > .input
-            width 140px
-            float left
-            margin 0 20px 0 0
-            > input
-              padding 5px 10px
-              width 120px
-            > select
-              width 140px
-          > .remove
-            float left
-            width 25px
-            height 25px
-            text-align center
-            line-height 24px
-      > .submit
-        > .ctap
-          float right
-          padding 10px
+    > .submit
+      > .ctap
+        float right
+        padding 10px
+  > .content
+    padding 20px 0
+    > .listing
+      > .structure
+        > .entities
+          > .entity
+            display inline-block
+            gf(c1b)
+            > .type
+              padding 3px 6px
+              color gc(white1)
+              margin 0 5px
+              border-radius 2px
+              gf(c1)
+              &.Blog
+                background-color gc(cyan1)
+              &.Tags
+                background-color gc(yellow1)
+              &.Text
+                background-color gc(orange1)
+              &.Image
+                background-color gc(red1)
+             

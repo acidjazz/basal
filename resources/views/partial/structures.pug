@@ -1,0 +1,14 @@
+each structure in self.structures
+  .structure.item
+    .name=structure.name
+    .created created 
+      time(title=structure.created_at)
+        include ../../vector/time.svg
+    .updated updated 
+      time(title=structure.updated_at)
+        include ../../vector/time.svg
+    .entities.detail
+      each entity in structure.entities
+        .entity #{entity.name}
+          span.type(class=entity.type)=entity.type
+
