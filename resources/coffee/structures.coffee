@@ -3,7 +3,7 @@ Structures =
   template: false
 
   i: ->
-    @template = $('.entities > #template').html()
+    @template = $('.add > #template').html()
     @handlers()
     @entityAdd()
 
@@ -29,4 +29,10 @@ Structures =
 
   submitHandler: ->
 
-    console.log 'submit'
+    $("""
+      .content > .add > .name input,
+      .content > .add > .entities input,
+      .content > .add > .entities select
+      """).each (i, el) ->
+      jel = $ el
+      console.log jel.attr('name') + ":" + jel.val()
