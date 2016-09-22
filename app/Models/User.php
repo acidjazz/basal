@@ -6,11 +6,13 @@ class User extends \Moloquent
 {
 
   protected $collection = 'user';
-  protected $primaryKey = 'id';
+  protected $primaryKey = '_id';
 
   protected $fillable = [
     'name', 'email','sessions'
   ];
+
+  protected $dateFormat = 'c';
 
   public static function loggedIn() {
 
@@ -30,7 +32,7 @@ class User extends \Moloquent
 
   public function sessionize() {
 
-    $session = \Summon\Summon::set($this->id, $this->sessions);
+    $session = \Summon\Summon::set($this->_id, $this->sessions);
     $session['sessions'] = \Summon\Summon::clean($session['sessions']);
     $this->sessions = $session['sessions'];
     $this->save();

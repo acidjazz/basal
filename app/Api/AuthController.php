@@ -76,7 +76,7 @@ class AuthController extends MetApiController
 
   public function login($params) {
 
-    $user = User::find($params['id']);
+    $user = User::where(['id' => $params['id']])->get()->first();
 
     if ($user !== null) {
       if ($user->provider != $params['provider']) {
@@ -123,5 +123,3 @@ class AuthController extends MetApiController
   }
 
 }
-
-

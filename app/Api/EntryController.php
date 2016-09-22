@@ -16,15 +16,15 @@ class EntryController extends MetApiController
   public function add(Request $request)
   {
 
-    $this->addOption('name', 'required|string|unique:client');
+    $this->addOption('name', 'required|string|unique:entry');
 
     if (!$query = $this->getQuery()) {
       return $this->error();
     }
 
-    $client = new Entry();
-    $client->name = $query['combined']['name'];
-    $client->save();
+    $entry = new Entry();
+    $entry->name = $query['combined']['name'];
+    $entry->save();
 
     return $this->render(['status' => 'Entry added successfully']);
   }

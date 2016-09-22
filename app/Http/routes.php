@@ -33,6 +33,7 @@ $app->group([
     $app->get('auth/logout', ['uses' =>'AuthController@logout']);
 
     $app->get('users', ['uses' =>'UserController@get']);
+    $app->get('users/update/{_id: [0-9a-fA-F]{24}}', ['uses' =>'UserController@update']);
 
     $app->get('clients', ['uses' =>'ClientController@get']);
     $app->get('clients/add', ['uses' =>'ClientController@add']);

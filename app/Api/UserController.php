@@ -4,6 +4,7 @@ namespace App\Api;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Validator;
 
 class UserController extends MetApiController
 {
@@ -30,8 +31,31 @@ class UserController extends MetApiController
       $view = view('partial.users', ['users' => $users->items()])->render();
     }
 
-
     return $this->render($users->items(),$view);
+
+  }
+
+  public function update(Request $request, $_id)
+  {
+
+    $request->request->add(['_id' => $_id]);
+
+    $this->addOption('_id', 'required|exists:user,_id');
+    $this->addOption('admin', 'bool');
+
+    if (!$query = $this->getQuery()) {
+      return $this->error();
+    }
+
+    $user = User::find($_id);
+
+    if (isset($query['combined']['admin'])) {
+      $user->admin = (bool) $query['combined']['admin'];
+    }
+
+    $user->save();
+
+    return $this->render(['status' => 'Update Successful', 'user' => $user]);
 
   }
 

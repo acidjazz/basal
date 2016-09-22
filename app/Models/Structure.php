@@ -8,7 +8,7 @@ class Structure extends \Moloquent
   protected $collection = 'structure';
   protected $primaryKey = '_id';
 
-  protected $fillable = [ 'name' ];
+  protected $fillable = [ 'name', 'entries' ];
 
   protected $dateFormat = 'c';
 
