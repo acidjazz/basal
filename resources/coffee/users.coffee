@@ -19,6 +19,10 @@ Users =
     if t.is(':checked') then checked = 1 else checked = 0
     Users.update t.data('_id'), t.data('field'), checked
 
+  select2: ->
+    $('.entities > .entity > .input > select').select2
+      placeholder: "Type"
+
   update: (_id, field, value) ->
 
     params = {}
