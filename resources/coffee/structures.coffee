@@ -23,26 +23,28 @@ Structures =
   handlers: ->
     $('.add > .entities > .more').click @entityAddHandler
     $('.add > .entities').on 'click','.entity > .remove', @entityRemoveHandler
-    $('.page.structures > .ctap').click @toggleAddHandler
+    $('.page.structures > .ctab').click @toggleAddHandler
     $('.add > .submit > .ctap').click @submitHandler
 
   toggleAddHandler: ->
     _.swap '.add'
-    $('.add > .name > input').focus()
+    $('.add > .name input').focus()
 
   entityAddHandler: ->
-    Structures.entityAdd()
+    Structures.entityAdd(true)
 
   entityRemoveHandler: ->
     $(this).parent().remove()
 
-  entityAdd: ->
+  entityAdd: (focus=false) ->
     $('.add > .entities').append @template
-    @select2()
+    @selectize()
+    if  focus
+      $('.add > .entities > .entity > .input.selectize-input input').last().focus()
 
-  select2: ->
-    $('.entities > .entity > .input > select').select2
-      placeholder: "Type", minimumResultsForSearch: -1
+  selectize: ->
+    $('.entities > .entity > .input > select').selectize
+      placeholder: "Type"
 
   submitHandler: ->
 

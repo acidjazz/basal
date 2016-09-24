@@ -30,7 +30,7 @@ each user in self.users
             checked=(user.admin ? true : false),
             data-field='admin',
             data-_id=user._id)
-      .detail
+      .detail.detail_client
         .label client
         .value.select
           select(name="client",data-_id=user._id)

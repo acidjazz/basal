@@ -56,7 +56,7 @@ gulp.task 'vendor', ->
     'public/js/MorphSVGPlugin.min.js',
     'node_modules/novacancy.js/javascript/jquery.novacancy.js',
     'node_modules/moment/min/moment.min.js',
-    'node_modules/select2/dist/js/select2.js',
+    'node_modules/selectize/dist/js/standalone/selectize.js',
   ])
 
   .pipe(gulpif(env != 'dev',uglify()))
@@ -65,7 +65,8 @@ gulp.task 'vendor', ->
 
   gulp.src([
     'node_modules/json-browse/json-browse/jquery.json-browse.css',
-    'node_modules/select2/dist/css/select2.css',
+    'node_modules/selectize/dist/css/selectize.css',
+    'node_modules/selectize/dist/css/selectize.default.css',
   ])
 
   .pipe(gulpif(env != 'dev',clean()))

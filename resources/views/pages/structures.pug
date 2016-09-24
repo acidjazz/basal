@@ -2,13 +2,13 @@ extends ../extends/layout
 
 block content
   .page.margined.structures
-    .ctap +
+    .ctab +
     .title structures
     .clear
     .add.off
       #template
         .entity
-          .input
+          .input.selectize-input
             input(type="text",name="entityName",placeholder="Name")
           .input
             select(name="entityOption")
@@ -21,10 +21,10 @@ block content
           .clear
 
       .label Add a Structure
-      .name
+      .name.selectize-input
         input(type="text",name="structureName",placeholder="Structure Name")
       .entities
-        .more.ctap +
+        .more.ctab +
         .label Entities
       .submit
         .ctap Submit

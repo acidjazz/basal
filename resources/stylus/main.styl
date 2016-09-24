@@ -44,10 +44,6 @@ time > svg
   height 15px
   margin 0 10px
 
-input
-  gf(c1)
-  border 1px solid gc(grey3)
-
 *:focus
   outline: 1px solid gc(green3)
 
@@ -80,6 +76,14 @@ input
   &:active
     background radial-gradient(gc(grey2), gc(grey3))
 
+.ctab
+  user-select none
+  cursor pointer
+  background gc(blue1)
+  border 1px solid gc(blue2)
+  background linear-gradient(to bottom, gc(blue1), gc(blue2))
+  border-radius 4px
+  color gc(white1)
 
 @import 'listing.styl'
 

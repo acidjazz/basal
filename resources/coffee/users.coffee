@@ -3,6 +3,7 @@ Users =
     @load()
     Time.i()
     @handlers()
+
   load: ->
     Spinner.i($('.users > .content'))
     _.get '/api/users',
@@ -10,6 +11,7 @@ Users =
     .done (response) ->
       $('.users > .content').html response.view
       Spinner.d()
+      Users.select2()
 
   handlers: ->
     $('.users > .content').on 'change', '.details > .detail > .value.toggle > input:checkbox', @toggleHandler
@@ -20,8 +22,24 @@ Users =
     Users.update t.data('_id'), t.data('field'), checked
 
   select2: ->
-    $('.entities > .entity > .input > select').select2
-      placeholder: "Type"
+    $('.user > .details > .detail_client > .value.select select').select2
+      placeholder: "Client"
+      ajax:
+        url: '/api/clients'
+        dataType: 'json'
+        data: (params) ->
+          q: params.search
+          page: params.page
+
+        processResults: (results, params) ->
+
+          params.page = params.page || 1
+
+          results: results.data
+      scapeMarkup: (markup) -> markup
+      templateResult: formatRepo
+      templateSelection: formatRepoSelection
+
 
   update: (_id, field, value) ->
 
