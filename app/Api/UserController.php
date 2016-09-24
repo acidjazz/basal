@@ -3,6 +3,7 @@
 namespace App\Api;
 
 use App\Models\User;
+use App\Models\Client;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -42,6 +43,7 @@ class UserController extends MetApiController
 
     $this->addOption('_id', 'required|exists:user,_id');
     $this->addOption('admin', 'bool');
+    $this->addOption('client', 'regex:/[0-9a-fA-F]{24}/|exists:client,_id');
 
     if (!$query = $this->getQuery()) {
       return $this->error();
@@ -51,6 +53,14 @@ class UserController extends MetApiController
 
     if (isset($query['combined']['admin'])) {
       $user->admin = (bool) $query['combined']['admin'];
+    }
+
+    if (isset($query['combined']['client'])) {
+      $client = Client::find($query['combined']['client']);
+      $user->client = [
+        '_id' => $client->_id,
+        'name' => $client->name,
+      ];
     }
 
     $user->save();

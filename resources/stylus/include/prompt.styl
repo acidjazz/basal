@@ -54,19 +54,12 @@
       text-align right
       white-space nowrap
       > .option
-        cursor pointer
         display inline-block
         padding 10px 20px
-        background-color gc(white2)
-        border-radius 5px
         &.on
           display inline-block
         &.off
           display none
-        transition background-color 0.1s ease-in-out 0s, color 0.2s ease-in-out 0s
-        &:hover
-          background-color rgba(gc(red1), 0.5)
-          color gc(white1)
+        cta()
         &.active
-          background-color gc(red1)
-          color gc(white2)
+          ctab()

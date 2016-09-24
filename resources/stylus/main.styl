@@ -45,45 +45,16 @@ time > svg
   margin 0 10px
 
 *:focus
-  outline: 1px solid gc(green3)
+  outline: none
 
 .ctap
-  user-select none
-  cursor pointer
-  border-top 1px solid gc(green1)
-  border-left 1px solid gc(green1)
-  border-right 1px solid gc(green1)
-  background-color gc(green2)
-  color gc(white1)
-  background linear-gradient(top, gc(green2), gc(green1))
-  border-radius 4px
-  &:hover
-    background linear-gradient(top, gc(green3), gc(green1))
-  &:active
-    background radial-gradient(gc(green2), gc(green1))
+  ctap()
 
 .cta
-  user-select none
-  cursor pointer
-  border-top 1px solid gc(grey3)
-  border-left 1px solid gc(grey3)
-  border-right 1px solid gc(grey3)
-  background-color gc(grey2)
-  background linear-gradient(top, gc(grey2), gc(grey3))
-  border-radius 4px
-  &:hover
-    background linear-gradient(top, gc(grey1), gc(grey3))
-  &:active
-    background radial-gradient(gc(grey2), gc(grey3))
+  cta()
 
 .ctab
-  user-select none
-  cursor pointer
-  background gc(blue1)
-  border 1px solid gc(blue2)
-  background linear-gradient(to bottom, gc(blue1), gc(blue2))
-  border-radius 4px
-  color gc(white1)
+  ctab()
 
 @import 'listing.styl'
 

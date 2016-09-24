@@ -16,13 +16,16 @@ Global =
 
   logoutHandler: ->
 
-    Spinner.i $('header')
+    Prompt.i 'Logout', 'Are you sure you want to log out?', ['Yes','No'], (response) ->
+      return false if response isnt 'Yes'
 
-    Me.logout ->
-      _.swap '.me > .profile'
-      _.swap '.me > .picture'
-      Notice.i 'Logout Successful', 'success'
-      Spinner.d()
+      Spinner.i $('header')
+
+      Me.logout ->
+        _.swap '.me > .profile'
+        _.swap '.me > .picture'
+        Notice.i 'Logout Successful', 'success'
+        Spinner.d()
 
   userProfileHandler: ->
 

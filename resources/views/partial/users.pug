@@ -33,7 +33,6 @@ each user in self.users
       .detail.detail_client
         .label client
         .value.select
-          select(name="client",data-_id=user._id)
-            option
-
-
+          select(name="client",data-_id=user._id,style="width: 140px")
+            if user.client
+              option(value=user.client._id)=user.client.name
