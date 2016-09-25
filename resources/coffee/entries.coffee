@@ -4,6 +4,11 @@ Entries =
 
     @selectize()
 
+    editor = new Quill '#editor',
+      modules:
+        toolbar: '#toolbar'
+      theme: 'snow'
+
   selectize: ->
 
     Selectize.clients $('.add > .client > select'), Entries.clientSelectHandler
