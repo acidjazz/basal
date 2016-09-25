@@ -1,8 +1,7 @@
 extends ../extends/layout
 
 block content
-  .page.dashboard 
-    .title dashboard
+  .page.dashboard.margined 
     .collections
       a.collection.users(href='/users')
         .title Users
@@ -27,4 +26,5 @@ block content
           .value(data-value='entries.paginate.total') ?
 
     script.
+      Page = 'dashboard';
       Dashboard.i();

@@ -4,31 +4,34 @@ h1:
   font-family: Roboto
   font-size: 34px
   font-weight: '300'
-
 h1b: 
   font-family: Roboto
   font-size: 34px
   font-weight: '700'
-
 h2: 
   font-family: Roboto
   font-size: 24px
   font-weight: '300'
-
+h2b: 
+  font-family: Roboto
+  font-size: 24px
+  font-weight: '700'
 h3:
   font-family: Roboto
   font-size: 20px
+h3b:
+  font-family: Roboto
+  font-size: 20px
+  font-weight: '700'
 
 c1:
   font-family: Roboto
   font-size: 14px
   font-weight: '300'
-
 c1s:
   font-family: Roboto
   font-size: 14px
   font-weight: '300'
-
 c1b:
   font-family: Roboto
   font-size: 16px

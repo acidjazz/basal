@@ -1,4 +1,4 @@
 ![](public/images/icons/apple-touch-icon.png)
 # basal
-### minimal content management
+### making content great again
 > early development

@@ -2,9 +2,17 @@ extends ../extends/layout
 
 block content
   .page.margined.entries
-    .title entries
     .content
       .listing
 
+    .add
+      .select.client
+        select(name="client") 
+      .select.structure
+        select(name="structure") 
+
+      .clear
+
     script.
+      Page = 'entries';
       Entries.i()

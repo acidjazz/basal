@@ -3,12 +3,13 @@ extends ../extends/layout
 block content
   .page.margined.clients
     .add
-      .ctap +
-      .input.off
+      .ctab +
+      .input.selectize-input
         input(type="text",placeholder="Name")
-    .title clients
+    .clear
     .content
       .listing
 
     script.
-      Clients.i()
+      Page = 'clients';
+      Clients.i();

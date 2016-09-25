@@ -1,35 +1,12 @@
 header
-  border-bottom 2px solid gc(black2)
-  background-color gc(white2)
   > .inner
-    padding 10px
-    max-width 900px
-    margin auto
-    > .logo
-      float left
-      > .dots
-        size = 40
-        background-color gc(black2)
-        width unit(size, px)
-        height unit(size, px)
-        border-radius 50%
-        text-align center
-        border 2px solid gc(black2)
-        > .dot
-          float left
-          width unit(size/5, px)
-          height unit(size/5, px)
-          border-radius 50%
-          margin unit(size/2.63, px) unit(size/15, px) 0 unit(size/15, px)
-          &:nth-child(1)
-            background-color gc(skin1)
-          &:nth-child(2)
-            background-color gc(cyan1)
-          &:nth-child(3)
-            background-color gc(orange1)
-      > .copy
-        gf(h1)
-        margin -10px 0 0 -8px
+    padding 10px 20px
+    > .client
+      float right
+      margin 8px 20px 0 20px
+      > .name
+        gf(h3)
+      display none
     > .me
       float right
       > .picture
@@ -117,7 +94,6 @@ header
           > svg
             width inherit
             height inherit
-
 @keyframes blink
   from
     opacity 0.1

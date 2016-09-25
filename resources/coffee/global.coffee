@@ -8,11 +8,19 @@ Global =
     Global.handlers()
     Global.loginCheck()
 
+    _.on ".menu > .options > .option_#{Page}" if Page isnt undefined
+
   handlers: ->
 
     $('header > .inner > .me > .profile').click Global.userProfileHandler
     $('header > .inner > .me > .oauths > .oauth').click Global.userOauthHandler
     $('header > .inner > .me > .picture > .logout').click Global.logoutHandler
+    $('.menu > .options > .option').click Global.menuHandler
+
+  menuHandler: ->
+    _.off $('.menu > .options > .option')
+    selected = $(this).find('.label').html()
+    _.on $(".menu > .options > .option.option_#{selected}")
 
   logoutHandler: ->
 
@@ -81,6 +89,9 @@ Global =
     _.off '.me > .profile'
     _.off '.me > .oauths'
     _.on '.me > .picture'
+
+    if User.client isnt undefined
+      $('header > .inner > .client > .name').html User.client.name
 
   loginCheck: ->
     Me.authed (result) ->
