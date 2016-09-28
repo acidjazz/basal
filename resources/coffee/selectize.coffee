@@ -1,6 +1,6 @@
 Selectize =
 
-  clients: (element, handler) ->
+  clients: (element, handler, options) ->
     selectClient = element.selectize
       placeholder: "Choose a Client "
       valueField: 'id'
@@ -12,7 +12,7 @@ Selectize =
         option: (item, escape) ->
           return "<div>#{item.name}</div>"
       load: (query, callback) ->
-        _.get '/api/clients'
+        _.get '/api/clients', options
           .done (response) ->
             results = []
             for item in response.data
@@ -20,8 +20,10 @@ Selectize =
             callback(results)
 
     selectClient.change handler
+    return selectClient
 
-  structures: (element, handler) ->
+  structures: (element, handler, options) ->
+
     selectStructure = element.selectize
       placeholder: "Choose a Structure   "
       valueField: 'id'
@@ -33,7 +35,7 @@ Selectize =
         option: (item, escape) ->
           return "<div>#{item.name}</div>"
       load: (query, callback) ->
-        _.get '/api/structures'
+        _.get '/api/structures', options
           .done (response) ->
             results = []
             for item in response.data
@@ -41,5 +43,5 @@ Selectize =
             callback(results)
 
     selectStructure.change handler
-
+    return selectStructure
 

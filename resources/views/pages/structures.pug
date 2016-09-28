@@ -20,7 +20,9 @@ block content
           .clear
 
       .label Add a Structure
-      .name.selectize-input
+      .client.detail
+        select(name="client",placeholder="Choose a Client")
+      .name.detail.selectize-input
         input(type="text",name="structureName",placeholder="Structure Name")
       .entities
         .more.ctab +

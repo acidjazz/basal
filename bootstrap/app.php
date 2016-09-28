@@ -23,6 +23,11 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
+if (!class_exists('\Illuminate\Foundation\Application')) {
+    class_alias(\App\Application::class, '\Illuminate\Foundation\Application');
+}
+
+
 $app->register(Jenssegers\Mongodb\MongodbServiceProvider::class);
 $app->withFacades();
 $app->withEloquent();

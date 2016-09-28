@@ -35,4 +35,4 @@ each user in self.users
         .value.select
           select(name="client",data-_id=user._id,style="width: 140px")
             if user.client
-              option(value=user.client._id)=user.client.name
+              option(value=user.client.id)=user.client.name

@@ -13,7 +13,9 @@ Structures =
     Time.i()
 
   load: ->
+
     Spinner.i($('.structures > .content'))
+
     _.get '/api/structures',
       view: true
     .done (response) ->
@@ -21,10 +23,14 @@ Structures =
       Spinner.d()
 
   handlers: ->
+
+    $('.page.structures > .ctab').click @toggleAddHandler
+
     $('.add > .entities > .more').click @entityAddHandler
     $('.add > .entities').on 'click','.entity > .remove', @entityRemoveHandler
-    $('.page.structures > .ctab').click @toggleAddHandler
     $('.add > .submit > .ctap').click @submitHandler
+
+    Selectize.clients $('.add > .client > select')
 
   toggleAddHandler: ->
     _.swap '.add'
@@ -52,6 +58,7 @@ Structures =
     structure.entities = []
 
     structure.name = $('.add > .name input').val()
+    structure.client = $('.add > .client select').val()
 
     $('.add > .entities > .entity').each (i, el) ->
 

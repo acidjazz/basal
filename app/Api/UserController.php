@@ -41,7 +41,7 @@ class UserController extends MetApiController
 
     $request->request->add(['_id' => $_id]);
 
-    $this->addOption('_id', 'required|exists:user,_id');
+    $this->addOption('_id', 'required|regex:/[0-9a-fA-F]{24}/|exists:user,_id');
     $this->addOption('admin', 'bool');
     $this->addOption('client', 'regex:/[0-9a-fA-F]{24}/|exists:client,_id');
 
@@ -58,7 +58,7 @@ class UserController extends MetApiController
     if (isset($query['combined']['client'])) {
       $client = Client::find($query['combined']['client']);
       $user->client = [
-        '_id' => $client->_id,
+        'id' => $client->_id,
         'name' => $client->name,
       ];
     }

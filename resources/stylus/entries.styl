@@ -1,4 +1,19 @@
 .page.entries
+
+  > .ctab
+    float right
+    width 34px
+    height 34px
+    line-height 34px
+    gf(h2)
+    text-align center
+
+  > .content
+    padding 20px 0
+
+  > #template
+    display none
+
   > .add
     padding 10px
     border 1px solid gc(grey1)
@@ -12,6 +27,9 @@
     > .entity
       border-top 1px solid gc(grey1)
       padding 10px
+      &.entity_blog > .blog > #editor
+        min-height 100px 
+
       > .label
         float left
         width 100px
@@ -24,3 +42,5 @@
       padding 10px
       float right
       margin 10px
+      onoff()
+

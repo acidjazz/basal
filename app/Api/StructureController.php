@@ -3,8 +3,9 @@
 namespace App\Api;
 
 use App\Models\Structure;
-use Illuminate\Http\Request;
+use App\Models\Client;
 
+use Illuminate\Http\Request;
 use App\Entities\Kernel;
 
 class StructureController extends MetApiController
@@ -18,6 +19,7 @@ class StructureController extends MetApiController
   public function add(Request $request)
   {
 
+    $this->addOption('client', 'required|regex:/[0-9a-fA-F]{24}/|exists:client,_id');
     $this->addOption('name', 'required|string');
     $this->addOption('entities', 'required|array');
     $this->addOption('entities.*.name', 'required|string|distinct');
@@ -28,9 +30,18 @@ class StructureController extends MetApiController
     }
 
     $structure = new Structure();
+
+    $client = Client::find($query['combined']['client']);
+
+
     $structure->name = $query['combined']['name'];
     $structure->entities = $query['combined']['entities'];
+    $structure->client = [
+      "id" => $client->_id,
+      "name" => $client->name,
+    ];
     $structure->save();
+
 
     return $this->render(['status' => 'Structure added successfully']);
   }
@@ -39,12 +50,21 @@ class StructureController extends MetApiController
   {
 
     $this->addOption('view', 'in:true,false', 'false');
+    $this->addOption('client', 'regex:/[0-9a-fA-F]{24}/');
+    $this->addOption('client', 'regex:/[0-9a-fA-F]{24}/|exists:client,_id');
 
     if (!$query = $this->getQuery()) {
       return $this->error();
     }
 
-    $structures = Structure::paginate(20);
+    $structures = Structure::query();
+
+    if (isset($query['combined']['client'])) {
+      $structures = $structures->where(['client.id' => $query['combined']['client']]);
+    }
+
+    $structures = $structures->paginate(20);
+
     $this->addPaginate($structures);
 
     $view = false;
