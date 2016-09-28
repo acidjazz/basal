@@ -32,17 +32,14 @@ Entries =
 
   clientSelectHandler: (e) ->
     client_id = $(e.currentTarget).val()
-    console.log client_id
     return false if client_id.length isnt 24
     Entries.addSelectClientId = client_id
     console.log Entries.addSelectStructure
     Entries.addSelectStructure[0].selectize.enable()
     Entries.addSelectStructure[0].selectize.clearOptions()
-    console.log Entries.addSelectStructure
 
   structureSelectHandler: (e) ->
     structure_id = $(e.currentTarget).val()
-    console.log structure_id
     return false if structure_id.length isnt 24
 
   getAddSelectClientId: ->
