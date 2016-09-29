@@ -6,15 +6,6 @@ Entries =
 
   addSelectClientId: false
 
-  placeholders: [
-    "That's what I'm blogging about"
-    "Have you guys been blogging?"
-    "Hold all my calls, I'm blogging"
-    "Tell Donnie I'm blogging and I'll call him back"
-    "I gotta run, you should be blogging"
-    "I want you on the phone, but I also want you blogging"
-  ]
-
   i: ->
 
     @selectize()
@@ -31,8 +22,33 @@ Entries =
   handlers: ->
     $('.page.entries > .add > .submit').click @submit
 
+    $('.page.entries > .add').keydown (e) ->
+
+      keycode = e.keycode || e.which
+      return true if keycode isnt 9
+
+      el = $(e.target)
+      parent = $(e.target).closest('.entity')
+
+      if e.shiftKey then next = parent.prev() else next = parent.next()
+
+      if el.hasClass 'submit'
+        if e.shiftKey then next = el.prev() else return true
+
+      if next.length is 0
+        $('.add > button.submit').focus()
+        return false
+
+      if next.data('type') is 'Blog'
+        name = next.find('.label').html()
+        Entities.blogFocus(name)
+      else
+        next.find('select,input,button').focus()
+
+      return false
+
   submit: ->
-    entries = []
+    entries = {}
     $('.page.entries > .add > .body > .entity').each (i, el) ->
       name = $(el).find('.label').html()
       type = $(el).data 'type'
@@ -41,15 +57,10 @@ Entries =
         when 'Text' then value = $(el).find('input').val()
         when 'Tags' then value = $(el).find('input').val()
         when 'Blog'
-          console.log Entities.blogs
-          for blog in Entities.blogs
-            if blog.name is name
-              console.log 'calling getContents()'
-              value = blog.editor.getContents()
-              console.log blog.editor
+          blog = Entities.blogGetCode name
+          value = blog
 
-      entries.push
-        name: name, type: type, value: value
+      entries[name] = type: type, value: value
 
     .promise().done ->
 
@@ -84,11 +95,14 @@ Entries =
   loadEntities: (entities) ->
     body = $('.page.entries > .add > .body')
     body.html ''
-    for entity in entities
+    tabindex = 1
+    for entity, i in entities
       html = $(".page.entries > #template > .entity_#{entity.type}")
+      html.find('input,select').attr 'tabindex', tabindex++ if entity.type isnt 'Blog'
       body.append html
       entityEl = $(".page.entries > .add > .body > .entity_#{entity.type}")
       entityEl.find('.label').html entity.name
       if Entities[entity.type] isnt undefined
         Entities[entity.type](entityEl, entity.name)
+    $('[tabindex=1]').focus()
     _.on '.page.entries > .add > .submit'

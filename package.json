@@ -43,6 +43,7 @@
     "rollup-plugin-coffee-script": "^1.1.0",
     "rollup-stream": "^1.12.0",
     "selectize": "^0.12.3",
+    "summernote": "^0.8.2",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }

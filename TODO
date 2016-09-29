@@ -1,0 +1,2 @@
+- make sure for tab overruling to focus teh particular instance of the blog entry and not just that class in entities.coffee
+- s3: http://summernote.org/deep-dive/#onimageupload

@@ -38,7 +38,7 @@ Prompt =
         .data 'value', o
 
     _.on Prompt.el,
-    _.on '.fade'
+    _.on '.bfade'
 
     Prompt.handlers()
     Prompt.options.first().focus()
@@ -88,7 +88,7 @@ Prompt =
   trigger: (value) ->
     _.off Prompt.el.find '.textarea'
     _.off Prompt.el, offing: true, offtime: 0.2
-    _.off '.fade', offing: true, offitme: 0.2
+    _.off '.bfade', offing: true, offitme: 0.2
     Prompt.options.unbind 'click', Prompt.click
     $(document).unbind 'keydown', Prompt.keydown
     if Prompt.params.textarea
