@@ -1,6 +1,7 @@
 Structures =
 
   template: false
+  selectClients: false
 
   i: ->
 
@@ -30,11 +31,15 @@ Structures =
     $('.add > .entities').on 'click','.entity > .remove', @entityRemoveHandler
     $('.add > .submit > .ctap').click @submitHandler
 
-    Selectize.clients $('.add > .client > select')
 
   toggleAddHandler: ->
+
     _.swap '.add'
-    $('.add > .name input').focus()
+    $('.add > .name .client select').focus()
+
+    if Structures.selectClients is false
+      Structures.selectClients = Selectize.clients $('.add > .client > select')
+    Structures.selectClients[0].selectize.focus()
 
   entityAddHandler: ->
     Structures.entityAdd(true)
@@ -43,13 +48,13 @@ Structures =
     $(this).parent().remove()
 
   entityAdd: (focus=false) ->
-    $('.add > .entities').append @template
+    $('.add > .entities > .body').append @template
     @selectize()
     if  focus
-      $('.add > .entities > .entity > .input.selectize-input input').last().focus()
+      $('.add > .entities > .body > .entity > .input.selectize-input input').last().focus()
 
   selectize: ->
-    $('.entities > .entity > .input > select').selectize
+    $('.entities > .body > .entity > .input > select').selectize
       placeholder: "Type"
 
   submitHandler: ->
@@ -60,7 +65,7 @@ Structures =
     structure.name = $('.add > .name input').val()
     structure.client = $('.add > .client select').val()
 
-    $('.add > .entities > .entity').each (i, el) ->
+    $('.add > .entities > .body > .entity').each (i, el) ->
 
       jinput = $(el).find '.input > input'
       jselect = $(el).find '.input > select'
@@ -80,5 +85,6 @@ Structures =
           _.off '.add'
           Notice.i 'Structure added successfully', 'success'
           Structures.load()
+          $('.add > .name input').val('')
 
 

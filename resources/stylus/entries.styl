@@ -7,6 +7,7 @@
     line-height 34px
     gf(h2)
     text-align center
+    margin 0 0 20px 0
 
   > .content
     padding 20px 0
@@ -15,28 +16,32 @@
     display none
 
   > .add
+    margin 10px 0
     padding 10px
     border 1px solid gc(grey1)
-    width 860px
     margin auto
     > .select
       width 200px
       float left
       margin 10px
+    > .body 
 
-    > .entity
-      border-top 1px solid gc(grey1)
-      padding 10px
-      &.entity_blog > .blog > #editor
-        min-height 100px 
-
-      > .label
-        float left
-        width 100px
+      > .entity
+        border-top 1px solid gc(grey1)
         padding 10px
-      > .input
-        float left
-        width 660px
+        &.entity_Blog > .blog > .editor
+          min-height 100px 
+        &.entity_Text > .input > input
+          width 100%
+
+        > .label
+          float left
+          width 100px
+          padding 10px
+          gf(c1b)
+        > .input
+          float right
+          width 80%
 
     > .submit
       padding 10px

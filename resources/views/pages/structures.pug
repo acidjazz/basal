@@ -2,7 +2,7 @@ extends ../extends/layout
 
 block content
   .page.margined.structures
-    .ctab +
+    button.ctab +
     .clear
     .add.off
       #template
@@ -16,7 +16,7 @@ block content
               option(value="Blog") Blog
               option(value="Image") Image
               option(value="Tags") Tags
-          .remove.cta -
+          button.remove.cta -
           .clear
 
       .label Add a Structure
@@ -24,11 +24,13 @@ block content
         select(name="client",placeholder="Choose a Client")
       .name.detail.selectize-input
         input(type="text",name="structureName",placeholder="Structure Name")
+      .label Entities
       .entities
-        .more.ctab +
-        .label Entities
+        .body
+        button.more.ctab +
+        .clear
       .submit
-        .ctap Submit
+        button.ctap Submit
       .clear
     .content
       .listing

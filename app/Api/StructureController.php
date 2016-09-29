@@ -50,8 +50,8 @@ class StructureController extends MetApiController
   {
 
     $this->addOption('view', 'in:true,false', 'false');
-    $this->addOption('client', 'regex:/[0-9a-fA-F]{24}/');
     $this->addOption('client', 'regex:/[0-9a-fA-F]{24}/|exists:client,_id');
+    $this->addOption('_id', 'regex:/[0-9a-fA-F]{24}/');
 
     if (!$query = $this->getQuery()) {
       return $this->error();
@@ -61,6 +61,10 @@ class StructureController extends MetApiController
 
     if (isset($query['combined']['client'])) {
       $structures = $structures->where(['client.id' => $query['combined']['client']]);
+    }
+
+    if (isset($query['combined']['_id'])) {
+      $structures = $structures->where(['_id' => $query['combined']['_id']]);
     }
 
     $structures = $structures->paginate(20);

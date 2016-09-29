@@ -147,8 +147,6 @@ gulp.task 'sync', ->
     open: false
     proxy:
       target: 'basal.dev:8080',
-      reqHeaders: ->
-        host: 'basal.dev:3000'
     ghostMode:
       clicks: false
       forms: false

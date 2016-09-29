@@ -9,5 +9,5 @@ Time =
   scrape: ->
     $('time').each (i, el) =>
       jel = $ el
-      jel.html moment(jel.attr('title')).fromNow()
+      jel.html moment(jel.attr('title')).fromNow true
 
