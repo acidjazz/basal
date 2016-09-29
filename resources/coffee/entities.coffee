@@ -1,15 +1,15 @@
 Entities =
   blogs: []
 
-  Blog: (el) ->
+  Blog: (el, name) ->
     editor = new Quill el.find('.editor')[0],
       modules:
         toolbar: el.find('.toolbar')[0]
       placeholder: Entries.placeholders[Math.floor(Math.random() * Entries.placeholders.length)]
       theme: 'snow'
-    @blogs.push editor
+    @blogs.push name: name, editor: editor
 
-  Tags: (el) ->
+  Tags: (el, name) ->
     el.find('input').selectize
       plugins: ['restore_on_backspace','remove_button']
       delimiter: ','
@@ -17,4 +17,3 @@ Entities =
       create: (input) ->
         value: input
         text: input
-

@@ -36,21 +36,24 @@ Entries =
     $('.page.entries > .add > .body > .entity').each (i, el) ->
       name = $(el).find('.label').html()
       type = $(el).data 'type'
-      console.log name, type
 
       switch type
         when 'Text' then value = $(el).find('input').val()
-        when 'Tags' then value = $(el).find('seletct').val()
+        when 'Tags' then value = $(el).find('input').val()
+        when 'Blog'
+          console.log Entities.blogs
+          for blog in Entities.blogs
+            if blog.name is name
+              console.log 'calling getContents()'
+              value = blog.editor.getContents()
+              console.log blog.editor
 
       entries.push
         name: name, type: type, value: value
 
-
     .promise().done ->
 
       console.log entries
-
-
 
   clientSelectHandler: (e) ->
     client_id = $(e.currentTarget).val()
@@ -87,7 +90,5 @@ Entries =
       entityEl = $(".page.entries > .add > .body > .entity_#{entity.type}")
       entityEl.find('.label').html entity.name
       if Entities[entity.type] isnt undefined
-        Entities[entity.type](entityEl)
+        Entities[entity.type](entityEl, entity.name)
     _.on '.page.entries > .add > .submit'
-
-
