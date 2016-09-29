@@ -13,7 +13,6 @@ Entities =
 
     editor = el.find('.blog').summernote
       placeholder: @placeholders[Math.floor(Math.random() * @placeholders.length)]
-      height: 300
 
     console.log editor
 
