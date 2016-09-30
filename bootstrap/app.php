@@ -40,6 +40,9 @@ $app->register(Larjectus\ServiceProvider::class);
 DB::connection()->enableQueryLog();
 $app->register(Barryvdh\Debugbar\LumenServiceProvider::class);
 
+$app->configure('filesystems');
+class_alias('Illuminate\Support\Facades\Storage', 'Storage');  
+
 class_alias('\Barryvdh\Debugbar\Facade', 'dbar');
 class_alias('\Jenssegers\Mongodb\Eloquent\Model','Moloquent');
 
@@ -63,6 +66,18 @@ $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
     App\Console\Kernel::class
 );
+
+$app->singleton(
+    Illuminate\Contracts\Filesystem\Factory::class,
+    function ($app) {
+        return new Illuminate\Filesystem\FilesystemManager($app);
+    }
+);
+
+$app->singleton('filesystem', function ($app) {
+    return $app->loadComponent('filesystems', 'Illuminate\Filesystem\FilesystemServiceProvider', 'filesystem');
+});
+
 
 /*
 |--------------------------------------------------------------------------

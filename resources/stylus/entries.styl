@@ -6,7 +6,7 @@
   > #template
     display none
 
-  > .add
+  > .modify
     margin 10px 0
     padding 10px
     border 1px solid gc(grey1)
@@ -15,14 +15,34 @@
       float left
       margin 10px
       min-width 200px
+    > .name
+      onoff()
+      padding 10px 
+      border-top 1px solid gc(grey1)
+      > .label
+        float left
+        width 100px
+        padding 10px 0
+        text-align left
+        gf(c1b)
+        color gc(black1)
+      > .input
+        float right
+        width 80%
+        > input
+          width 100%
     > .body 
       > .entity
         border-top 1px solid gc(grey1)
         padding 10px
         &.entity_Text > .input > input
           width 100%
-        &.entity_Blog > .note-editor
-          margin 10px 0 0
+        &.entity_Blog > textarea
+          height 0px
+          margin 0px
+          padding 0px
+          font-size 0px
+          border none
 
         > .label
           float left

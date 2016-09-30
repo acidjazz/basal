@@ -98,6 +98,15 @@ _ =
 
     return jget
 
+  post: (args...) ->
+
+    jpost = $.post args...
+
+    jpost.fail (response) =>
+      @fail(response)
+
+    return jpost
+
   fail: (response) ->
 
     error = response.responseJSON.errors[0]

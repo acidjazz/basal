@@ -15,7 +15,6 @@ Entities =
 
     editor = el.find('.blog').summernote
       placeholder: @placeholders[Math.floor(Math.random() * @placeholders.length)]
-      height: 200
       callbacks:
         onImageUpload: (files) ->
           Entities.imageUpload files, this
@@ -32,7 +31,30 @@ Entities =
         $('.note-editable').focus()
 
   imageUpload: (files, el) ->
-    $(el).summernote('editor.insertImage', 'https://placekitten.com/300/300')
+
+    fd = new FormData()
+    fd.append 'file', files[0]
+    console.log fd
+
+    _.post
+      xhr: ->
+        xhr = new window.XMLHttpRequest()
+        xhr.upload.addEventListener 'progress', (e) ->
+          complete = e.loaded / e.total
+          if complete < 1 then Notice.i 'Uploading image..', progress: complete
+          if complete is 1 then Notice.i 'Processing image..', progress: complete
+        , false
+        return xhr
+
+      url: '/api/upload'
+      data: fd
+      cache: false
+      contentType: false
+      processData: false
+      success: (result) ->
+        $(el).summernote('editor.insertImage', result.data.url)
+        Notice.i 'File uploaded successfully', type: 'success'
+
 
   Tags: (el, name) ->
     el.find('input').selectize

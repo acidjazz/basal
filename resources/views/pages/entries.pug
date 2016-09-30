@@ -18,13 +18,18 @@ block content
       include ../entities/blog.pug
       .clear
 
-    .add
+    .modify
       .select.client
         select(name="client") 
       .select.structure
         select(name="structure",disabled) 
-
       .clear
+
+      .name.off
+        .label Name
+        .input.selectize-input
+          input(type="text",placeholder="Entry name",tabindex=1)
+        .clear
       .body
 
       button.submit.ctap.off Save

@@ -31,7 +31,7 @@ dirs =
 
 config = {}
 objectify = ->
-  secure = [ 'auth', 'database' ]
+  secure = [ 'auth', 'database', 'filesystems' ]
   exec 'php artisan larjectus:config', (error, result, stderr) ->
     notify error if error
     config = JSON.parse result

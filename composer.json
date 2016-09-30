@@ -15,7 +15,8 @@
         "acidjazz/summon": "^1.2",
         "lusitanian/oauth": "^0.8.9",
         "acidjazz/larjectus": "^0.8.0",
-        "league/fractal": "^0.14.0"
+        "league/fractal": "^0.14.0",
+        "league/flysystem-aws-s3-v3": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

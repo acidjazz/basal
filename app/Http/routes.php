@@ -43,6 +43,9 @@ $app->group([
 
     $app->get('entries', ['uses' =>'EntryController@get']);
     $app->get('entries/add', ['uses' =>'EntryController@add']);
+    $app->get('entries/update/{_id: [0-9a-fA-F]{24}}', ['uses' =>'EntryController@update']);
+
+    $app->post('upload', ['uses' =>'FileController@upload']);
 
   }
 );
