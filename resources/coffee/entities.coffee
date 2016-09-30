@@ -1,5 +1,7 @@
 Entities =
+
   blogs: []
+
   placeholders: [
     "That's what I'm blogging about"
     "Have you guys been blogging?"
@@ -13,8 +15,10 @@ Entities =
 
     editor = el.find('.blog').summernote
       placeholder: @placeholders[Math.floor(Math.random() * @placeholders.length)]
-
-    console.log editor
+      height: 200
+      callbacks:
+        onImageUpload: (files) ->
+          Entities.imageUpload files, this
 
     @blogs.push name: name, editor: editor, el: el.find('.blog')
 
@@ -27,6 +31,8 @@ Entities =
       if blog.name is name
         $('.note-editable').focus()
 
+  imageUpload: (files, el) ->
+    $(el).summernote('editor.insertImage', 'https://placekitten.com/300/300')
 
   Tags: (el, name) ->
     el.find('input').selectize

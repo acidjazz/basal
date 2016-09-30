@@ -6,6 +6,7 @@
   left 50%
   margin-left -200px
   animation cellOutY 0.2s linear 0s both
+  z-index 21
   &.offing
     animation cellOutYOff 0.2s linear 0s both
   &:hover > .inner > .close
@@ -43,12 +44,13 @@
     > .close > .inner, > .type > .inner
       position absolute
       top 50%
-      margin-top -18.5px
+      margin-top -17px
       width 30px
       height 30px
       > svg > path
         fill gc(white1)
     > .close
+      onoff()
       text-align center
       cursor pointer
       position absolute
@@ -57,13 +59,16 @@
       bottom 0
       width 50px
       gf(h1)
+      line-height 30px
       opacity 0
       transition opacity 0.1s linear
       &:hover > .inner
         background-color rgba(gc(black1), 0.2)
+        transition background-color 0.1s linear
       > .inner
         border-radius 50%
-        padding 1px 3px 5px 3px
+        padding 0px 3px 5px 3px
+        margin-top -15px
 
     > .copy
       margin 0 70px
@@ -73,4 +78,20 @@
         gf(c1b)
         margin 0 0 10px 0
         display none
+    > .notice_progress
+      onoff()
+      margin 0 20px 0 70px
+      height 40px
+      > .inner
+        height 20px
+        background-color rgba(gc(black1), 0.1)
+        position relative
+        > .full
+          position absolute
+          top 0
+          left 0
+          bottom 0
+          width 0%
+          background-color gc(white1)
+          transition width 1s linear
 

@@ -1,16 +1,12 @@
 extends ../extends/layout
 
 block content
-  script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js",integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=",crossorigin="anonymous")
   link(href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css",rel="stylesheet")
   script(src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js") 
   link(href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css",rel="stylesheet")
   script(src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js")
 
   .page.margined.entries
-    a.ctab(href='/entries/add') +
-    .clear
-
     #template
       .clear
       include ../entities/tags.pug
