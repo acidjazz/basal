@@ -46,19 +46,21 @@ Entries =
     entries = []
 
     $('.page.entries > .modify > .body > .entity').each (i, el) ->
-      name = $(el).find('.label').html()
+      entity_name = $(el).find('.label').html()
       type = $(el).data 'type'
 
       switch type
         when 'Text' then value = $(el).find('input').val()
         when 'Tags' then value = $(el).find('input').val().split ','
         when 'Blog'
-          blog = Entities.blogGetCode name
+          blog = Entities.blogGetCode entity_name
           value = blog
 
-      entries.push name: name, type: type, value: value
+      entries.push name: entity_name, type: type, value: value
 
     .promise().done ->
+
+      console.log entries
 
       Spinner.i($('.page.entries > .modify'))
 
