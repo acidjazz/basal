@@ -23,14 +23,20 @@ class FileController extends MetApiController
 
     $fileName = 'blog/'.$request->file->hashName();
 
-    $result = Storage::disk('s3')->getDriver()->put(
-      $fileName,
-      file_get_contents($request->file->path()),
-      [
-        'visibility' => 'public', 
-        'ContentType' => $request->file->getMimeType(),
-      ]
-    );
+    if (Storage::disk('s3')->exists($fileName) !== true) {
+
+      $result = Storage::disk('s3')->getDriver()->put(
+        $fileName,
+        file_get_contents($request->file->path()),
+        [
+          'visibility' => 'public', 
+          'ContentType' => $request->file->getMimeType(),
+        ]
+      );
+
+    } else {
+      $result = 'exists';
+    }
 
     return $this->render(['result' => $result, 'url' => Storage::disk('s3')->url($fileName)]);
   }
