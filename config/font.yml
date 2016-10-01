@@ -28,14 +28,16 @@ c1:
   font-family: Roboto
   font-size: 14px
   font-weight: '300'
-c1s:
-  font-family: Roboto
-  font-size: 14px
-  font-weight: '300'
 c1b:
   font-family: Roboto
   font-size: 16px
   font-weight: '500'
+
+c1sb:
+  font-family: Roboto
+  font-size: 14px
+  font-weight: '600'
+  letter-spacing: 1px
 
 c2:
   font-family: Roboto
@@ -47,6 +49,6 @@ c2b:
   font-size: 18px
   font-weight: '500'
 
-notfound:
+404:
   font-family: Monoton
   font-size: 75px

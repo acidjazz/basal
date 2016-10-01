@@ -1,0 +1,38 @@
+
+extends ../extends/layout
+
+block content
+  .page.margined.structure
+    .modify
+      #template
+        .entity
+          .input.selectize-input
+            input(type="text",name="entityName",placeholder="Name")
+          .input
+            select(name="entityOption")
+              option
+              option(value="Text") Text
+              option(value="Blog") Blog
+              option(value="Image") Image
+              option(value="Tags") Tags
+          button.remove.cta -
+          .clear
+
+      .name
+        .label Structure Name
+        .input.selectize-input
+          input(type="text",name="structureName")
+        .clear
+      .clear
+      .title Entities
+      .entities
+        .body
+        button.more.ctab +
+        .clear
+      .submit
+        button.ctap Submit
+      .clear
+
+    script.
+      Page = 'structures';
+      Structure.i();

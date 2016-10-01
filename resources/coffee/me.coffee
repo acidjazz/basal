@@ -16,3 +16,7 @@ Me =
     _.get '/api/auth'
       .done (response) ->
         result response.data.user
+
+  get:
+    clientId: ->
+      return User.client.id

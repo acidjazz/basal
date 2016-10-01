@@ -1,0 +1,84 @@
+.page.structure
+  > .modify
+    margin 10px 0
+    padding 20px
+    animation cellOutY 0.2s linear
+    border 1px solid gc(grey1)
+    > #template
+      display none
+    > .title
+      margin 0 0 10px 0
+      padding 0 0 10px 0
+      gf(c1b)
+    > .name
+      padding  0 0 10px 0
+      margin  0 0 10px 0
+      border-bottom 1px solid gc(grey1)
+      > .label
+        float left
+        width 150px
+        padding 10px 0 
+        gf(c1b)
+      > .input
+        float left
+        width 80%
+        > input
+          width 100%
+    > .entities
+      > .more
+        float right
+        width 36px
+        height 36px
+        text-align center
+        margin 0 0 20px 0
+        gf(h2)
+      > .body
+        > .label
+          margin 0 0 20px 0
+          padding 6px 0 2px 0
+          gf(c1b)
+        > .entity
+          margin 0 0 20px 0
+          animation cellOutY 0.2s linear
+          > .input
+            width 40%
+            float left
+            margin 0 20px 0 0
+            > input
+              width 100%
+            > select
+              width 100%
+          > .remove
+            float left
+            width 36px
+            height 36px
+            text-align center
+            gf(h2)
+    > .submit
+      > .ctap
+        gf(c1b)
+        float right
+        padding 10px
+  > .content
+    padding 20px 0
+    > .listing
+      > .structure
+        > .entities
+          > .entity
+            display inline-block
+            gf(c1b)
+            > .type
+              padding 3px 6px
+              color gc(white1)
+              margin 0 5px
+              border-radius 2px
+              gf(c1b)
+              &.Blog
+                background-color gc(cyan1)
+              &.Tags
+                background-color gc(yellow1)
+              &.Text
+                background-color gc(orange1)
+              &.Image
+                background-color gc(red1)
+             

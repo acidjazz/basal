@@ -2,6 +2,7 @@
 
 namespace App\Api;
 
+use App\Models\User;
 use App\Models\Structure;
 use App\Models\Client;
 
@@ -11,15 +12,21 @@ use App\Entities\Kernel;
 class StructureController extends MetApiController
 {
 
+  private $me = false;
+
   public function __construct(Request $request)
   {
     parent::__construct($request);
+    $this->me = User::loggedIn();
   }
 
   public function add(Request $request)
   {
 
-    $this->addOption('client', 'required|regex:/[0-9a-fA-F]{24}/|exists:client,_id');
+    if (!$this->me) {
+      return $this->addError('auth', 'session.required')->error();
+    }
+
     $this->addOption('name', 'required|string');
     $this->addOption('entities', 'required|array');
     $this->addOption('entities.*.name', 'required|string|distinct');
@@ -31,17 +38,14 @@ class StructureController extends MetApiController
 
     $structure = new Structure();
 
-    $client = Client::find($query['combined']['client']);
-
-
     $structure->name = $query['combined']['name'];
     $structure->entities = $query['combined']['entities'];
     $structure->client = [
-      "id" => $client->_id,
-      "name" => $client->name,
+      "id" => $this->me->client['id'],
+      "name" => $this->me->client['name'],
     ];
-    $structure->save();
 
+    $structure->save();
 
     return $this->render(['status' => 'Structure added successfully']);
   }

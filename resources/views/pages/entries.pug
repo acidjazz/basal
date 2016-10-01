@@ -7,35 +7,8 @@ block content
   script(src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js")
 
   .page.margined.entries
-    #template
-      .clear
-      include ../entities/tags.pug
-      .clear
-
-      include ../entities/text.pug
-      .clear
-
-      include ../entities/blog.pug
-      .clear
-
-    .modify
-      .select.client
-        select(name="client") 
-      .select.structure
-        select(name="structure",disabled) 
-      .clear
-
-      .name.off
-        .label Name
-        .input.selectize-input
-          input(type="text",placeholder="Entry name",tabindex=1)
-        .clear
-      .body
-
-      button.submit.ctap.off Save
-
-      .clear
-
+    a.ctap(href='/entries/new') New Entry
+    .clear
     .content
       .listing
 

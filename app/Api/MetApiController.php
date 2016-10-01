@@ -65,7 +65,7 @@ abstract class MetApiController extends Controller
 
       foreach ($validate->errors()->toArray() as $key=>$value) {
         foreach($value as $error) {
-          $this->errors[$key] = $error;
+          $this->addError($key, $error);
         }
       }
 
@@ -109,23 +109,21 @@ abstract class MetApiController extends Controller
 
   }
 
+  protected function addError($type,$message,$file=null,$line=null)
+  {
+    $this->errors[] = [
+      'type' => $type,
+      'message' => $message,
+      'file' => $file,
+      'line' => $line,
+    ];
+
+    return $this;
+  }
+
   protected function error() {
 
-    $errors = [];
-
-    foreach ($this->errors as $type=>$message) {
-      $errors[] =
-        [
-          'type' => $type,
-          'message' => $message,
-          'file' => null,
-          'line' => null,
-        ];
-
-    }
-
-    return $this->render(['errors' => $errors], false, false, 500);
-
+    return $this->render(['errors' => $this->errors], false, false, 500);
   }
 
   /**

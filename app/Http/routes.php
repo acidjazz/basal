@@ -18,8 +18,13 @@ $app->get('/loading', ['uses' => 'Pages@loading']);
 $app->get('/', ['uses' => 'Pages@dashboard']);
 $app->get('users', ['uses' => 'Pages@users']);
 $app->get('clients', ['uses' => 'Pages@clients']);
+
 $app->get('structures', ['uses' => 'Pages@structures']);
+$app->get('structures/{_id: [0-9a-fA-F]{24}|new}', ['uses' => 'Pages@structure']);
+
+
 $app->get('entries', ['uses' => 'Pages@entries']);
+$app->get('entries/{_id: [0-9a-fA-F]{24}|new}', ['uses' => 'Pages@entry']);
 
 $app->group([
 

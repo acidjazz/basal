@@ -1,7 +1,12 @@
-
-ctap()
+cta_common()
   user-select none
   cursor pointer
+  text-shadow 0 -1px 0 rgba(0,0,0,0.15)
+  border-radius 4px
+
+
+ctap()
+  cta_common()
   border 1px solid gc(green1)
   border-top 1px solid gc(green1)
   border-left 1px solid gc(green1)
@@ -9,39 +14,31 @@ ctap()
   background-color gc(green2)
   color gc(white1)
   background linear-gradient(to bottom, gc(green2), gc(green1))
-  border-radius 4px
   &:hover
     background linear-gradient(to bottom, gc(green3), gc(green1))
   &:active
     background radial-gradient(gc(green2), gc(green1))
 
 cta()
-  user-select none
-  cursor pointer
+  cta_common()
   border 1px solid gc(grey3)
   background-color gc(grey2)
   background linear-gradient(to bottom, gc(grey2), gc(grey3))
-  border-radius 4px
   &:hover
     background linear-gradient(to bottom, gc(grey1), gc(grey3))
   &:active
     background radial-gradient(gc(grey2), gc(grey3))
 
 ctab()
-  user-select none
-  cursor pointer
+  cta_common()
   background gc(blue1)
   border 1px solid gc(blue2)
   background linear-gradient(to bottom, gc(blue1), gc(blue2))
-  border-radius 4px
   color gc(white1)
-  border-radius 4px
   &:hover
     background linear-gradient(to bottom, gc(blue2), gc(blue1))
   &:active
     background radial-gradient(gc(blue2), gc(blue1))
-
-
 
 onoff()
   &.on

@@ -1,5 +1,5 @@
 each structure in self.structures
-  .structure.item
+  a.structure.item(href='/structures/' + structure._id)
     .name=structure.name
     .created created 
       time(title=structure.created_at)
@@ -11,7 +11,3 @@ each structure in self.structures
       each entity in structure.entities
         .entity #{entity.name}
           span.type(class=entity.type)=entity.type
-
-    .client.detail Client: 
-      span.bold=structure.client.name
-

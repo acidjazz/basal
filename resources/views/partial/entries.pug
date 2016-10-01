@@ -1,5 +1,5 @@
 each entry in self.entries
-  .entry.item
+  a.entry.item(href='/entry/' + entry._id)
     .name=entry.name
     .created created 
       time(title=entry.created_at)

@@ -2,39 +2,11 @@ extends ../extends/layout
 
 block content
   .page.margined.structures
-    button.ctab +
+    a.ctap(href='/structures/new') New Structure
     .clear
-    .add.off
-      #template
-        .entity
-          .input.selectize-input
-            input(type="text",name="entityName",placeholder="Name")
-          .input
-            select(name="entityOption")
-              option
-              option(value="Text") Text
-              option(value="Blog") Blog
-              option(value="Image") Image
-              option(value="Tags") Tags
-          button.remove.cta -
-          .clear
-
-      .label Add a Structure
-      .client.detail
-        select(name="client",placeholder="Choose a Client")
-      .name.detail.selectize-input
-        input(type="text",name="structureName",placeholder="Structure Name")
-      .label Entities
-      .entities
-        .body
-        button.more.ctab +
-        .clear
-      .submit
-        button.ctap Submit
-      .clear
     .content
       .listing
 
     script.
       Page = 'structures';
-      Structures.i();
+      Global.init = 'Structures';

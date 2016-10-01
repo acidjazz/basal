@@ -3,6 +3,7 @@ Global =
   # kevin olson (kevin@256.io) aka 🌀🎷
 
   window: false
+  init: false
 
   i: ->
     Global.handlers()
@@ -96,3 +97,5 @@ Global =
   loginCheck: ->
     Me.authed (result) ->
       Global.login(result) if result isnt false
+      if Global.init isnt false
+        window[Global.init].i()
