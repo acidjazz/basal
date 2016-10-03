@@ -26,19 +26,50 @@ class ClientController extends MetApiController
     $client->name = $query['combined']['name'];
     $client->save();
 
-    return $this->render(['status' => 'Client added successfully']);
+    return $this->render(['status' => 'Client added successfully', '_id' => $client->_id]);
+  }
+
+  public function update(Request $request, $_id)
+  {
+
+    $request->request->add(['_id' => $_id]);
+
+    $this->addOption('_id', 'required|regex:/[0-9a-fA-F]{24}/|exists:client,_id');
+    $this->addOption('name', 'string');
+
+    if (!$query = $this->getQuery()) {
+      return $this->error();
+    }
+
+    $client = Client::find($_id);
+
+    if (isset($query['combined']['name'])) {
+      $client->name = $query['combined']['name'];
+    }
+
+    $client->save();
+
+    return $this->render(['status' => 'Client updated successfully', '_id' => $client->_id]);
+
   }
 
   public function get(Request $request)
   {
 
     $this->addOption('view', "in:true,false", "false");
+    $this->addOption('_id', 'regex:/[0-9a-fA-F]{24}/');
 
     if (!$query = $this->getQuery()) {
       return $this->error();
     }
 
-    $clients = Client::paginate(20);
+    $clients = Client::with('structures','entries');
+
+    if (isset($query['combined']['_id'])) {
+      $clients = $clients->where(['_id' => $query['combined']['_id']]);
+    }
+
+    $clients = $clients->paginate(20);
     $this->addPaginate($clients);
 
     $view = false;

@@ -13,11 +13,15 @@
 
 $app->get('guide', ['uses' => 'Pages@guide']);
 
+$app->get('/', ['uses' => 'Pages@home']);
+
 $app->get('/loading', ['uses' => 'Pages@loading']);
 
-$app->get('/', ['uses' => 'Pages@dashboard']);
+$app->get('/dashboard', ['uses' => 'Pages@dashboard']);
 $app->get('users', ['uses' => 'Pages@users']);
+
 $app->get('clients', ['uses' => 'Pages@clients']);
+$app->get('clients/{_id: [0-9a-fA-F]{24}|new}', ['uses' => 'Pages@client']);
 
 $app->get('structures', ['uses' => 'Pages@structures']);
 $app->get('structures/{_id: [0-9a-fA-F]{24}|new}', ['uses' => 'Pages@structure']);
@@ -41,6 +45,7 @@ $app->group([
 
     $app->get('clients', ['uses' =>'ClientController@get']);
     $app->get('clients/add', ['uses' =>'ClientController@add']);
+    $app->get('clients/update/{_id: [0-9a-fA-F]{24}}', ['uses' =>'ClientController@update']);
 
     $app->get('structures', ['uses' =>'StructureController@get']);
     $app->get('structures/add', ['uses' =>'StructureController@add']);

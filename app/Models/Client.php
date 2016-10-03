@@ -12,4 +12,13 @@ class Client extends \Moloquent
 
   protected $dateFormat = 'c';
 
+  public function structures()
+  {
+    return $this->hasMany('App\Models\Structure', 'client.id', '_id');
+  }
+  public function entries()
+  {
+    return $this->hasMany('App\Models\Entry', 'client.id', '_id');
+  }
+
 }

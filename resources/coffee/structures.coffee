@@ -2,14 +2,14 @@ Structures =
 
   i: ->
     @load()
-    Time.i()
 
   load: ->
 
-    Spinner.i($('.structures > .content'))
+    Spinner.i($('.page.structures'))
 
     _.get '/api/structures',
       view: true, client: User.client.id
     .done (response) ->
+      Time.i()
       $('.structures > .content > .listing').html response.view
       Spinner.d()

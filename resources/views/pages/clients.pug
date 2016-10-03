@@ -2,14 +2,11 @@ extends ../extends/layout
 
 block content
   .page.margined.clients
-    .add
-      .ctab +
-      .input.selectize-input
-        input(type="text",placeholder="Name")
+    a.ctap(href='/clients/new') New Client
     .clear
     .content
       .listing
 
     script.
       Page = 'clients';
-      Clients.i();
+      Global.init = 'Clients';

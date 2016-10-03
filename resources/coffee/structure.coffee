@@ -85,6 +85,8 @@ Structure =
 
   modify: (structure) ->
 
+    Spinner.i($('.page.structure'))
+
     call = '/api/structures/add'
     if Structure._id isnt false
       call = "/api/structures/update/#{Structure._id}"

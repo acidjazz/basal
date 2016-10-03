@@ -20,4 +20,9 @@ class Structure extends Eloquent
     return $this->hasOne('App\Models\Client', '_id', 'client.id');
   }
 
+  public function entries()
+  {
+    return $this->hasMany('App\Models\Entry', 'structure.id', '_id');
+  }
+
 }

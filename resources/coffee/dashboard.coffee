@@ -13,12 +13,14 @@ Dashboard =
   getdata: (complete) ->
 
     gets = ['users','clients', 'structures', 'entries']
+    Spinner.i($('.page.dashboard'))
 
     $(gets).each (index, get) =>
       _.get "/api/#{get}"
         .done (response) =>
           @data[get] = response
           if Object.keys(@data).length == gets.length
+            Spinner.d()
             complete()
 
   dotstovalue: (dots) ->

@@ -1,6 +1,6 @@
 Global =
 
-  # kevin olson (kevin@256.io) aka 🌀🎷
+  # kevin olson (kevin@256.io) 🌀🎷
 
   window: false
   init: false
@@ -9,12 +9,12 @@ Global =
     Global.handlers()
     Global.loginCheck()
 
-    _.on ".menu > .options > .option_#{Page}" if Page isnt undefined
+    _.on ".menu > .options > .option_#{Page}, .menu" if Page?
 
   handlers: ->
 
     $('header > .inner > .me > .profile').click Global.userProfileHandler
-    $('header > .inner > .me > .oauths > .oauth').click Global.userOauthHandler
+    $('.oauths > .oauth').click Global.userOauthHandler
     $('header > .inner > .me > .picture > .logout').click Global.logoutHandler
     $('.menu > .options > .option').click Global.menuHandler
 
@@ -35,6 +35,9 @@ Global =
         _.swap '.me > .picture'
         Notice.i 'Logout Successful', 'success'
         Spinner.d()
+        setTimeout ->
+          location.href = '/'
+        , 2000
 
   userProfileHandler: ->
 
@@ -75,18 +78,18 @@ Global =
     return
 
   oauthComplete: (user) ->
-
     Spinner.d()
-
     Global.login user
-
     Notice.i 'Login Successful', 'success'
+    setTimeout ->
+      location.href = '/dashboard'
+    , 2000
 
   login: (user) ->
 
     window.User = user
 
-    $('header > .inner > .me > .picture > img').attr 'src', User.picture
+    $('header > .inner > .me > .picture > .image').css 'background-image', "url(#{User.picture})"
     _.off '.me > .profile'
     _.off '.me > .oauths'
     _.on '.me > .picture'
@@ -95,7 +98,14 @@ Global =
       $('header > .inner > .client > .name').html User.client.name
 
   loginCheck: ->
+
+    Spinner.i($('header'))
+
     Me.authed (result) ->
       Global.login(result) if result isnt false
-      if Global.init isnt false
+      if Global.init isnt false and result isnt false
         window[Global.init].i()
+
+      Spinner.d()
+      location.href = '/dashboard' if location.pathname is '/' and result isnt false
+      location.href = '/' if result is false and location.pathname isnt '/'

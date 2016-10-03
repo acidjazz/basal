@@ -1,0 +1,15 @@
+
+extends ../extends/layout
+
+block content
+  .page.margined.client
+    .label Client Name
+    .input.selectize-input
+      input(type="text")
+    .clear
+    .submit
+      button.ctap Submit
+
+  script.
+    Page = 'clients';
+    Client.i();

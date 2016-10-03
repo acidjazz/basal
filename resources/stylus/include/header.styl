@@ -1,9 +1,13 @@
 header
   > .inner
     padding 20px 20px 10px 20px
+    > .name
+      float left
+      gf(h2b)
+      margin 7px 0 0 70px
     > .client
       float right
-      margin 8px 40px 0 20px
+      margin 10px 40px 0 20px
       > .name
         gf(c2b)
     > .me
@@ -17,9 +21,10 @@ header
         border-radius 50%
         overflow hidden
         position relative
-        > img
-          width 40px
-          height 40px
+        > .image
+          width 36px
+          height 36px
+          background-size contain
         &:hover > .logout
           opacity 1
         > .logout
@@ -50,7 +55,7 @@ header
         > svg
           width 50px
           height 50px
-          margin -5px 0 0 -5px
+          margin -7px 0 0 -7px
       > .oauths
         text-align center
         onoff()
@@ -64,14 +69,19 @@ header
         > .oauth
           float left
           cursor pointer
-          width 20px
-          height 20px
-          padding 10px
+          width 40px
+          height 40px
           margin 0 0 0 5px
           border-radius 50%
           border 2px solid gc(black2)
           cursor pointer
           transition background-color 0.2s linear
+          &:hover
+            background-color gc(grey1)
+          > svg
+            width 20px
+            height 20px
+            margin 8px 0 0 0
           &.facebook
             animation fadeIn 0.2s linear 0.1s both
             > svg path
@@ -88,15 +98,8 @@ header
             animation fadeIn 0.2s linear 0.4s both
             > svg path
               fill gc(twitter_blue)
-          &:hover
-            background-color gc(white1)
-          > svg
-            width inherit
-            height inherit
 @keyframes blink
   from
     opacity 0.1
   to
     opacity 1
-
-

@@ -1,9 +1,13 @@
 each client in self.clients
   .client.item
-    .name=client.name
+    a.name(href='/client/' + client._id)=client.name
     .created created 
       time(title=client.created_at)
         include ../../vector/time.svg
+      |,
     .updated updated 
       time(title=client.updated_at)
         include ../../vector/time.svg
+      |,
+    .detail #{client.structures.length} structures,
+    .detail #{client.entries.length} entries

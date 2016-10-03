@@ -41,6 +41,7 @@ Entry =
       Entry.entry = entry
       Entry.addSelectStructure[0].selectize.addOption entry.structure
       Entry.addSelectStructure[0].selectize.setValue entry.structure.id
+      Entry.addSelectStructure[0].selectize.disable()
 
   submit: ->
 
@@ -80,12 +81,14 @@ Entry =
           window.history.pushState {}, '', "/structures/#{response.data._id}"
         Entry._id = response.data._id
 
+  ###
   clientSelectHandler: (e) ->
     client_id = $(e.currentTarget).val()
     return false if client_id.length isnt 24
     Entry.addSelectClientId = client_id
     Entry.addSelectStructure[0].selectize.enable()
     Entry.addSelectStructure[0].selectize.clearOptions()
+  ###
 
   structureSelectHandler: (e) ->
     structure_id = $(e.currentTarget).val()
@@ -94,9 +97,6 @@ Entry =
       Entry.loadEntities Entry.entry.entities, Entry.entry.name
     else
       Entry.loadStructure structure_id
-
-  getAddSelectClientId: ->
-    return Entry.addSelectClientId
 
   loadStructure: (_id) ->
 

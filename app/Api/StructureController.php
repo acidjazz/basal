@@ -67,10 +67,8 @@ class StructureController extends MetApiController
       return $this->error();
     }
 
-    $entries = Entry::count(['structure.id' => $_id]);
-
-    if (Entry::count(['structure.id' => $_id]) > 0) {
-      return $this->addError('disabled', 'entries.exixst')->error();
+    if (Entry::where(['structure.id' => $_id])->count() > 0) {
+      return $this->addError('disabled', 'entries.exist')->error();
     }
 
     $structure = Structure::find($_id);

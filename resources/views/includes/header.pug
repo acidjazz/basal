@@ -1,5 +1,8 @@
 header
   .inner
+    .logo
+      include logo
+    .name basal
     .me
       .oauths.off
         .oauth.google(data-type='google')
@@ -8,10 +11,9 @@ header
         include ../../vector/profile.svg
         include ../../vector/cancel.svg
       .picture.off
-        img()
+        .image
         .logout
           include ../../vector/cancel.svg
-
     .client
       .name
     .clear

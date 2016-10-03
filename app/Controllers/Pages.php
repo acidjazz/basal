@@ -4,6 +4,10 @@ namespace App\Controllers;
 
 class Pages extends Controller
 {
+  public function home()
+  {
+    return view('pages.home');
+  }
   public function dashboard()
   {
     return view('pages.dashboard');
@@ -23,6 +27,10 @@ class Pages extends Controller
   public function clients()
   {
     return view('pages.clients');
+  }
+  public function client()
+  {
+    return view('pages.client');
   }
   public function structures()
   {

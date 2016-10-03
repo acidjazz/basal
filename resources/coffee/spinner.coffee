@@ -27,7 +27,5 @@ Spinner =
     @state = true
 
   d: ->
-    setTimeout =>
-      _.off @el
-      @state = false
-    , 100
+    _.off @el
+    @state = false
