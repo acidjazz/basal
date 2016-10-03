@@ -4,6 +4,7 @@ namespace App\Api;
 
 use App\Models\User;
 use App\Models\Structure;
+use App\Models\Entry;
 use App\Models\Client;
 
 use Illuminate\Http\Request;
@@ -54,6 +55,7 @@ class StructureController extends MetApiController
   {
 
     $request->request->add(['_id' => $_id]);
+
     $this->addOption('_id', 'required|regex:/[0-9a-fA-F]{24}/|exists:structure,_id');
 
     $this->addOption('name', 'required|string');
@@ -63,6 +65,12 @@ class StructureController extends MetApiController
 
     if (!$query = $this->getQuery()) {
       return $this->error();
+    }
+
+    $entries = Entry::count(['structure.id' => $_id]);
+
+    if (Entry::count(['structure.id' => $_id]) > 0) {
+      return $this->addError('disabled', 'entries.exixst')->error();
     }
 
     $structure = Structure::find($_id);

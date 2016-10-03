@@ -1,6 +1,6 @@
 each structure in self.structures
-  a.structure.item(href='/structures/' + structure._id)
-    .name=structure.name
+  .structure.item
+    a.name(href='/structures/' + structure._id)=structure.name
     .created created 
       time(title=structure.created_at)
         include ../../vector/time.svg

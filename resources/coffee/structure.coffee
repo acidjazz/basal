@@ -94,4 +94,6 @@ Structure =
         Spinner.d()
       .done (response) ->
         Notice.i response.data.status, 'success'
-        window.history.pushState {}, '', "/structures/#{response.data._id}"
+        if Structure._id is false
+          window.history.pushState {}, '', "/structures/#{response.data._id}"
+        Structure._id = response.data._id

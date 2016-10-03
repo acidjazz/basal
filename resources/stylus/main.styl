@@ -16,7 +16,13 @@ body
 
 a
   text-decoration none
-  color gc(black2)
+  &:link
+    color gc(black2)
+  &:visited
+    color gc(black2)
+  &:hover
+    color gc(green1)
+    text-decoration none !important
 
 ::selection
   color gc(skin1)

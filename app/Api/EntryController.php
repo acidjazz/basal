@@ -87,13 +87,29 @@ class EntryController extends MetApiController
   public function get(Request $request)
   {
 
+    $this->addOption('_id', 'regex:/[0-9a-fA-F]{24}/|exists:entry,_id');
     $this->addOption('view', "in:true,false", "false");
+    $this->addOption('client', 'regex:/[0-9a-fA-F]{24}/|exists:client,_id');
+
+    if ($this->me !== false) {
+      $request->request->add(['client' => $this->me->client['id']]);
+    }
 
     if (!$query = $this->getQuery()) {
       return $this->error();
     }
 
-    $entries = Entry::paginate(20);
+    $entries = Entry::query();
+
+    if (isset($query['combined']['client'])) {
+      $entries = $entries->where(['client.id' => $query['combined']['client']]);
+    }
+
+    if (isset($query['combined']['_id'])) {
+      $entries = $entries->where(['_id' => $query['combined']['_id']]);
+    }
+
+    $entries = $entries->paginate(20);
     $this->addPaginate($entries);
 
     $view = false;

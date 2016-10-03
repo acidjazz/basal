@@ -1,6 +1,6 @@
 each entry in self.entries
-  a.entry.item(href='/entries/' + entry._id)
-    .name=entry.name
+  .entry.item
+    a.name(href='/entries/' + entry._id)=entry.name
     .created created 
       time(title=entry.created_at)
         include ../../vector/time.svg

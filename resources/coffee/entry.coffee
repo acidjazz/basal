@@ -76,6 +76,8 @@ Entry =
         Spinner.d()
       .done (response) ->
         Notice.i response.data.status, type: 'success'
+        if Entry._id is false
+          window.history.pushState {}, '', "/structures/#{response.data._id}"
         Entry._id = response.data._id
 
   clientSelectHandler: (e) ->
