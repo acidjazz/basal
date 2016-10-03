@@ -22,7 +22,6 @@ $app->get('clients', ['uses' => 'Pages@clients']);
 $app->get('structures', ['uses' => 'Pages@structures']);
 $app->get('structures/{_id: [0-9a-fA-F]{24}|new}', ['uses' => 'Pages@structure']);
 
-
 $app->get('entries', ['uses' => 'Pages@entries']);
 $app->get('entries/{_id: [0-9a-fA-F]{24}|new}', ['uses' => 'Pages@entry']);
 
@@ -45,6 +44,7 @@ $app->group([
 
     $app->get('structures', ['uses' =>'StructureController@get']);
     $app->get('structures/add', ['uses' =>'StructureController@add']);
+    $app->get('structures/update/{_id: [0-9a-fA-F]{24}}', ['uses' =>'StructureController@update']);
 
     $app->get('entries', ['uses' =>'EntryController@get']);
     $app->get('entries/add', ['uses' =>'EntryController@add']);

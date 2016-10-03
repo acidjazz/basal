@@ -47,7 +47,41 @@ class StructureController extends MetApiController
 
     $structure->save();
 
-    return $this->render(['status' => 'Structure added successfully']);
+    return $this->render(['status' => 'Structure added successfully', '_id' => $structure->_id]);
+  }
+
+  public function update(Request $request, $_id)
+  {
+
+    $request->request->add(['_id' => $_id]);
+    $this->addOption('_id', 'required|regex:/[0-9a-fA-F]{24}/|exists:structure,_id');
+
+    $this->addOption('name', 'required|string');
+    $this->addOption('entities', 'required|array');
+    $this->addOption('entities.*.name', 'required|string|distinct');
+    $this->addOption('entities.*.type', 'required|in:'.implode((new Kernel())->getEntities(), ','));
+
+    if (!$query = $this->getQuery()) {
+      return $this->error();
+    }
+
+    $structure = Structure::find($_id);
+
+    if ($structure->client['id'] !== $this->me->client['id']) {
+      return $this->addError('auth', 'permission.denied')->error();
+    }
+
+    if (isset($query['combined']['name'])) {
+      $structure->name = $query['combined']['name'];
+    }
+    if (isset($query['combined']['entities'])) {
+      $structure->entities = $query['combined']['entities'];
+    }
+
+    $structure->save();
+
+    return $this->render(['status' => 'Structure updated successfully', '_id' => $structure->_id]);
+
   }
 
   public function get(Request $request)

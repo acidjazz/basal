@@ -94,3 +94,4 @@ Structure =
         Spinner.d()
       .done (response) ->
         Notice.i response.data.status, 'success'
+        window.history.pushState {}, '', "/structures/#{response.data._id}"

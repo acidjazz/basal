@@ -58,8 +58,8 @@ class EntryController extends MetApiController
 
   public function update(Request $request, $_id)
   {
-    $request->request->add(['_id' => $_id]);
 
+    $request->request->add(['_id' => $_id]);
     $this->addOption('_id', 'required|regex:/[0-9a-fA-F]{24}/|exists:entry,_id');
 
     $this->addOption('name', 'string');

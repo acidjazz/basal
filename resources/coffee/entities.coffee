@@ -11,13 +11,15 @@ Entities =
     "I want you on the phone, but I also want you blogging"
   ]
 
-  Blog: (el, name) ->
+  Blog: (el, name, value=false) ->
 
     editor = el.find('.blog').summernote
       placeholder: @placeholders[Math.floor(Math.random() * @placeholders.length)]
       callbacks:
         onImageUpload: (files) ->
           Entities.imageUpload files, this
+
+    el.find('.blog').summernote('code', value) if value isnt false
 
     @blogs.push name: name, editor: editor, el: el.find('.blog')
 
