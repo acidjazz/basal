@@ -67,7 +67,6 @@ class ClientController extends MetApiController
   }
 
   private function users($query)
-
   {
     $users = [];
 
