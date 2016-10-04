@@ -10,21 +10,32 @@ use Validator;
 class UserController extends MetApiController
 {
 
+  private $me = false;
+
   public function __construct(Request $request)
   {
     parent::__construct($request);
+    $this->me = User::loggedIn();
   }
 
   public function get(Request $request)
   {
 
     $this->addOption('view', "in:true,false", "false");
+    $this->addOption('me', "in:true,false", "true");
 
     if (!$query = $this->getQuery()) {
       return $this->error();
     }
 
-    $users = User::paginate(20);
+    $users = User::query();
+
+    if (isset($query['combined']['me']) & $query['combined']['me'] == 'false')
+    {
+      $users = $users->where('_id', '!=', $this->me->_id);
+    }
+
+    $users = $users->paginate(20);
     $this->addPaginate($users);
 
     $view = false;
@@ -43,7 +54,6 @@ class UserController extends MetApiController
 
     $this->addOption('_id', 'required|regex:/[0-9a-fA-F]{24}/|exists:user,_id');
     $this->addOption('admin', 'bool');
-    $this->addOption('client', 'regex:/[0-9a-fA-F]{24}/|exists:client,_id');
 
     if (!$query = $this->getQuery()) {
       return $this->error();
@@ -53,14 +63,6 @@ class UserController extends MetApiController
 
     if (isset($query['combined']['admin'])) {
       $user->admin = (bool) $query['combined']['admin'];
-    }
-
-    if (isset($query['combined']['client'])) {
-      $client = Client::find($query['combined']['client']);
-      $user->client = [
-        'id' => $client->_id,
-        'name' => $client->name,
-      ];
     }
 
     $user->save();

@@ -4,7 +4,11 @@ extends ../extends/layout
 block content
   .page.margined.client
     .label Client Name
-    .input.selectize-input
+    .input.input-name.selectize-input
+      input(type="text")
+    .clear
+    .label Collaborators
+    .input.input-users
       input(type="text")
     .clear
     .submit
@@ -12,4 +16,4 @@ block content
 
   script.
     Page = 'clients';
-    Client.i();
+    Global.init = 'Client';

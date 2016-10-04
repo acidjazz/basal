@@ -29,6 +29,7 @@ class StructureController extends MetApiController
     }
 
     $this->addOption('name', 'required|string');
+    $this->addOption('client', 'required|regex:/[0-9a-fA-F]{24}/|exists:client,_id');
     $this->addOption('entities', 'required|array');
     $this->addOption('entities.*.name', 'required|string|distinct');
     $this->addOption('entities.*.type', 'required|in:'.implode((new Kernel())->getEntities(), ','));
@@ -41,9 +42,11 @@ class StructureController extends MetApiController
 
     $structure->name = $query['combined']['name'];
     $structure->entities = $query['combined']['entities'];
+
+    $client = Client::find($query['combined']['client']);
     $structure->client = [
-      "id" => $this->me->client['id'],
-      "name" => $this->me->client['name'],
+      'id' => $client->_id,
+      'name' => $client->name,
     ];
 
     $structure->save();
@@ -59,6 +62,7 @@ class StructureController extends MetApiController
     $this->addOption('_id', 'required|regex:/[0-9a-fA-F]{24}/|exists:structure,_id');
 
     $this->addOption('name', 'required|string');
+    $this->addOption('client', 'regex:/[0-9a-fA-F]{24}/|exists:client,_id');
     $this->addOption('entities', 'required|array');
     $this->addOption('entities.*.name', 'required|string|distinct');
     $this->addOption('entities.*.type', 'required|in:'.implode((new Kernel())->getEntities(), ','));
@@ -73,13 +77,18 @@ class StructureController extends MetApiController
 
     $structure = Structure::find($_id);
 
-    if ($structure->client['id'] !== $this->me->client['id']) {
-      return $this->addError('auth', 'permission.denied')->error();
-    }
-
     if (isset($query['combined']['name'])) {
       $structure->name = $query['combined']['name'];
     }
+
+    if (isset($query['combined']['client'])) {
+      $client = Client::find($query['combined']['client']);
+      $structure->client = [
+        'id' => $client->_id,
+        'name' => $client->name,
+      ];
+    }
+
     if (isset($query['combined']['entities'])) {
       $structure->entities = $query['combined']['entities'];
     }
@@ -101,7 +110,8 @@ class StructureController extends MetApiController
       return $this->error();
     }
 
-    $structures = Structure::query();
+    $clients = Client::whereRaw(['users' => ['$elemMatch' => ['id' => $this->me->_id]]]);
+    $structures = Structure::whereIn('client.id', $clients->get()->pluck('_id'));
 
     if (isset($query['combined']['client'])) {
       $structures = $structures->where(['client.id' => $query['combined']['client']]);

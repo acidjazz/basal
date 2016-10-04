@@ -1,6 +1,6 @@
 Entry =
 
-  addSelectStructure: {}
+  selectStructure: {}
 
   _id: false
   structure: false
@@ -14,12 +14,13 @@ Entry =
     if match = location.pathname.match /\/entries\/([0-9a-fA-F]{24})/
       @_id = match[1]
       @load @_id
+    else
+      Entry.selectStructure[0].selectize.focus()
  
   selectize: ->
 
-    @addSelectStructure = Selectize.structures $('.modify > .structure > select'),
-      Entry.structureSelectHandler,
-      client: Me.get.clientId
+    @selectStructure = Selectize.structures $('.modify > .structure > select'),
+      Entry.structureSelectHandler
 
   handlers: ->
     $('.page.entry > .modify > .submit').click @submit
@@ -39,9 +40,9 @@ Entry =
     .done (response) ->
       entry = response.data[0]
       Entry.entry = entry
-      Entry.addSelectStructure[0].selectize.addOption entry.structure
-      Entry.addSelectStructure[0].selectize.setValue entry.structure.id
-      Entry.addSelectStructure[0].selectize.disable()
+      Entry.selectStructure[0].selectize.addOption entry.structure
+      Entry.selectStructure[0].selectize.setValue entry.structure.id
+      Entry.selectStructure[0].selectize.disable()
 
   submit: ->
 
@@ -86,8 +87,8 @@ Entry =
     client_id = $(e.currentTarget).val()
     return false if client_id.length isnt 24
     Entry.addSelectClientId = client_id
-    Entry.addSelectStructure[0].selectize.enable()
-    Entry.addSelectStructure[0].selectize.clearOptions()
+    Entry.selectStructure[0].selectize.enable()
+    Entry.selectStructure[0].selectize.clearOptions()
   ###
 
   structureSelectHandler: (e) ->
@@ -115,7 +116,7 @@ Entry =
     $('.page.entry > .modify > .name > .input > input').val(name) if name isnt false
     body = $('.page.entry > .modify > .body')
     body.html ''
-    tabindex = 2
+    tabindex = 3
 
     for entity, i in entities
 
@@ -133,5 +134,6 @@ Entry =
 
       if Entities[entity.type] isnt undefined
         Entities[entity.type](entityEl, entity.name, entity.value)
-    $('[tabindex=1]').focus()
+    $('[tabindex=2]').focus()
     _.on '.page.entry > .modify > .submit'
+    $('.page.entry > .modify > .submit').attr 'tabindex', tabindex

@@ -45,3 +45,26 @@ Selectize =
     selectStructure.change handler
     return selectStructure
 
+  users: (element, handler, options) ->
+    selectUser = element.selectize
+      plugins: ['remove_button']
+      valueField: 'id'
+      labelField: 'name'
+      searchField: 'name'
+      create: false
+      preload: 'focus'
+      render:
+        option: (item, escape) ->
+          return "<div>#{item.name}</div>"
+      load: (query, callback) ->
+        _.get '/api/users', options
+          .done (response) ->
+            results = []
+            for item in response.data
+              results.push id: item._id, name: "#{item.name} (#{item.email})"
+            callback(results)
+
+    selectUser.change handler
+    return selectUser
+
+

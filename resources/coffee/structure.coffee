@@ -3,18 +3,25 @@ Structure =
   template: false
   _id: false
 
+  clientSelect: false
+
   i: ->
 
     @template = $('.modify > #template').html()
     @handlers()
 
-    $('.modify > .name input').focus()
+    @clientSelect = Selectize.clients $('.page.structure > .modify > .detail.client > .input > select'),
+      @clientSelecthandler
 
     if match = location.pathname.match /\/structures\/([0-9a-fA-F]{24})/
       @_id = match[1]
       @load @_id
     else
       @entityAdd()
+
+
+    @clientSelect[0].selectize.focus() if @_id is false
+
 
   handlers: ->
 
@@ -31,10 +38,16 @@ Structure =
     .always ->
       Spinner.d()
     .done (response) ->
+      location.href = '/structures/new' if response.data.length < 1
       structure = response.data[0]
       $('.modify > .name > .input > input').val structure.name
       for i, entity of structure.entities
         Structure.entityAdd false, entity
+
+      Structure.clientSelect[0].selectize.addOption
+        id: structure.client.id, name: structure.client.name
+      Structure.clientSelect[0].selectize.setValue structure.client.id
+
 
 
   entityAddHandler: ->
@@ -60,14 +73,13 @@ Structure =
     ized = el.selectize
       placeholder: "Type"
 
-    console.log value
     ized[0].selectize.setValue value
 
   submitHandler: ->
 
     structure = {}
     structure.entities = []
-
+    structure.client = $('.modify > .client > .input > select').val()
     structure.name = $('.modify > .name > .input > input').val()
 
     $('.modify > .entities > .body > .entity').each (i, el) ->

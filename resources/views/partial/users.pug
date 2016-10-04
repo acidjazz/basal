@@ -30,9 +30,3 @@ each user in self.users
             checked=(user.admin ? true : false),
             data-field='admin',
             data-_id=user._id)
-      .detail.detail_client
-        .label client
-        .value.select
-          select(name="client",data-_id=user._id,style="width: 140px")
-            if user.client
-              option(value=user.client.id)=user.client.name

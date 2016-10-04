@@ -3,6 +3,7 @@
 namespace App\Api;
 
 use App\Models\User;
+use App\Models\Client;
 use App\Models\Structure;
 use App\Models\Entry;
 use Illuminate\Http\Request;
@@ -38,16 +39,18 @@ class EntryController extends MetApiController
     $entry->name = $query['combined']['name'];
     $entry->entities = $query['combined']['entities'];
 
-    $entry->client = [
-      "id" => $this->me->client['id'],
-      "name" => $this->me->client['name'],
-    ];
-
     $structure = Structure::find($query['combined']['structure']);
 
     $entry->structure = [
       "id" => $structure->_id,
       "name" => $structure->name,
+    ];
+
+    $client = Client::find($structure->client->id);
+
+    $entry->client = [
+      "id" => $client->_id,
+      "name" => $client->name,
     ];
 
     $entry->save();
@@ -89,21 +92,13 @@ class EntryController extends MetApiController
 
     $this->addOption('_id', 'regex:/[0-9a-fA-F]{24}/|exists:entry,_id');
     $this->addOption('view', "in:true,false", "false");
-    $this->addOption('client', 'regex:/[0-9a-fA-F]{24}/|exists:client,_id');
-
-    if ($this->me !== false) {
-      $request->request->add(['client' => $this->me->client['id']]);
-    }
 
     if (!$query = $this->getQuery()) {
       return $this->error();
     }
 
-    $entries = Entry::query();
-
-    if (isset($query['combined']['client'])) {
-      $entries = $entries->where(['client.id' => $query['combined']['client']]);
-    }
+    $clients = Client::whereRaw(['users' => ['$elemMatch' => ['id' => $this->me->_id]]]);
+    $entries = Entry::whereIn('client.id', $clients->get()->pluck('_id'));
 
     if (isset($query['combined']['_id'])) {
       $entries = $entries->where(['_id' => $query['combined']['_id']]);

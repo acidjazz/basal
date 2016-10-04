@@ -8,7 +8,7 @@ Structures =
     Spinner.i($('.page.structures'))
 
     _.get '/api/structures',
-      view: true, client: User.client.id
+      view: true
     .done (response) ->
       Time.i()
       $('.structures > .content > .listing').html response.view

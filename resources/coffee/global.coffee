@@ -3,6 +3,7 @@ Global =
   # kevin olson (kevin@256.io) 🌀🎷
 
   window: false
+  windowTimer: false
   init: false
 
   i: ->
@@ -37,7 +38,7 @@ Global =
         Spinner.d()
         setTimeout ->
           location.href = '/'
-        , 2000
+        , 1200
 
   userProfileHandler: ->
 
@@ -55,7 +56,6 @@ Global =
 
     type = $(this).data 'type'
 
-    Global.userProfileHandler()
     return true if type is 'cancel'
 
     Global.oauthWindow '/loading'
@@ -74,6 +74,14 @@ Global =
 
     Global.window = window.open(url, 'Login / Register', "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=#{w},height=#{h},top=#{top},left=#{left}")
     Global.window.focus if window.focus
+    Global.windowTimer = setInterval ->
+      if Global.window.closed
+        clearInterval Global.windowTimer
+        Spinner.d()
+        console.log 'closing our shite'
+    , 50
+
+
 
     return
 
