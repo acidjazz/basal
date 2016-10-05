@@ -1,14 +1,22 @@
 each structure in self.structures
   .structure.item
+    .checkbox
+      input(type="checkbox",data-_id=structure._id)
     a.name(href='/structures/' + structure._id)=structure.name
-    .created created 
-      time(title=structure.created_at)
-        include ../../vector/time.svg
-      |,
-    .updated updated 
-      time(title=structure.updated_at)
-        include ../../vector/time.svg
-    .entities.detail
-      each entity in structure.entities
-        .entity #{entity.name}
-          span.type(class=entity.type)=entity.type
+    .details
+      .detail.created created 
+        time.value(title=structure.created_at)
+          include ../../vector/time.svg
+        |,
+      .detail.updated updated 
+        time.value(title=structure.updated_at)
+          include ../../vector/time.svg
+        |,
+      .detail.entries
+        .value #{structure.entries.length}
+        |  entries
+      .entities.detail
+        each entity in structure.entities
+          .entity #{entity.name}
+            span.type(class=entity.type)=entity.type
+    .clear

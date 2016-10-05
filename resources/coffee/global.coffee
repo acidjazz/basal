@@ -112,8 +112,10 @@ Global =
     Me.authed (result) ->
       Global.login(result) if result isnt false
       if Global.init isnt false and result isnt false
+        Spinner.d()
         window[Global.init].i()
+      else
+        Spinner.d()
 
-      Spinner.d()
       location.href = '/dashboard' if location.pathname is '/' and result isnt false
       location.href = '/' if result is false and location.pathname isnt '/'

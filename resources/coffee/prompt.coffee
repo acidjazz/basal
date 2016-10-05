@@ -87,8 +87,9 @@ Prompt =
 
   trigger: (value) ->
     _.off Prompt.el.find '.textarea'
-    _.off Prompt.el, offing: true, offtime: 0.2
-    _.off '.bfade', offing: true, offitme: 0.2
+    _.off Prompt.el, offing: false, offtime: 0.2
+    #_.off '.bfade', offing: false, offitme: 0.2
+    _.off '.bfade'
     Prompt.options.unbind 'click', Prompt.click
     $(document).unbind 'keydown', Prompt.keydown
     if Prompt.params.textarea

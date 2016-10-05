@@ -1,13 +1,17 @@
 each entry in self.entries
   .entry.item
+    .checkbox
+      input(type="checkbox",data-_id=entry._id)
     a.name(href='/entries/' + entry._id)=entry.name
-    .created created 
-      time(title=entry.created_at)
-        include ../../vector/time.svg
-      |,
-    .updated updated 
-      time(title=entry.updated_at)
-        include ../../vector/time.svg
+    .details
+      .detail.created created 
+        time.value(title=entry.created_at)
+          include ../../vector/time.svg
+        |,
+      .detail.updated updated 
+        time.value(title=entry.updated_at)
+          include ../../vector/time.svg
 
-    .detail.structure Structure: #{entry.structure.name}
+      .detail.structure Structure:
+        .value #{entry.structure.name}
 

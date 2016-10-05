@@ -6,7 +6,8 @@ block content
     a.ctap(href='/entries/new') New Entry
     .clear
     .content
-      .listing
+      .listing.entries
+        include ../partial/listing
 
     script.
       Page = 'entries';

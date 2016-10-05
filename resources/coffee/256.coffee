@@ -95,6 +95,7 @@ _ =
 
     jget.fail (response) =>
       @fail(response)
+      jget.fail(response)
 
     return jget
 
@@ -104,12 +105,16 @@ _ =
 
     jpost.fail (response) =>
       @fail(response)
+      jget.fail(response)
 
     return jpost
 
   fail: (response) ->
 
-    error = response.responseJSON.errors[0]
+    error = response.responseJSON?.errors?[0]
+    if error is undefined
+      return Prompt.i response.status, response.statusText
+
     pug = error.message.match /Pug Error: (.*?):([0-9]+)/
     if pug isnt null
       error.message = error.message.replace /Pug Error: (.*?):([0-9]+)/, ''

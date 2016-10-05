@@ -1,14 +1,24 @@
 each client in self.clients
   .client.item
+    .checkbox
+      input(type="checkbox",data-_id=client._id)
     a.name(href='/clients/' + client._id)=client.name
-    .created created 
-      time(title=client.created_at)
-        include ../../vector/time.svg
-      |,
-    .updated updated 
-      time(title=client.updated_at)
-        include ../../vector/time.svg
-      |,
-    .detail #{client.users.length} collaborators,
-    .detail #{client.structures.length} structures,
-    .detail #{client.entries.length} entries
+    .details
+      .detail.created created 
+        time.value(title=client.created_at)
+          include ../../vector/time.svg
+        |,
+      .detail.updated updated 
+        time.value(title=client.updated_at)
+          include ../../vector/time.svg
+        |,
+      .detail
+        .value #{client.users.length}
+        |  collaborators,
+      .detail
+        .value #{client.structures.length}
+        |  structures,
+      .detail
+        .value #{client.entries.length}
+        |  entries,
+    .clear

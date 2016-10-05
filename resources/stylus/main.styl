@@ -1,5 +1,6 @@
 vendor-prefixes ?= webkit moz o ms official
 
+@import '/include/vendor'
 @import '/include/mixins'
 @import guide
 @import '/include/*'
@@ -60,15 +61,6 @@ time > svg
 
 *
   box-sizing border-box !important
-
-.ctap
-  ctap()
-
-.cta
-  cta()
-
-.ctab
-  ctab()
 
 @import 'listing.styl'
 

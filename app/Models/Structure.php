@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
+
 
 
 class Structure extends Eloquent
 {
+
+  use SoftDeletes;
 
   protected $collection = 'structure';
   protected $primaryKey = '_id';
@@ -14,6 +18,8 @@ class Structure extends Eloquent
   protected $fillable = [ 'name', 'entries' ];
 
   protected $dateFormat = 'c';
+
+  protected $dates = ['deleted_at'];
 
   public function client()
   {

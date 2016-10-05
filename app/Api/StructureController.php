@@ -54,6 +54,34 @@ class StructureController extends MetApiController
     return $this->render(['status' => 'Structure added successfully', '_id' => $structure->_id]);
   }
 
+  public function delete(Request $request, $_id)
+  {
+    $request->request->add(['_id' => $_id]);
+    $this->addOption('_id', 'required|regex:/[0-9a-fA-F]{24}/|exists:structure,_id');
+
+    if (!$query = $this->getQuery()) {
+      return $this->error();
+    }
+
+    if (Entry::where(['structure.id' => $_id])->count() > 0) {
+      return $this->addError('disabled', 'entries.exist')->error();
+    }
+
+    $structure = Structure::find($_id);
+
+    // verify the user is of the same client
+    $client = Client::where(['_id'=> $structure->client['id']])
+      ->whereRaw(['users' => ['$elemMatch' => ['id' => $this->me->_id]]])->get();
+
+    if ($client->count() < 1) {
+      return $this->addError('auth', 'restricted')->error();
+    }
+
+    $structure->delete();
+
+    return $this->render(['status' => 'Structure deleted successfully']);
+  }
+
   public function update(Request $request, $_id)
   {
 
@@ -111,7 +139,7 @@ class StructureController extends MetApiController
     }
 
     $clients = Client::whereRaw(['users' => ['$elemMatch' => ['id' => $this->me->_id]]]);
-    $structures = Structure::whereIn('client.id', $clients->get()->pluck('_id'));
+    $structures = Structure::with('entries')->whereIn('client.id', $clients->get()->pluck('_id'));
 
     if (isset($query['combined']['client'])) {
       $structures = $structures->where(['client.id' => $query['combined']['client']]);

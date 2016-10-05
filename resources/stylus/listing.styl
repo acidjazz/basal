@@ -1,26 +1,59 @@
 .listing
-  border 1px solid gc(grey1)
-  min-height 40px
-  > .item
-    color gc(black1)
-    display block
-    padding 10px
+  > .list-header
+    background-color gc(white2)
+    border-top 1px solid gc(grey1)
+    border-left 1px solid gc(grey1)
+    border-right 1px solid gc(grey1)
+    border-radius 4px 4px 0 0
+    > .checkbox
+      cursor pointer
+      float left
+      padding 15px 10px 15px 12px
+    > .state
+      margin 0 0 0 40px
+      onoff()
+      > .copy
+        padding 15px 0
+        float left
+        > .value
+          display inline-block 
+          gf(c1b)
+          padding 0 5px 0 0
+      > .actions
+        float right
+        padding 8px 15px 8px 15px
+        > .action
+          float right
+          padding 6px 12px
+  > .items
+    border-left 1px solid gc(grey1)
+    border-right 1px solid gc(grey1)
     border-bottom 1px solid gc(grey1)
-    animation cellInX 0.1s 0s ease-in both
-    for num in 0..20
-      &:nth-child({num})
-        animation-delay unit(num*0.05, 's')
-    &:hover
-      background-color gc(grey2)
-    &:last-child
-      border-bottom 1px solid transparent
-    > .name
-      gf(c1b)
+    min-height 40px
+    > .item
+      color gc(black1)
       display block
-    > .created, > .updated
-      display inline-block
-    > .detail
-      display inline-block
-      > .value
+      border-bottom 1px solid gc(grey1)
+      animation cellInX 0.1s 0s ease-in both
+      for num in 0..20
+        &:nth-child({num})
+          animation-delay unit(num*0.05, 's')
+      &:hover
+        background-color gc(grey2)
+      &:last-child
+        border-bottom 1px solid transparent
+      > .checkbox
+        cursor pointer
+        float left
+        padding 15px 10px 30px 10px
+      > .name
         gf(c1b)
-        padding 0 5px
+        display block
+        padding 10px 0 0 10px
+      > .details
+        padding 5px 0 10px 35px
+        > .detail
+          display inline-block
+          > .value
+            display inline-block
+            gf(c1tb)

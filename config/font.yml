@@ -33,6 +33,11 @@ c1b:
   font-size: 16px
   font-weight: '500'
 
+c1tb:
+  font-family: Roboto
+  font-size: 14px
+  font-weight: '400'
+
 c1sb:
   font-family: Roboto
   font-size: 14px

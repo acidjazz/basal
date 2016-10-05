@@ -1,2 +1,3 @@
 - make sure for tab overruling to focus teh particular instance of the blog entry and not just that class in entities.coffee
 - s3: http://summernote.org/deep-dive/#onimageupload
+- add user to every creation to see who the creator is, small profile image on the right
