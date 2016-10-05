@@ -90,6 +90,12 @@ class EntryController extends MetApiController
   public function get(Request $request)
   {
 
+    if ($this->me == false) {
+      $this->addOption('structure', 'required|regex:/[0-9a-fA-F]{24}/|exists:structure,_id');
+    } else {
+      $this->addOption('structure', 'regex:/[0-9a-fA-F]{24}/|exists:structure,_id');
+    }
+
     $this->addOption('_id', 'regex:/[0-9a-fA-F]{24}/|exists:entry,_id');
     $this->addOption('view', "in:true,false", "false");
 
@@ -97,8 +103,16 @@ class EntryController extends MetApiController
       return $this->error();
     }
 
-    $clients = Client::whereRaw(['users' => ['$elemMatch' => ['id' => $this->me->_id]]]);
-    $entries = Entry::whereIn('client.id', $clients->get()->pluck('_id'));
+    $entries = Entry::query();
+
+    if ($this->me !== false) {
+      $clients = Client::whereRaw(['users' => ['$elemMatch' => ['id' => $this->me->_id]]]);
+      $entries = $entries->whereIn('client.id', $clients->get()->pluck('_id'));
+    }
+
+    if (isset($query['combined']['structure'])) {
+      $entries = $entries->where(['structure.id' => $query['combined']['structure']]);
+    }
 
     if (isset($query['combined']['_id'])) {
       $entries = $entries->where(['_id' => $query['combined']['_id']]);
