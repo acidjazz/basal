@@ -88,7 +88,6 @@ http {
   }
 
 }
-
 ' > /etc/nginx/nginx.conf
 
 chown -R ec2-user:ec2-user /var/www/html
@@ -168,9 +167,8 @@ php ~/composer.phar install
 npm install
 
 chown -R ec2-user:ec2-user /var/www/html
-
 '
 
 service php-fpm start
 service nginx start
-
+service mongod start

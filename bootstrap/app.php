@@ -27,12 +27,10 @@ if (!class_exists('\Illuminate\Foundation\Application')) {
     class_alias(\App\Application::class, '\Illuminate\Foundation\Application');
 }
 
-
 $app->register(Jenssegers\Mongodb\MongodbServiceProvider::class);
 $app->withFacades();
 $app->withEloquent();
 $app->configure('database');
-$app->configure('app');
 
 $app->register(Larpug\ServiceProvider::class);
 $app->register(Larjectus\ServiceProvider::class);
@@ -46,6 +44,14 @@ class_alias('Illuminate\Support\Facades\Storage', 'Storage');
 class_alias('\Barryvdh\Debugbar\Facade', 'dbar');
 class_alias('\Jenssegers\Mongodb\Eloquent\Model','Moloquent');
 
+
+/* 
+ * custom configuration 
+ */
+
+$app->configure('oauth');
+
+$app->configure('app');
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings

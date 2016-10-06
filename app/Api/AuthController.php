@@ -38,7 +38,7 @@ class AuthController extends MetApiController
 
   private function creds($provider) {
 
-    $auth = config('auth');
+    $auth = config('oauth');
 
     return new Credentials(
       $auth[$provider]['id'],

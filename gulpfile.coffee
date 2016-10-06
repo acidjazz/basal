@@ -31,7 +31,7 @@ dirs =
 
 config = {}
 objectify = ->
-  secure = [ 'auth', 'database', 'filesystems' ]
+  secure = [ 'oauth', 'database', 'filesystems' ]
   exec 'php artisan larjectus:config', (error, result, stderr) ->
     notify error if error
     config = JSON.parse result
@@ -138,8 +138,6 @@ watch = ->
   gulp.watch dirs.pug + '/**/*.pug', ['php']
   gulp.watch dirs.svg + '/**/*.svg', ['php']
   gulp.watch 'public/images/**/*', ['php']
-
-
 
 gulp.task 'sync', ->
   sync.init
