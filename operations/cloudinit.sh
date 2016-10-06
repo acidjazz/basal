@@ -172,3 +172,21 @@ chown -R ec2-user:ec2-user /var/www/html
 service php-fpm start
 service nginx start
 service mongod start
+
+wget -O mycreds -q 'http://169.254.169.254/latest/meta-data/iam/security-credentials/basal-vault'
+
+SECRET_KEY=`jq -r '.SecretAccessKey' <mycreds`
+ACCESS_KEY=`jq -r '.AccessKeyId' <mycreds`
+TOKEN=`jq -r '.Token' <mycreds`
+
+cat >s3cfg <<EOM
+[default]
+access_key = $ACCESS_KEY
+secret_key = $SECRET_KEY
+security_token = $TOKEN
+EOM
+
+# for web instances we should pull our auth folder
+s3cmd sync s3://basal-vault/env/.env-staging /var/www/html/.env
+
+
