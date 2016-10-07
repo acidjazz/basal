@@ -62,7 +62,7 @@ http {
     listen       80;
     index   index.php;
     server_name  localhost;
-    root         /var/www/html/pub/;
+    root         /var/www/html/public/;
     location / {
       if (!-e $request_filename) {
         rewrite ^(.*)$ /index.php;
@@ -179,7 +179,7 @@ SECRET_KEY=`jq -r '.SecretAccessKey' <mycreds`
 ACCESS_KEY=`jq -r '.AccessKeyId' <mycreds`
 TOKEN=`jq -r '.Token' <mycreds`
 
-cat >s3cfg <<EOM
+cat > ~/.s3cfg <<EOM
 [default]
 access_key = $ACCESS_KEY
 secret_key = $SECRET_KEY
