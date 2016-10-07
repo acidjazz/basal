@@ -49,6 +49,12 @@ class StructureController extends MetApiController
       'name' => $client->name,
     ];
 
+    $structure->user = [
+      'id' => $this->me->_id,
+      'name' => $this->me->name,
+      'picture' => $this->me->picture,
+    ];
+
     $structure->save();
 
     return $this->render(['status' => 'Structure added successfully', '_id' => $structure->_id]);
@@ -56,6 +62,10 @@ class StructureController extends MetApiController
 
   public function delete(Request $request, $_id)
   {
+    if (!$this->me) {
+      return $this->addError('auth', 'session.required')->error();
+    }
+
     $request->request->add(['_id' => $_id]);
     $this->addOption('_id', 'required|regex:/[0-9a-fA-F]{24}/|exists:structure,_id');
 
@@ -84,6 +94,9 @@ class StructureController extends MetApiController
 
   public function update(Request $request, $_id)
   {
+    if (!$this->me) {
+      return $this->addError('auth', 'session.required')->error();
+    }
 
     $request->request->add(['_id' => $_id]);
 
@@ -129,10 +142,14 @@ class StructureController extends MetApiController
 
   public function get(Request $request)
   {
+    if (!$this->me) {
+      return $this->addError('auth', 'session.required')->error();
+    }
 
     $this->addOption('view', 'in:true,false', 'false');
     $this->addOption('client', 'regex:/[0-9a-fA-F]{24}/|exists:client,_id');
     $this->addOption('_id', 'regex:/[0-9a-fA-F]{24}/');
+
 
     if (!$query = $this->getQuery()) {
       return $this->error();

@@ -1,5 +1,6 @@
 each structure in self.structures
   .structure.item
+    .author(style="background-image: url('" + structure.user.picture + "');")
     .checkbox
       input(type="checkbox",data-_id=structure._id)
     a.name(href='/structures/' + structure._id)=structure.name

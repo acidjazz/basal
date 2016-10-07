@@ -1,5 +1,6 @@
 each entry in self.entries
   .entry.item
+    .author(style="background-image: url('" + entry.user.picture + "');")
     .checkbox
       input(type="checkbox",data-_id=entry._id)
     a.name(href='/entries/' + entry._id)=entry.name

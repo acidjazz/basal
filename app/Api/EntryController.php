@@ -53,14 +53,24 @@ class EntryController extends MetApiController
       "name" => $client->name,
     ];
 
+    $entry->user = [
+      'id' => $this->me->_id,
+      'name' => $this->me->name,
+      'picture' => $this->me->picture,
+    ];
+
     $entry->save();
 
-    return $this->render(['status' => 'Entry added successfully', '_id' => $entry->_id]);
+    return $this->render(['status' => 'Entry saved', '_id' => $entry->_id]);
   }
 
 
   public function update(Request $request, $_id)
   {
+
+    if (!$this->me) {
+      return $this->addError('auth', 'session.required')->error();
+    }
 
     $request->request->add(['_id' => $_id]);
     $this->addOption('_id', 'required|regex:/[0-9a-fA-F]{24}/|exists:entry,_id');

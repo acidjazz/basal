@@ -1,5 +1,6 @@
 each client in self.clients
   .client.item
+    .author(style="background-image: url('" + client.users[0].picture + "');")
     .checkbox
       input(type="checkbox",data-_id=client._id)
     a.name(href='/clients/' + client._id)=client.name
