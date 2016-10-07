@@ -9,27 +9,22 @@ name=MongoDB Repository
 baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64
 gpgcheck=0
 enabled=1" > /etc/yum.repos.d/mongodb.repo
-#
-#sed -i 's/bind_ip=127.0.0.1/#bind_ip=127.0.0.1/' /etc/mongod.conf
-#
-#service mongod start
-
 
 # turn on epel repo
 sed -i '/^\[epel\]$/,/^\[/ s/^enabled=0/enabled=1/' /etc/yum.repos.d/epel.repo
 yum -y update
 
 # all the yum packages we need
-yum -y install php56 php56-fpm php56-devel php-pear nginx gcc git nodejs npm libyaml libyaml-devel s3cmd jq mongodb-org-server mongodb-org-shell mongodb-org-tools
+yum -y install php70 php70-fpm php70-devel php7-pear php70-pecl-yaml php70-mbstring php70-pdo nginx gcc git nodejs npm s3cmd jq mongodb-org-server mongodb-org-shell mongodb-org-tools
+
+echo "extension=mongodb.so" > /etc/php.d/20-mongo.ini
+
 
 # put mongodb on the internet (non-prod) 
 sed -i 's/bind_ip=127.0.0.1/#bind_ip=127.0.0.1/' /etc/mongod.conf
 
 # mongo and yaml support for php using pear/pecl
-pecl install mongo
-pecl install yaml
-echo "extension=mongo.so" > /etc/php.d/20-mongo.ini
-echo "extension=yaml.so" > /etc/php.d/30-yaml.ini
+pecl7 install mongodb
 
 # kill requiretty so we can sudo via ssh
 sed -i -e 's/\s*Defaults\s*requiretty$/#Defaults    requiretty/' /etc/sudoers
@@ -165,6 +160,7 @@ git clone git@github.com:acidjazz/basal.git .
 
 php ~/composer.phar install
 npm install
+npm i --prefix vendor/acidjazz/larpug/node
 
 chown -R ec2-user:ec2-user /var/www/html
 '
@@ -173,20 +169,25 @@ service php-fpm start
 service nginx start
 service mongod start
 
-wget -O mycreds -q 'http://169.254.169.254/latest/meta-data/iam/security-credentials/basal-vault'
+wget -O /home/ec2-user/mycreds -q 'http://169.254.169.254/latest/meta-data/iam/security-credentials/basal-vault'
 
-SECRET_KEY=`jq -r '.SecretAccessKey' <mycreds`
-ACCESS_KEY=`jq -r '.AccessKeyId' <mycreds`
-TOKEN=`jq -r '.Token' <mycreds`
+SECRET_KEY=`jq -r '.SecretAccessKey' </home/ec2-user/mycreds`
+ACCESS_KEY=`jq -r '.AccessKeyId' </home/ec2-user/mycreds`
+TOKEN=`jq -r '.Token' </home/ec2-user/mycreds`
 
-cat > ~/.s3cfg <<EOM
+cat > /home/ec2-user/.s3cfg <<EOM
 [default]
 access_key = $ACCESS_KEY
 secret_key = $SECRET_KEY
 security_token = $TOKEN
 EOM
 
+chown -R ec2-user:ec2-user /hom/ec2-user/.s3cfg
 # for web instances we should pull our auth folder
-s3cmd sync s3://basal-vault/env/.env-staging /var/www/html/.env
+su - ec2-user -c '
+s3cmd --config=~/.s3cfg get s3://basal-vault/env/.env-staging /var/www/html/.env
+'
+
+chmod -R 777 /var/www/html/storage
 
 
