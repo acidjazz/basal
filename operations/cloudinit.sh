@@ -29,6 +29,8 @@ pecl7 install mongodb
 # kill requiretty so we can sudo via ssh
 sed -i -e 's/\s*Defaults\s*requiretty$/#Defaults    requiretty/' /etc/sudoers
 
+npm -g install gulp
+
 # add config to nginx
 echo '
 user  nginx;

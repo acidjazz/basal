@@ -30,7 +30,7 @@ dirs =
   svg:    'resources/vector'
 
 config = {}
-objectify = ->
+objectify = (complete) ->
   secure = [ 'oauth', 'database', 'filesystems' ]
   exec 'php artisan larjectus:config', (error, result, stderr) ->
     notify error if error
@@ -38,6 +38,7 @@ objectify = ->
     pubconfig = config
     delete pubconfig[dim] for dim in secure
     fs.writeFileSync(dirs.coffee + '/config.coffee', "config = " + JSON.stringify(pubconfig) + ";", 'utf8')
+    complete?()
   
     
 objectify()
@@ -113,19 +114,20 @@ gulp.task 'rollup', ->
   .pipe(gulp.dest('public/js'))
   .pipe sync.stream()
 
-gulp.task 'stylus', ->
-  gulp.src(dirs.stylus + '/main.styl')
-    .pipe(gulpif(env == 'dev',sourcemaps.init(loadMaps: true)))
-    .pipe(stylus(rawDefine: config: config)
-    .on('error', notify.onError((error) ->
-      title: 'Stylus error: ' + error.name
-      message: error.message
-      sound: 'Pop'
-    )))
-    .pipe(gulpif(env != 'dev',clean()))
-    .pipe(gulpif(env == 'dev',sourcemaps.write()))
-    .pipe(gulp.dest('public/css/'))
-    .pipe(sync.stream())
+gulp.task 'stylus',->
+  objectify ->
+    gulp.src(dirs.stylus + '/main.styl')
+      .pipe(gulpif(env == 'dev',sourcemaps.init(loadMaps: true)))
+      .pipe(stylus(rawDefine: config: config)
+      .on('error', notify.onError((error) ->
+        title: 'Stylus error: ' + error.name
+        message: error.message
+        sound: 'Pop'
+      )))
+      .pipe(gulpif(env != 'dev',clean()))
+      .pipe(gulpif(env == 'dev',sourcemaps.write()))
+      .pipe(gulp.dest('public/css/'))
+      .pipe(sync.stream())
 
 gulp.task 'php', ->
   sync.reload()
