@@ -38,6 +38,7 @@
     "gulp-util": "^3.0.7",
     "jquery": "^3.1.0",
     "json-browse": "^0.2.0",
+    "moment": "^2.15.1",
     "novacancy.js": "0.0.1",
     "objectus": "^1.1.1",
     "rollup-plugin-coffee-script": "^1.1.0",
