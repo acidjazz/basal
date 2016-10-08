@@ -1,9 +1,11 @@
-
 extends ../extends/layout
 
 block content
-  .page.users.margined
+  .page.margined.users
+    .clear
     .content
+      .listing.users
+        include ../partial/listing
 
   script.
     Page = 'users';
