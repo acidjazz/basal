@@ -36,7 +36,6 @@ Entities =
 
     fd = new FormData()
     fd.append 'file', files[0]
-    console.log fd
 
     _.post
       xhr: ->
@@ -53,6 +52,8 @@ Entities =
       cache: false
       contentType: false
       processData: false
+      error: ->
+        Notice.d()
       success: (result) ->
         $(el).summernote('editor.insertImage', result.data.url)
         Notice.i 'File uploaded successfully', type: 'success'

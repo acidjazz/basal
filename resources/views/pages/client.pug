@@ -7,6 +7,13 @@ block content
     .input.input-name.selectize-input
       input(type="text")
     .clear
+    .label Profile Picture
+    .input.input-image
+      .picture
+      input(type="file",name="file",accept="image/*")
+      button.cta Choose an image or drag it here
+      .croppie
+    .clear
     .label Collaborators
     .input.input-users
       input(type="text")

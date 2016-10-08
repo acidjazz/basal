@@ -5,9 +5,33 @@
   > .input
     > input
       width 100%
+    &.input-image
+      text-align center
+      border 1px solid gc(grey3)
+      min-height 100px
+      &.on
+        border 3px dashed gc(green1)
+        background-color gc(green3)
+      > .picture
+        width 80px
+        height 80px
+        margin 10px
+        float right
+        background-color gc(grey1)
+        background-size cover
+      > input
+        height 0px
+        width 0px
+        visibility hidden
+      > button.cta
+        padding 6px 12px
+        margin 35px auto 0 auto
+        display inline-block
+        gf(c1)
   > .submit
     > .ctap
       gf(c1b)
       float right
       padding 10px
       margin 10px 0 0 0
+

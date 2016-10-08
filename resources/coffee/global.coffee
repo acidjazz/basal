@@ -89,9 +89,7 @@ Global =
     Spinner.d()
     Global.login user
     Notice.i 'Login Successful', 'success'
-    setTimeout ->
-      location.href = '/dashboard'
-    , 2000
+    #setTimeout -> location.href = '/dashboard' , 2000
 
   login: (user) ->
 

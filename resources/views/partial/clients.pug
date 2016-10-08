@@ -3,6 +3,10 @@ each client in self.clients
     .author(style="background-image: url('" + client.users[0].picture + "');")
     .checkbox
       input(type="checkbox",data-_id=client._id)
+    if client.profile
+      .profile(style="background-image: url('" + client.profile + "');")
+    else
+      .profile
     a.name(href='/clients/' + client._id)=client.name
     .details
       .detail.created created 

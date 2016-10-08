@@ -105,7 +105,7 @@ _ =
 
     jpost.fail (response) =>
       @fail(response)
-      jget.fail(response)
+      jpost.fail(response)
 
     return jpost
 
@@ -168,5 +168,12 @@ _ =
     if (((window.outerHeight - window.innerHeight) > 100) || ((window.outerWidth - window.innerWidth) > 100))
       @llc()
       clearInterval @console
+
+  methods: (obj) ->
+    res = []
+    for i,m of obj
+      if typeof m is 'function'
+        res.push m
+    return res
 
 _.i()

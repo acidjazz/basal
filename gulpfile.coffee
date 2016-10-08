@@ -58,6 +58,7 @@ gulp.task 'vendor', ->
     'node_modules/novacancy.js/javascript/jquery.novacancy.js',
     'node_modules/moment/min/moment.min.js',
     'node_modules/selectize/dist/js/standalone/selectize.js',
+    'node_modules/croppie/croppie.js',
   ])
 
   .pipe(gulpif(env != 'dev',uglify()))
@@ -68,6 +69,7 @@ gulp.task 'vendor', ->
     'node_modules/json-browse/json-browse/jquery.json-browse.css',
     'node_modules/selectize/dist/css/selectize.css',
     'node_modules/selectize/dist/css/selectize.default.css',
+    'node_modules/croppie/croppie.css',
   ])
 
   .pipe(gulpif(env != 'dev',clean()))

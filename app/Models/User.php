@@ -16,6 +16,8 @@ class User extends \Moloquent
 
   public static function loggedIn() {
 
+    \Summon\Summon::$verifyAgent = false;
+
     if ($data = \Summon\Summon::check()) {
 
       $user = self::find($data['user_id']);

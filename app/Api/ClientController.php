@@ -21,6 +21,7 @@ class ClientController extends MetApiController
   {
 
     $this->addOption('name', 'required|string|unique:client');
+    $this->addOption('profile', 'url');
     $this->addOption('users', 'array');
     $this->addOption('users.*', 'regex:/[0-9a-fA-F]{24}/|exists:user,_id');
 
@@ -30,6 +31,11 @@ class ClientController extends MetApiController
 
     $client = new Client();
     $client->name = $query['combined']['name'];
+
+    if (isset($query['combined']['profile'])) {
+      $client->profile = $query['combined']['profile'];
+    }
+
     $client->users = $this->users($query);
     $client->save();
 
@@ -43,6 +49,7 @@ class ClientController extends MetApiController
 
     $this->addOption('_id', 'required|regex:/[0-9a-fA-F]{24}/|exists:client,_id');
     $this->addOption('name', 'string');
+    $this->addOption('profile', 'url');
     $this->addOption('users', 'array');
     $this->addOption('users.*', 'regex:/[0-9a-fA-F]{24}/|exists:user,_id');
 
@@ -54,6 +61,10 @@ class ClientController extends MetApiController
 
     if (isset($query['combined']['name'])) {
       $client->name = $query['combined']['name'];
+    }
+
+    if (isset($query['combined']['profile'])) {
+      $client->profile = $query['combined']['profile'];
     }
 
     if (isset($query['combined']['users'])) {

@@ -15,7 +15,8 @@ class FileController extends MetApiController
   public function upload(Request $request)
   {
 
-    $this->addOption('file', 'required|file|image|max:1000');
+    $this->addOption('file', 'required|file|max:1000');
+    #$this->addOption('file', 'required|file|image|max:1000');
 
     if (!$query = $this->getQuery()) {
       return $this->error();
