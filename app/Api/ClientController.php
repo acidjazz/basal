@@ -95,6 +95,7 @@ class ClientController extends MetApiController
           'id' => $user->_id,
           'email' => $user->email,
           'name' => $user->name,
+          'picture' => $user->picture,
           'role' => 'collaborator',
         ];
       }

@@ -55,13 +55,13 @@ Selectize =
       preload: 'focus'
       render:
         option: (item, escape) ->
-          return "<div>#{item.name}</div>"
+          return "<div style='line-height: 30px;'>#{item.name} (#{item.email}) <img src='#{item.picture}' style='float: left; width: 30px; height: 30px; margin-right: 10px;' /></div>"
       load: (query, callback) ->
         _.get '/api/users', options
           .done (response) ->
             results = []
             for item in response.data
-              results.push id: item._id, name: "#{item.name} (#{item.email})"
+              results.push id: item._id, name: item.name, email: item.email, picture: item.picture
             callback(results)
 
     selectUser.change handler
