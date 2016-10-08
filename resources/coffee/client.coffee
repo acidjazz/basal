@@ -124,6 +124,7 @@ Client =
       $('.page.client > .input-name > input').val client.name
       if client.profile
         $('.page.client > .input-image > .picture').css 'background-image', "url('#{client.profile}')"
+        Client.profile = client.profile
       for index, user of client.users
         if user.id isnt User._id
           Client.selectUser[0].selectize.addOption id: user.id, name: "#{user.name} (#{user.email})"
