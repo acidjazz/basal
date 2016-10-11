@@ -28,3 +28,14 @@ block content
     script.
       Page = 'dashboard';
       Global.init = 'Dashboard';
+
+//-
+    script.
+      function entries(entries) {
+        console.log(entries.data);
+      };
+
+    script(
+      type='text/javascript',
+      src='http://basal.tech/api/entries/?structure=57f734e15aa59b03244abe41&callback=entries'
+    )
