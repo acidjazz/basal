@@ -12,4 +12,6 @@ class Entry extends \Moloquent
 
   protected $dateFormat = 'c';
 
+  protected $dates = ['entities.*.date'];
+
 }

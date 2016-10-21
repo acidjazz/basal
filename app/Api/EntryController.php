@@ -37,7 +37,8 @@ class EntryController extends MetApiController
 
     $entry = new Entry();
     $entry->name = $query['combined']['name'];
-    $entry->entities = $query['combined']['entities'];
+
+    $entry->entities = $this->formatEntities($query['combined']['entities']);
 
     $structure = Structure::find($query['combined']['structure']);
 
@@ -51,6 +52,7 @@ class EntryController extends MetApiController
     $entry->client = [
       "id" => $client->_id,
       "name" => $client->name,
+      "profile" => $client->profile,
     ];
 
     $entry->user = [
@@ -89,7 +91,7 @@ class EntryController extends MetApiController
       $entry->name = $query['combined']['name'];
     }
     if (isset($query['combined']['entities'])) {
-      $entry->entities = $query['combined']['entities'];
+      $entry->entities = $this->formatEntities($query['combined']['entities']);
     }
 
     $entry->save();
@@ -137,6 +139,20 @@ class EntryController extends MetApiController
     }
 
     return $this->render($entries->items(),$view);
+
+  }
+
+  private function formatEntities($entities)
+  {
+
+    // convert non-string types into their native formats
+    foreach ($entities as $key=>$entity) {
+      if ($entity['type'] === 'Date') {
+        $entities[$key]['date'] = new \MongoDB\BSON\UTCDateTime(strtotime($entity['value']) * 1000);
+      }
+    }
+
+    return $entities;
 
   }
 

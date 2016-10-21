@@ -55,10 +55,13 @@ Entry =
 
       switch type
         when 'Text' then value = $(el).find('input').val()
+        when 'Date' then value = $(el).find('input').val()
         when 'Tags' then value = $(el).find('input').val().split ','
         when 'Blog'
           blog = Entities.blogGetCode entity_name
           value = blog
+        when 'Image'
+          value = Entities.images[entity_name]
 
       entities.push name: entity_name, type: type, value: value
 
@@ -121,10 +124,13 @@ Entry =
     for entity, i in entities
 
       html = $(".page.entry > #template > .entity_#{entity.type}")
+      html.data 'name', entity.name
+      html.addClass "entity_name_#{entity.name}"
 
       if entity.value
+        console.log entity.value
         switch entity.type
-          when 'Text','Tags' then html.find('input').val entity.value
+          when 'Text','Tags', 'Date' then html.find('input').val entity.value
 
       html.find('input,select,textarea').attr 'tabindex', tabindex++
       body.append html

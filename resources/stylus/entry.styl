@@ -51,6 +51,45 @@
         > .input
           float right
           width 80%
+          &.input-image
+            text-align center
+            border 1px solid gc(grey3)
+            min-height 100px
+            position relative
+            &.on
+              border 3px dashed gc(green1)
+              background-color gc(green3)
+            > .cropper
+              width 100%
+              height 600px
+              display none
+            > .cropper-container
+              margin-top 40px
+            > .picture
+              position absolute
+              top 10px
+              right 10px
+              background-color gc(grey1)
+              background-size cover
+              width 80px
+              height 80px
+              overflow hidden
+              text-align center
+            > input
+              height 0px
+              width 0px
+              visibility hidden
+            > button.cta
+              padding 6px 12px
+              margin 35px auto 0 auto
+              display inline-block
+              gf(c1)
+              &.save
+                display block
+                float right
+                onoff()
+                margin 10px
+
 
     > .submit
       gf(c1b)

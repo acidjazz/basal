@@ -172,6 +172,6 @@ Client =
       success: (result) ->
         Notice.i 'File uploaded successfully', type: 'success'
         Client.profile = result.data.url
-        callback()
+        callback(result)
 
 

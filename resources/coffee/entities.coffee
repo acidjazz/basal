@@ -1,6 +1,8 @@
 Entities =
 
   blogs: []
+  crops: {}
+  images: {}
 
   placeholders: [
     "That's what I'm blogging about"
@@ -58,7 +60,6 @@ Entities =
         $(el).summernote('editor.insertImage', result.data.url)
         Notice.i 'File uploaded successfully', type: 'success'
 
-
   Tags: (el, name) ->
     el.find('input').selectize
       plugins: ['restore_on_backspace','remove_button']
@@ -67,3 +68,106 @@ Entities =
       create: (input) ->
         value: input
         text: input
+
+  Date: (el, name, value) ->
+    el.find('input').flatpickr
+      dateFormat: 'm/d/Y'
+
+
+  Image: (el, name, value) ->
+
+    console.log el, name, value
+    @imageHandlers el
+
+    # preload existing images
+    if value isnt undefined
+      Entities.cropper(value, el)
+      Entities.images[name] = value
+
+
+  imageHandlers: (el, name) ->
+
+    el.on 'dragover', @imageHandler.dragover
+    el.on 'dragleave', @imageHandler.dragleave
+    el.on 'dragenter dragover', @imageHandler.cancel
+    el.on 'drop dragdrop', @imageHandler.drop
+    el.find('.input-image > button.cta.select').on 'click', @imageHandler.chooseFile
+    el.find('.input-image > button.cta.save').on 'click', @imageHandler.save
+    el.find('.input-image > input:file').on 'change', @imageHandler.change
+
+  imageHandler:
+
+    dragover: ->
+      _.on $(this).find('.input-image')
+    dragleave: ->
+      _.off $(this).find('.input-image')
+    cancel: ->
+      event.preventDefault()
+
+    drop: (e) ->
+
+      e.preventDefault()
+
+      _.off $(this).find '.input-image'
+
+      if e.originalEvent.dataTransfer and e.originalEvent.dataTransfer.files.length
+        files = e.originalEvent.dataTransfer.files
+
+      Entities.loadCropper files[0], $(this)
+
+    chooseFile: ->
+      $(this).parent().find('input').trigger 'click'
+
+    change: ->
+      if $(this)[0].files
+        files = $(this)[0].files
+
+        Entities.loadCropper files[0], $(this).parent().parent()
+
+    save: ->
+
+      name = $(this).parent().parent().data 'name'
+
+      Spinner.i($(".entity_name_#{name}"))
+
+      Entities.crops[name].getCroppedCanvas().toBlob (blob) ->
+        Client.imageUpload blob, (result) ->
+          console.log result
+          Spinner.d()
+          Entities.images[name] = result.data.url
+      , 'image/jpeg'
+
+
+
+  loadCropper: (file, el) ->
+
+    name = el.data 'name'
+
+    reader = new FileReader()
+
+    reader.onloadend = ->
+      Entities.cropper reader.result, el
+    reader.readAsDataURL file
+
+  cropper: (url, el) ->
+
+    name = el.data 'name'
+
+    if Entities.crops[name] isnt undefined
+      Entities.crops[name].destroy()
+      Entities.crops[name] = false
+
+    el.find('.cropper').attr 'src', url
+
+    Entities.crops[name] = new Cropper el.find('.cropper')[0],
+      minContainerHeight: 300
+      minCanvasHeight: 300
+      responsive: true
+      preview: "div.entity_name_#{name} > div.input-image > div.picture"
+      autoCropArea: 1
+      strict: false
+      highlight: true
+
+    _.on el.find('.save')
+
+

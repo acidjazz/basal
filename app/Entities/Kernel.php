@@ -5,7 +5,7 @@ namespace App\Entities;
 class Kernel
 {
 
-  protected $entities = [ 'Text', 'Blog', 'Image', 'Tags' ];
+  protected $entities = [ 'Text', 'Blog', 'Image', 'Tags', 'Date' ];
 
   public function getEntities()
   {

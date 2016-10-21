@@ -47,6 +47,7 @@ class StructureController extends MetApiController
     $structure->client = [
       'id' => $client->_id,
       'name' => $client->name,
+      'profile' => $client->profile,
     ];
 
     $structure->user = [
