@@ -76,7 +76,6 @@ Entities =
 
   Image: (el, name, value) ->
 
-    console.log el, name, value
     @imageHandlers el
 
     # preload existing images
@@ -132,12 +131,9 @@ Entities =
 
       Entities.crops[name].getCroppedCanvas().toBlob (blob) ->
         Client.imageUpload blob, (result) ->
-          console.log result
           Spinner.d()
           Entities.images[name] = result.data.url
       , 'image/jpeg'
-
-
 
   loadCropper: (file, el) ->
 

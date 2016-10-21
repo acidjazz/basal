@@ -115,27 +115,29 @@ Entry =
       @loadEntities response.data[0].entities
 
   loadEntities: (entities, name=false) ->
+
     _.on '.page.entry > .modify > .name'
     $('.page.entry > .modify > .name > .input > input').val(name) if name isnt false
+
     body = $('.page.entry > .modify > .body')
     body.html ''
+
     tabindex = 3
 
     for entity, i in entities
 
-      html = $(".page.entry > #template > .entity_#{entity.type}")
+      html = $(".page.entry > #template > .entity_#{entity.type}").clone()
       html.data 'name', entity.name
       html.addClass "entity_name_#{entity.name}"
 
       if entity.value
-        console.log entity.value
         switch entity.type
           when 'Text','Tags', 'Date' then html.find('input').val entity.value
 
       html.find('input,select,textarea').attr 'tabindex', tabindex++
       body.append html
 
-      entityEl = $(".page.entry > .modify > .body > .entity_#{entity.type}")
+      entityEl = $(".page.entry > .modify > .body > .entity_name_#{entity.name}")
       entityEl.find('.label').html entity.name
 
       if Entities[entity.type] isnt undefined

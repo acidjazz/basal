@@ -22,7 +22,7 @@ class FileController extends MetApiController
       return $this->error();
     }
 
-    $fileName = 'blog/'.$request->file->hashName();
+    $fileName = $request->file->hashName();
 
     if (Storage::disk('s3')->exists($fileName) !== true) {
 
