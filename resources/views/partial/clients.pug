@@ -1,6 +1,9 @@
 each client in self.clients
   .client.item
-    .author(style="background-image: url('" + client.users[0].picture + "');")
+    .picture.author.hint--top(
+      aria-label="Creator is " + client.users[0].name,
+      style="background-image: url('" + client.users[0].picture + "');"
+    )
     .checkbox
       input(type="checkbox",data-_id=client._id)
     if client.profile
@@ -10,11 +13,11 @@ each client in self.clients
     a.name(href='/clients/' + client._id)=client.name
     .details
       .detail.created created 
-        time.value(title=client.created_at)
+        time.hint--top.value(title=client.created_at)
           include ../../vector/time.svg
         |,
       .detail.updated updated 
-        time.value(title=client.updated_at)
+        time.hint--top.value(title=client.updated_at)
           include ../../vector/time.svg
         |,
       .detail

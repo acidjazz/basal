@@ -74,6 +74,7 @@ gulp.task 'vendor', ->
     'node_modules/croppie/croppie.css',
     'node_modules/flatpickr/dist/flatpickr.min.css',
     'node_modules/cropperjs/dist/cropper.css',
+    'node_modules/hint.css/hint.css',
   ])
 
   .pipe(gulpif(env != 'dev',clean()))
@@ -121,19 +122,19 @@ gulp.task 'rollup', ->
   .pipe sync.stream()
 
 gulp.task 'stylus',->
-  #objectify ->
-  gulp.src(dirs.stylus + '/main.styl')
-    .pipe(gulpif(env == 'dev',sourcemaps.init(loadMaps: true)))
-    .pipe(stylus(rawDefine: config: config)
-    .on('error', notify.onError((error) ->
-      title: 'Stylus error: ' + error.name
-      message: error.message
-      sound: 'Pop'
-    )))
-    .pipe(gulpif(env != 'dev',clean()))
-    .pipe(gulpif(env == 'dev',sourcemaps.write()))
-    .pipe(gulp.dest('public/css/'))
-    .pipe(sync.stream())
+  objectify ->
+    gulp.src(dirs.stylus + '/main.styl')
+      .pipe(gulpif(env == 'dev',sourcemaps.init(loadMaps: true)))
+      .pipe(stylus(rawDefine: config: config)
+      .on('error', notify.onError((error) ->
+        title: 'Stylus error: ' + error.name
+        message: error.message
+        sound: 'Pop'
+      )))
+      .pipe(gulpif(env != 'dev',clean()))
+      .pipe(gulpif(env == 'dev',sourcemaps.write()))
+      .pipe(gulp.dest('public/css/'))
+      .pipe(sync.stream())
 
 gulp.task 'php', ->
   sync.reload()

@@ -54,7 +54,6 @@ Client =
   chooseFile: ->
     $('.input-image > input').trigger 'click'
 
-
   croppie: (file) ->
     reader = new FileReader()
     reader.onloadend = ->
@@ -65,6 +64,7 @@ Client =
 
       Client.crop = $('.input-image > .croppie').croppie
         url: reader.result
+        enforceBoundary: false
         viewport:
           width: 200
           height: 200

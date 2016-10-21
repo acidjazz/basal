@@ -1,20 +1,26 @@
 each entry in self.entries
   .entry.item
-    .picture.author(style="background-image: url('" + entry.user.picture + "');")
+    .picture.author.hint--top(
+      aria-label="Author is "+entry.user.name,
+      style="background-image: url('" + entry.user.picture + "');"
+    )
     if entry.client.profile
-      .picture.client(style="background-image: url('" + entry.client.profile + "');")
+      .picture.client.hint--top(
+        aria-label="Client is " + entry.client.name,
+        style="background-image: url('" + entry.client.profile + "');"
+      )
     .checkbox
       input(type="checkbox",data-_id=entry._id)
     a.name(href='/entries/' + entry._id)=entry.name
     .details
       .detail.created created 
-        time.value(title=entry.created_at)
+        time.hint--top.value(title=entry.created_at)
           include ../../vector/time.svg
         |,
       .detail.updated updated 
-        time.value(title=entry.updated_at)
+        time.hint--top.value(title=entry.updated_at)
           include ../../vector/time.svg
 
-      .detail.structure from structure
-        .value #{entry.structure.name}
+      .detail.structure structure 
+        a.value(href='/structures/' + entry.structure.id) #{entry.structure.name}
     .clear

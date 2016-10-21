@@ -1,18 +1,24 @@
 each structure in self.structures
   .structure.item
-    .picture.author(style="background-image: url('" + structure.user.picture + "');")
+    .picture.author.hint--top(
+      aria-label="Author is "+structure.user.name,
+      style="background-image: url('" + structure.user.picture + "');"
+    )
     if structure.client.profile
-      .picture.client(style="background-image: url('" + structure.client.profile + "');")
+      .picture.client.hint--top(
+        aria-label="Client is " + structure.client.name,
+        style="background-image: url('" + structure.client.profile + "');"
+      )
     .checkbox
       input(type="checkbox",data-_id=structure._id)
     a.name(href='/structures/' + structure._id)=structure.name
     .details
       .detail.created created 
-        time.value(title=structure.created_at)
+        time.hint--top.value(title=structure.created_at)
           include ../../vector/time.svg
         |,
       .detail.updated updated 
-        time.value(title=structure.updated_at)
+        time.hint--top.value(title=structure.updated_at)
           include ../../vector/time.svg
         |,
       .detail.entries

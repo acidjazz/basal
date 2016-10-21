@@ -9,11 +9,11 @@ each user in self.users
     a.name=user.name
     .details
       .detail.created created 
-        time.value(title=user.created_at)
+        time.hint--top.value(title=user.created_at)
           include ../../vector/time.svg
         |,
       .detail.updated updated 
-        time.value(title=user.updated_at)
+        time.hint--top.value(title=user.updated_at)
           include ../../vector/time.svg
         |,
 

@@ -10,3 +10,4 @@ Time =
     $('time').each (i, el) =>
       jel = $ el
       jel.html moment(jel.attr('title')).fromNow()
+      jel.attr 'aria-label', moment(jel.attr('title')).calendar()
