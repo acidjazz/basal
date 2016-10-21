@@ -1,5 +1,11 @@
 each structure in self.structures
   .structure.item
+    a.link.jsonp.ctab.hint--top(
+      aria-label="Endpoint",
+      href="/api/entries?structure=" + structure._id,
+      target="_new"
+    ) {&nbsp;&nbsp;}
+
     .picture.author.hint--top(
       aria-label="Author is "+structure.user.name,
       style="background-image: url('" + structure.user.picture + "');"

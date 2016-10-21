@@ -142,7 +142,7 @@ gulp.task 'php', ->
 watch = ->
   gulp.watch '**/*.php', ['php']
   gulp.watch 'config/**/*', ['larjectus','php','stylus']
-  gulp.watch dirs.coffee + '/**/*.coffee', ['coffee']
+  gulp.watch [dirs.coffee + '/**/*.coffee','!' + dirs.coffee + '/config.coffee'], ['coffee']
   gulp.watch dirs.stylus + '/**/*.styl', ['stylus']
   gulp.watch dirs.pug + '/**/*.pug', ['php']
   gulp.watch dirs.svg + '/**/*.svg', ['php']
