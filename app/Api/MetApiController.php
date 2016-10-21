@@ -158,10 +158,8 @@ abstract class MetApiController extends Controller
       return response(view('pages.jsonp', $response), 200)->header('Content-type', 'text/javascript');
     }
 
-    if (strpos($this->request->header('accept'),'text/html') !== false) {
-
+    if (strpos($this->request->header('accept'),'text/html') !== false && env('APP_DEBUG') === true) {
       return response(view('pages.json', ['json' => json_encode($response, JSON_PRETTY_PRINT)]), $code);
-
     }
 
     return response()->json($response, $code);
