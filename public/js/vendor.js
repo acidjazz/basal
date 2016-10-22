@@ -1,6 +1,5 @@
-/*eslint-disable no-unused-vars*/
 /*!
- * jQuery JavaScript Library v3.1.0
+ * jQuery JavaScript Library v3.1.1
  * https://jquery.com/
  *
  * Includes Sizzle.js
@@ -10,7 +9,7 @@
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2016-07-07T21:44Z
+ * Date: 2016-09-22T22:30Z
  */
 ( function( global, factory ) {
 
@@ -83,13 +82,13 @@ var support = {};
 		doc.head.appendChild( script ).parentNode.removeChild( script );
 	}
 /* global Symbol */
-// Defining this global in .eslintrc would create a danger of using the global
+// Defining this global in .eslintrc.json would create a danger of using the global
 // unguarded in another place, it seems safer to define global only for this module
 
 
 
 var
-	version = "3.1.0",
+	version = "3.1.1",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -129,13 +128,14 @@ jQuery.fn = jQuery.prototype = {
 	// Get the Nth element in the matched element set OR
 	// Get the whole matched element set as a clean array
 	get: function( num ) {
-		return num != null ?
 
-			// Return just the one element from the set
-			( num < 0 ? this[ num + this.length ] : this[ num ] ) :
+		// Return all the elements in a clean array
+		if ( num == null ) {
+			return slice.call( this );
+		}
 
-			// Return all the elements in a clean array
-			slice.call( this );
+		// Return just the one element from the set
+		return num < 0 ? this[ num + this.length ] : this[ num ];
 	},
 
 	// Take an array of elements and push it onto the stack
@@ -543,14 +543,14 @@ function isArrayLike( obj ) {
 }
 var Sizzle =
 /*!
- * Sizzle CSS Selector Engine v2.3.0
+ * Sizzle CSS Selector Engine v2.3.3
  * https://sizzlejs.com/
  *
  * Copyright jQuery Foundation and other contributors
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2016-01-04
+ * Date: 2016-08-08
  */
 (function( window ) {
 
@@ -696,7 +696,7 @@ var i,
 
 	// CSS string/identifier serialization
 	// https://drafts.csswg.org/cssom/#common-serializing-idioms
-	rcssescape = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\x80-\uFFFF\w-]/g,
+	rcssescape = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\0-\x1f\x7f-\uFFFF\w-]/g,
 	fcssescape = function( ch, asCodePoint ) {
 		if ( asCodePoint ) {
 
@@ -723,7 +723,7 @@ var i,
 
 	disabledAncestor = addCombinator(
 		function( elem ) {
-			return elem.disabled === true;
+			return elem.disabled === true && ("form" in elem || "label" in elem);
 		},
 		{ dir: "parentNode", next: "legend" }
 	);
@@ -1009,26 +1009,54 @@ function createButtonPseudo( type ) {
  * @param {Boolean} disabled true for :disabled; false for :enabled
  */
 function createDisabledPseudo( disabled ) {
-	// Known :disabled false positives:
-	// IE: *[disabled]:not(button, input, select, textarea, optgroup, option, menuitem, fieldset)
-	// not IE: fieldset[disabled] > legend:nth-of-type(n+2) :can-disable
+
+	// Known :disabled false positives: fieldset[disabled] > legend:nth-of-type(n+2) :can-disable
 	return function( elem ) {
 
-		// Check form elements and option elements for explicit disabling
-		return "label" in elem && elem.disabled === disabled ||
-			"form" in elem && elem.disabled === disabled ||
+		// Only certain elements can match :enabled or :disabled
+		// https://html.spec.whatwg.org/multipage/scripting.html#selector-enabled
+		// https://html.spec.whatwg.org/multipage/scripting.html#selector-disabled
+		if ( "form" in elem ) {
 
-			// Check non-disabled form elements for fieldset[disabled] ancestors
-			"form" in elem && elem.disabled === false && (
-				// Support: IE6-11+
-				// Ancestry is covered for us
-				elem.isDisabled === disabled ||
+			// Check for inherited disabledness on relevant non-disabled elements:
+			// * listed form-associated elements in a disabled fieldset
+			//   https://html.spec.whatwg.org/multipage/forms.html#category-listed
+			//   https://html.spec.whatwg.org/multipage/forms.html#concept-fe-disabled
+			// * option elements in a disabled optgroup
+			//   https://html.spec.whatwg.org/multipage/forms.html#concept-option-disabled
+			// All such elements have a "form" property.
+			if ( elem.parentNode && elem.disabled === false ) {
 
-				// Otherwise, assume any non-<option> under fieldset[disabled] is disabled
-				/* jshint -W018 */
-				elem.isDisabled !== !disabled &&
-					("label" in elem || !disabledAncestor( elem )) !== disabled
-			);
+				// Option elements defer to a parent optgroup if present
+				if ( "label" in elem ) {
+					if ( "label" in elem.parentNode ) {
+						return elem.parentNode.disabled === disabled;
+					} else {
+						return elem.disabled === disabled;
+					}
+				}
+
+				// Support: IE 6 - 11
+				// Use the isDisabled shortcut property to check for disabled fieldset ancestors
+				return elem.isDisabled === disabled ||
+
+					// Where there is no isDisabled, check manually
+					/* jshint -W018 */
+					elem.isDisabled !== !disabled &&
+						disabledAncestor( elem ) === disabled;
+			}
+
+			return elem.disabled === disabled;
+
+		// Try to winnow out elements that can't be disabled before trusting the disabled property.
+		// Some victims get caught in our net (label, legend, menu, track), but it shouldn't
+		// even exist on them, let alone have a boolean value.
+		} else if ( "label" in elem ) {
+			return elem.disabled === disabled;
+		}
+
+		// Remaining elements are neither :enabled nor :disabled
+		return false;
 	};
 }
 
@@ -1144,25 +1172,21 @@ setDocument = Sizzle.setDocument = function( node ) {
 		return !document.getElementsByName || !document.getElementsByName( expando ).length;
 	});
 
-	// ID find and filter
+	// ID filter and find
 	if ( support.getById ) {
-		Expr.find["ID"] = function( id, context ) {
-			if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
-				var m = context.getElementById( id );
-				return m ? [ m ] : [];
-			}
-		};
 		Expr.filter["ID"] = function( id ) {
 			var attrId = id.replace( runescape, funescape );
 			return function( elem ) {
 				return elem.getAttribute("id") === attrId;
 			};
 		};
+		Expr.find["ID"] = function( id, context ) {
+			if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
+				var elem = context.getElementById( id );
+				return elem ? [ elem ] : [];
+			}
+		};
 	} else {
-		// Support: IE6/7
-		// getElementById is not reliable as a find shortcut
-		delete Expr.find["ID"];
-
 		Expr.filter["ID"] =  function( id ) {
 			var attrId = id.replace( runescape, funescape );
 			return function( elem ) {
@@ -1170,6 +1194,36 @@ setDocument = Sizzle.setDocument = function( node ) {
 					elem.getAttributeNode("id");
 				return node && node.value === attrId;
 			};
+		};
+
+		// Support: IE 6 - 7 only
+		// getElementById is not reliable as a find shortcut
+		Expr.find["ID"] = function( id, context ) {
+			if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
+				var node, i, elems,
+					elem = context.getElementById( id );
+
+				if ( elem ) {
+
+					// Verify the id attribute
+					node = elem.getAttributeNode("id");
+					if ( node && node.value === id ) {
+						return [ elem ];
+					}
+
+					// Fall back on getElementsByName
+					elems = context.getElementsByName( id );
+					i = 0;
+					while ( (elem = elems[i++]) ) {
+						node = elem.getAttributeNode("id");
+						if ( node && node.value === id ) {
+							return [ elem ];
+						}
+					}
+				}
+
+				return [];
+			}
 		};
 	}
 
@@ -2211,6 +2265,7 @@ function addCombinator( matcher, combinator, base ) {
 					return matcher( elem, context, xml );
 				}
 			}
+			return false;
 		} :
 
 		// Check against all ancestor/preceding elements
@@ -2255,6 +2310,7 @@ function addCombinator( matcher, combinator, base ) {
 					}
 				}
 			}
+			return false;
 		};
 }
 
@@ -2617,8 +2673,7 @@ select = Sizzle.select = function( selector, context, results, seed ) {
 		// Reduce context if the leading compound selector is an ID
 		tokens = match[0] = match[0].slice( 0 );
 		if ( tokens.length > 2 && (token = tokens[0]).type === "ID" &&
-				support.getById && context.nodeType === 9 && documentIsHTML &&
-				Expr.relative[ tokens[1].type ] ) {
+				context.nodeType === 9 && documentIsHTML && Expr.relative[ tokens[1].type ] ) {
 
 			context = ( Expr.find["ID"]( token.matches[0].replace(runescape, funescape), context ) || [] )[0];
 			if ( !context ) {
@@ -2800,24 +2855,29 @@ function winnow( elements, qualifier, not ) {
 		return jQuery.grep( elements, function( elem, i ) {
 			return !!qualifier.call( elem, i, elem ) !== not;
 		} );
-
 	}
 
+	// Single element
 	if ( qualifier.nodeType ) {
 		return jQuery.grep( elements, function( elem ) {
 			return ( elem === qualifier ) !== not;
 		} );
-
 	}
 
-	if ( typeof qualifier === "string" ) {
-		if ( risSimple.test( qualifier ) ) {
-			return jQuery.filter( qualifier, elements, not );
-		}
-
-		qualifier = jQuery.filter( qualifier, elements );
+	// Arraylike of elements (jQuery, arguments, Array)
+	if ( typeof qualifier !== "string" ) {
+		return jQuery.grep( elements, function( elem ) {
+			return ( indexOf.call( qualifier, elem ) > -1 ) !== not;
+		} );
 	}
 
+	// Simple selector that can be filtered directly, removing non-Elements
+	if ( risSimple.test( qualifier ) ) {
+		return jQuery.filter( qualifier, elements, not );
+	}
+
+	// Complex selector, compare the two sets, removing non-Elements
+	qualifier = jQuery.filter( qualifier, elements );
 	return jQuery.grep( elements, function( elem ) {
 		return ( indexOf.call( qualifier, elem ) > -1 ) !== not && elem.nodeType === 1;
 	} );
@@ -2830,11 +2890,13 @@ jQuery.filter = function( expr, elems, not ) {
 		expr = ":not(" + expr + ")";
 	}
 
-	return elems.length === 1 && elem.nodeType === 1 ?
-		jQuery.find.matchesSelector( elem, expr ) ? [ elem ] : [] :
-		jQuery.find.matches( expr, jQuery.grep( elems, function( elem ) {
-			return elem.nodeType === 1;
-		} ) );
+	if ( elems.length === 1 && elem.nodeType === 1 ) {
+		return jQuery.find.matchesSelector( elem, expr ) ? [ elem ] : [];
+	}
+
+	return jQuery.find.matches( expr, jQuery.grep( elems, function( elem ) {
+		return elem.nodeType === 1;
+	} ) );
 };
 
 jQuery.fn.extend( {
@@ -3162,14 +3224,14 @@ jQuery.each( {
 		return this.pushStack( matched );
 	};
 } );
-var rnotwhite = ( /\S+/g );
+var rnothtmlwhite = ( /[^\x20\t\r\n\f]+/g );
 
 
 
 // Convert String-formatted options into Object-formatted ones
 function createOptions( options ) {
 	var object = {};
-	jQuery.each( options.match( rnotwhite ) || [], function( _, flag ) {
+	jQuery.each( options.match( rnothtmlwhite ) || [], function( _, flag ) {
 		object[ flag ] = true;
 	} );
 	return object;
@@ -3934,13 +3996,16 @@ var access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
 		}
 	}
 
-	return chainable ?
-		elems :
+	if ( chainable ) {
+		return elems;
+	}
 
-		// Gets
-		bulk ?
-			fn.call( elems ) :
-			len ? fn( elems[ 0 ], key ) : emptyGet;
+	// Gets
+	if ( bulk ) {
+		return fn.call( elems );
+	}
+
+	return len ? fn( elems[ 0 ], key ) : emptyGet;
 };
 var acceptData = function( owner ) {
 
@@ -4077,7 +4142,7 @@ Data.prototype = {
 				// Otherwise, create an array by matching non-whitespace
 				key = key in cache ?
 					[ key ] :
-					( key.match( rnotwhite ) || [] );
+					( key.match( rnothtmlwhite ) || [] );
 			}
 
 			i = key.length;
@@ -4125,6 +4190,31 @@ var dataUser = new Data();
 var rbrace = /^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,
 	rmultiDash = /[A-Z]/g;
 
+function getData( data ) {
+	if ( data === "true" ) {
+		return true;
+	}
+
+	if ( data === "false" ) {
+		return false;
+	}
+
+	if ( data === "null" ) {
+		return null;
+	}
+
+	// Only convert to a number if it doesn't change the string
+	if ( data === +data + "" ) {
+		return +data;
+	}
+
+	if ( rbrace.test( data ) ) {
+		return JSON.parse( data );
+	}
+
+	return data;
+}
+
 function dataAttr( elem, key, data ) {
 	var name;
 
@@ -4136,14 +4226,7 @@ function dataAttr( elem, key, data ) {
 
 		if ( typeof data === "string" ) {
 			try {
-				data = data === "true" ? true :
-					data === "false" ? false :
-					data === "null" ? null :
-
-					// Only convert to a number if it doesn't change the string
-					+data + "" === data ? +data :
-					rbrace.test( data ) ? JSON.parse( data ) :
-					data;
+				data = getData( data );
 			} catch ( e ) {}
 
 			// Make sure we set the data so it isn't changed later
@@ -4520,7 +4603,7 @@ function getDefaultDisplay( elem ) {
 		return display;
 	}
 
-	temp = doc.body.appendChild( doc.createElement( nodeName ) ),
+	temp = doc.body.appendChild( doc.createElement( nodeName ) );
 	display = jQuery.css( temp, "display" );
 
 	temp.parentNode.removeChild( temp );
@@ -4638,15 +4721,23 @@ function getAll( context, tag ) {
 
 	// Support: IE <=9 - 11 only
 	// Use typeof to avoid zero-argument method invocation on host objects (#15151)
-	var ret = typeof context.getElementsByTagName !== "undefined" ?
-			context.getElementsByTagName( tag || "*" ) :
-			typeof context.querySelectorAll !== "undefined" ?
-				context.querySelectorAll( tag || "*" ) :
-			[];
+	var ret;
 
-	return tag === undefined || tag && jQuery.nodeName( context, tag ) ?
-		jQuery.merge( [ context ], ret ) :
-		ret;
+	if ( typeof context.getElementsByTagName !== "undefined" ) {
+		ret = context.getElementsByTagName( tag || "*" );
+
+	} else if ( typeof context.querySelectorAll !== "undefined" ) {
+		ret = context.querySelectorAll( tag || "*" );
+
+	} else {
+		ret = [];
+	}
+
+	if ( tag === undefined || tag && jQuery.nodeName( context, tag ) ) {
+		return jQuery.merge( [ context ], ret );
+	}
+
+	return ret;
 }
 
 
@@ -4920,7 +5011,7 @@ jQuery.event = {
 		}
 
 		// Handle multiple events separated by a space
-		types = ( types || "" ).match( rnotwhite ) || [ "" ];
+		types = ( types || "" ).match( rnothtmlwhite ) || [ "" ];
 		t = types.length;
 		while ( t-- ) {
 			tmp = rtypenamespace.exec( types[ t ] ) || [];
@@ -5002,7 +5093,7 @@ jQuery.event = {
 		}
 
 		// Once for each type.namespace in types; type may be omitted
-		types = ( types || "" ).match( rnotwhite ) || [ "" ];
+		types = ( types || "" ).match( rnothtmlwhite ) || [ "" ];
 		t = types.length;
 		while ( t-- ) {
 			tmp = rtypenamespace.exec( types[ t ] ) || [];
@@ -5128,51 +5219,58 @@ jQuery.event = {
 	},
 
 	handlers: function( event, handlers ) {
-		var i, matches, sel, handleObj,
+		var i, handleObj, sel, matchedHandlers, matchedSelectors,
 			handlerQueue = [],
 			delegateCount = handlers.delegateCount,
 			cur = event.target;
 
-		// Support: IE <=9
 		// Find delegate handlers
-		// Black-hole SVG <use> instance trees (#13180)
-		//
-		// Support: Firefox <=42
-		// Avoid non-left-click in FF but don't block IE radio events (#3861, gh-2343)
-		if ( delegateCount && cur.nodeType &&
-			( event.type !== "click" || isNaN( event.button ) || event.button < 1 ) ) {
+		if ( delegateCount &&
+
+			// Support: IE <=9
+			// Black-hole SVG <use> instance trees (trac-13180)
+			cur.nodeType &&
+
+			// Support: Firefox <=42
+			// Suppress spec-violating clicks indicating a non-primary pointer button (trac-3861)
+			// https://www.w3.org/TR/DOM-Level-3-Events/#event-type-click
+			// Support: IE 11 only
+			// ...but not arrow key "clicks" of radio inputs, which can have `button` -1 (gh-2343)
+			!( event.type === "click" && event.button >= 1 ) ) {
 
 			for ( ; cur !== this; cur = cur.parentNode || this ) {
 
 				// Don't check non-elements (#13208)
 				// Don't process clicks on disabled elements (#6911, #8165, #11382, #11764)
-				if ( cur.nodeType === 1 && ( cur.disabled !== true || event.type !== "click" ) ) {
-					matches = [];
+				if ( cur.nodeType === 1 && !( event.type === "click" && cur.disabled === true ) ) {
+					matchedHandlers = [];
+					matchedSelectors = {};
 					for ( i = 0; i < delegateCount; i++ ) {
 						handleObj = handlers[ i ];
 
 						// Don't conflict with Object.prototype properties (#13203)
 						sel = handleObj.selector + " ";
 
-						if ( matches[ sel ] === undefined ) {
-							matches[ sel ] = handleObj.needsContext ?
+						if ( matchedSelectors[ sel ] === undefined ) {
+							matchedSelectors[ sel ] = handleObj.needsContext ?
 								jQuery( sel, this ).index( cur ) > -1 :
 								jQuery.find( sel, this, null, [ cur ] ).length;
 						}
-						if ( matches[ sel ] ) {
-							matches.push( handleObj );
+						if ( matchedSelectors[ sel ] ) {
+							matchedHandlers.push( handleObj );
 						}
 					}
-					if ( matches.length ) {
-						handlerQueue.push( { elem: cur, handlers: matches } );
+					if ( matchedHandlers.length ) {
+						handlerQueue.push( { elem: cur, handlers: matchedHandlers } );
 					}
 				}
 			}
 		}
 
 		// Add the remaining (directly-bound) handlers
+		cur = this;
 		if ( delegateCount < handlers.length ) {
-			handlerQueue.push( { elem: this, handlers: handlers.slice( delegateCount ) } );
+			handlerQueue.push( { elem: cur, handlers: handlers.slice( delegateCount ) } );
 		}
 
 		return handlerQueue;
@@ -5406,7 +5504,19 @@ jQuery.each( {
 
 		// Add which for click: 1 === left; 2 === middle; 3 === right
 		if ( !event.which && button !== undefined && rmouseEvent.test( event.type ) ) {
-			return ( button & 1 ? 1 : ( button & 2 ? 3 : ( button & 4 ? 2 : 0 ) ) );
+			if ( button & 1 ) {
+				return 1;
+			}
+
+			if ( button & 2 ) {
+				return 3;
+			}
+
+			if ( button & 4 ) {
+				return 2;
+			}
+
+			return 0;
 		}
 
 		return event.which;
@@ -6162,15 +6272,17 @@ function setPositiveNumber( elem, value, subtract ) {
 }
 
 function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
-	var i = extra === ( isBorderBox ? "border" : "content" ) ?
-
-		// If we already have the right measurement, avoid augmentation
-		4 :
-
-		// Otherwise initialize for horizontal or vertical properties
-		name === "width" ? 1 : 0,
-
+	var i,
 		val = 0;
+
+	// If we already have the right measurement, avoid augmentation
+	if ( extra === ( isBorderBox ? "border" : "content" ) ) {
+		i = 4;
+
+	// Otherwise initialize for horizontal or vertical properties
+	} else {
+		i = name === "width" ? 1 : 0;
+	}
 
 	for ( ; i < 4; i += 2 ) {
 
@@ -7024,7 +7136,7 @@ jQuery.Animation = jQuery.extend( Animation, {
 			callback = props;
 			props = [ "*" ];
 		} else {
-			props = props.match( rnotwhite );
+			props = props.match( rnothtmlwhite );
 		}
 
 		var prop,
@@ -7062,9 +7174,14 @@ jQuery.speed = function( speed, easing, fn ) {
 		opt.duration = 0;
 
 	} else {
-		opt.duration = typeof opt.duration === "number" ?
-			opt.duration : opt.duration in jQuery.fx.speeds ?
-				jQuery.fx.speeds[ opt.duration ] : jQuery.fx.speeds._default;
+		if ( typeof opt.duration !== "number" ) {
+			if ( opt.duration in jQuery.fx.speeds ) {
+				opt.duration = jQuery.fx.speeds[ opt.duration ];
+
+			} else {
+				opt.duration = jQuery.fx.speeds._default;
+			}
+		}
 	}
 
 	// Normalize opt.queue - true/undefined/null -> "fx"
@@ -7414,7 +7531,10 @@ jQuery.extend( {
 	removeAttr: function( elem, value ) {
 		var name,
 			i = 0,
-			attrNames = value && value.match( rnotwhite );
+
+			// Attribute names can contain non-HTML whitespace characters
+			// https://html.spec.whatwg.org/multipage/syntax.html#attributes-2
+			attrNames = value && value.match( rnothtmlwhite );
 
 		if ( attrNames && elem.nodeType === 1 ) {
 			while ( ( name = attrNames[ i++ ] ) ) {
@@ -7521,12 +7641,19 @@ jQuery.extend( {
 				// Use proper attribute retrieval(#12072)
 				var tabindex = jQuery.find.attr( elem, "tabindex" );
 
-				return tabindex ?
-					parseInt( tabindex, 10 ) :
+				if ( tabindex ) {
+					return parseInt( tabindex, 10 );
+				}
+
+				if (
 					rfocusable.test( elem.nodeName ) ||
-						rclickable.test( elem.nodeName ) && elem.href ?
-							0 :
-							-1;
+					rclickable.test( elem.nodeName ) &&
+					elem.href
+				) {
+					return 0;
+				}
+
+				return -1;
 			}
 		}
 	},
@@ -7543,9 +7670,14 @@ jQuery.extend( {
 // on the option
 // The getter ensures a default option is selected
 // when in an optgroup
+// eslint rule "no-unused-expressions" is disabled for this code
+// since it considers such accessions noop
 if ( !support.optSelected ) {
 	jQuery.propHooks.selected = {
 		get: function( elem ) {
+
+			/* eslint no-unused-expressions: "off" */
+
 			var parent = elem.parentNode;
 			if ( parent && parent.parentNode ) {
 				parent.parentNode.selectedIndex;
@@ -7553,6 +7685,9 @@ if ( !support.optSelected ) {
 			return null;
 		},
 		set: function( elem ) {
+
+			/* eslint no-unused-expressions: "off" */
+
 			var parent = elem.parentNode;
 			if ( parent ) {
 				parent.selectedIndex;
@@ -7583,7 +7718,13 @@ jQuery.each( [
 
 
 
-var rclass = /[\t\r\n\f]/g;
+	// Strip and collapse whitespace according to HTML spec
+	// https://html.spec.whatwg.org/multipage/infrastructure.html#strip-and-collapse-whitespace
+	function stripAndCollapse( value ) {
+		var tokens = value.match( rnothtmlwhite ) || [];
+		return tokens.join( " " );
+	}
+
 
 function getClass( elem ) {
 	return elem.getAttribute && elem.getAttribute( "class" ) || "";
@@ -7601,12 +7742,11 @@ jQuery.fn.extend( {
 		}
 
 		if ( typeof value === "string" && value ) {
-			classes = value.match( rnotwhite ) || [];
+			classes = value.match( rnothtmlwhite ) || [];
 
 			while ( ( elem = this[ i++ ] ) ) {
 				curValue = getClass( elem );
-				cur = elem.nodeType === 1 &&
-					( " " + curValue + " " ).replace( rclass, " " );
+				cur = elem.nodeType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
 
 				if ( cur ) {
 					j = 0;
@@ -7617,7 +7757,7 @@ jQuery.fn.extend( {
 					}
 
 					// Only assign if different to avoid unneeded rendering.
-					finalValue = jQuery.trim( cur );
+					finalValue = stripAndCollapse( cur );
 					if ( curValue !== finalValue ) {
 						elem.setAttribute( "class", finalValue );
 					}
@@ -7643,14 +7783,13 @@ jQuery.fn.extend( {
 		}
 
 		if ( typeof value === "string" && value ) {
-			classes = value.match( rnotwhite ) || [];
+			classes = value.match( rnothtmlwhite ) || [];
 
 			while ( ( elem = this[ i++ ] ) ) {
 				curValue = getClass( elem );
 
 				// This expression is here for better compressibility (see addClass)
-				cur = elem.nodeType === 1 &&
-					( " " + curValue + " " ).replace( rclass, " " );
+				cur = elem.nodeType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
 
 				if ( cur ) {
 					j = 0;
@@ -7663,7 +7802,7 @@ jQuery.fn.extend( {
 					}
 
 					// Only assign if different to avoid unneeded rendering.
-					finalValue = jQuery.trim( cur );
+					finalValue = stripAndCollapse( cur );
 					if ( curValue !== finalValue ) {
 						elem.setAttribute( "class", finalValue );
 					}
@@ -7698,7 +7837,7 @@ jQuery.fn.extend( {
 				// Toggle individual class names
 				i = 0;
 				self = jQuery( this );
-				classNames = value.match( rnotwhite ) || [];
+				classNames = value.match( rnothtmlwhite ) || [];
 
 				while ( ( className = classNames[ i++ ] ) ) {
 
@@ -7741,10 +7880,8 @@ jQuery.fn.extend( {
 		className = " " + selector + " ";
 		while ( ( elem = this[ i++ ] ) ) {
 			if ( elem.nodeType === 1 &&
-				( " " + getClass( elem ) + " " ).replace( rclass, " " )
-					.indexOf( className ) > -1
-			) {
-				return true;
+				( " " + stripAndCollapse( getClass( elem ) ) + " " ).indexOf( className ) > -1 ) {
+					return true;
 			}
 		}
 
@@ -7755,8 +7892,7 @@ jQuery.fn.extend( {
 
 
 
-var rreturn = /\r/g,
-	rspaces = /[\x20\t\r\n\f]+/g;
+var rreturn = /\r/g;
 
 jQuery.fn.extend( {
 	val: function( value ) {
@@ -7777,13 +7913,13 @@ jQuery.fn.extend( {
 
 				ret = elem.value;
 
-				return typeof ret === "string" ?
+				// Handle most common string cases
+				if ( typeof ret === "string" ) {
+					return ret.replace( rreturn, "" );
+				}
 
-					// Handle most common string cases
-					ret.replace( rreturn, "" ) :
-
-					// Handle cases where value is null/undef or number
-					ret == null ? "" : ret;
+				// Handle cases where value is null/undef or number
+				return ret == null ? "" : ret;
 			}
 
 			return;
@@ -7840,20 +7976,24 @@ jQuery.extend( {
 					// option.text throws exceptions (#14686, #14858)
 					// Strip and collapse whitespace
 					// https://html.spec.whatwg.org/#strip-and-collapse-whitespace
-					jQuery.trim( jQuery.text( elem ) ).replace( rspaces, " " );
+					stripAndCollapse( jQuery.text( elem ) );
 			}
 		},
 		select: {
 			get: function( elem ) {
-				var value, option,
+				var value, option, i,
 					options = elem.options,
 					index = elem.selectedIndex,
 					one = elem.type === "select-one",
 					values = one ? null : [],
-					max = one ? index + 1 : options.length,
-					i = index < 0 ?
-						max :
-						one ? index : 0;
+					max = one ? index + 1 : options.length;
+
+				if ( index < 0 ) {
+					i = max;
+
+				} else {
+					i = one ? index : 0;
+				}
 
 				// Loop through all the selected options
 				for ( ; i < max; i++ ) {
@@ -8307,13 +8447,17 @@ jQuery.fn.extend( {
 		.map( function( i, elem ) {
 			var val = jQuery( this ).val();
 
-			return val == null ?
-				null :
-				jQuery.isArray( val ) ?
-					jQuery.map( val, function( val ) {
-						return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
-					} ) :
-					{ name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
+			if ( val == null ) {
+				return null;
+			}
+
+			if ( jQuery.isArray( val ) ) {
+				return jQuery.map( val, function( val ) {
+					return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
+				} );
+			}
+
+			return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
 		} ).get();
 	}
 } );
@@ -8322,7 +8466,7 @@ jQuery.fn.extend( {
 var
 	r20 = /%20/g,
 	rhash = /#.*$/,
-	rts = /([?&])_=[^&]*/,
+	rantiCache = /([?&])_=[^&]*/,
 	rheaders = /^(.*?):[ \t]*([^\r\n]*)$/mg,
 
 	// #7653, #8125, #8152: local protocol detection
@@ -8368,7 +8512,7 @@ function addToPrefiltersOrTransports( structure ) {
 
 		var dataType,
 			i = 0,
-			dataTypes = dataTypeExpression.toLowerCase().match( rnotwhite ) || [];
+			dataTypes = dataTypeExpression.toLowerCase().match( rnothtmlwhite ) || [];
 
 		if ( jQuery.isFunction( func ) ) {
 
@@ -8836,7 +8980,7 @@ jQuery.extend( {
 		s.type = options.method || options.type || s.method || s.type;
 
 		// Extract dataTypes list
-		s.dataTypes = ( s.dataType || "*" ).toLowerCase().match( rnotwhite ) || [ "" ];
+		s.dataTypes = ( s.dataType || "*" ).toLowerCase().match( rnothtmlwhite ) || [ "" ];
 
 		// A cross-domain request is in order when the origin doesn't match the current origin.
 		if ( s.crossDomain == null ) {
@@ -8908,9 +9052,9 @@ jQuery.extend( {
 				delete s.data;
 			}
 
-			// Add anti-cache in uncached url if needed
+			// Add or update anti-cache param if needed
 			if ( s.cache === false ) {
-				cacheURL = cacheURL.replace( rts, "" );
+				cacheURL = cacheURL.replace( rantiCache, "$1" );
 				uncached = ( rquery.test( cacheURL ) ? "&" : "?" ) + "_=" + ( nonce++ ) + uncached;
 			}
 
@@ -9649,7 +9793,7 @@ jQuery.fn.load = function( url, params, callback ) {
 		off = url.indexOf( " " );
 
 	if ( off > -1 ) {
-		selector = jQuery.trim( url.slice( off ) );
+		selector = stripAndCollapse( url.slice( off ) );
 		url = url.slice( 0, off );
 	}
 
@@ -10041,7 +10185,6 @@ if ( typeof define === "function" && define.amd ) {
 
 
 
-
 var
 
 	// Map over jQuery in case of overwrite
@@ -10068,6 +10211,9 @@ jQuery.noConflict = function( deep ) {
 if ( !noGlobal ) {
 	window.jQuery = window.$ = jQuery;
 }
+
+
+
 
 
 return jQuery;
@@ -19422,7 +19568,7 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
 }));
 
 /**
- * selectize.js (v0.12.3)
+ * selectize.js (v0.12.4)
  * Copyright (c) 2013–2015 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -19487,7 +19633,7 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
 	 * removeHighlight fn copied from highlight v5 and
 	 * edited to remove with() and pass js strict mode
 	 */
-	jQuery.fn.removeHighlight = function() {
+	$.fn.removeHighlight = function() {
 		return this.find("span.highlight").each(function() {
 			this.parentNode.firstChild.nodeName;
 			var parent = this.parentNode;
@@ -20553,7 +20699,7 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
 				self.refreshState();
 	
 				// IE11 bug: element still marked as active
-				dest && dest.focus();
+				dest && dest.focus && dest.focus();
 	
 				self.ignoreFocus = false;
 				self.trigger('blur');
@@ -22618,7 +22764,7 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
  * Croppie
  * Copyright 2016
  * Foliotek
- * Version: 2.3.0
+ * Version: 2.4.0
  *************************/
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
@@ -22650,6 +22796,22 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
             CustomEvent.prototype = window.Event.prototype;
             window.CustomEvent = CustomEvent;
         }());
+    }
+
+    if (!HTMLCanvasElement.prototype.toBlob) {
+        Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
+            value: function (callback, type, quality) {
+                var binStr = atob( this.toDataURL(type, quality).split(',')[1] ),
+                len = binStr.length,
+                arr = new Uint8Array(len);
+
+                for (var i=0; i<len; i++ ) {
+                    arr[i] = binStr.charCodeAt(i);
+                }
+
+                callback( new Blob( [arr], {type: type || 'image/png'} ) );
+            }
+        });
     }
     /* End Polyfills */
 
@@ -22750,8 +22912,12 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
         }
     }
 
+    function num(v) {
+        return parseInt(v, 10);
+    }
+
     /* Utilities */
-    function loadImage(src, imageEl) {
+    function loadImage(src, imageEl, useCanvas) {
         var img = imageEl || new Image(),
             prom;
 
@@ -22762,7 +22928,7 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
             });
         } else {
             prom = new Promise(function (resolve, reject) {
-                if (src.substring(0,4).toLowerCase() === 'http') {
+                if (useCanvas && src.substring(0,4).toLowerCase() === 'http') {
                     img.setAttribute('crossOrigin', 'anonymous');
                 }
                 img.onload = function () {
@@ -22807,7 +22973,7 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
             vals = [1, 0, 0, 1, 0, 0];
         }
 
-        return new Transform(parseInt(vals[4], 10), parseInt(vals[5], 10), parseFloat(vals[0]));
+        return new Transform(num(vals[4]), num(vals[5]), parseFloat(vals[0]));
     };
 
     Transform.fromString = function (v) {
@@ -22913,7 +23079,7 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
         var self = this,
             contClass = 'croppie-container',
             customViewportClass = self.options.viewport.type ? 'cr-vp-' + self.options.viewport.type : null,
-            boundary, img, viewport, overlay, canvas;
+            boundary, img, viewport, overlay, canvas, bw, bh;
 
         self.options.useCanvas = self.options.enableOrientation || _hasExif.call(self);
         // Properties on class
@@ -22935,9 +23101,11 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
         }
 
         addClass(boundary, 'cr-boundary');
+        bw = self.options.boundary.width;
+        bh = self.options.boundary.height;
         css(boundary, {
-            width: self.options.boundary.width + 'px',
-            height: self.options.boundary.height + 'px'
+            width: (bw + (isNaN(bw) ? '' : 'px')),
+            height: (bh + (isNaN(bh) ? '' : 'px'))
         });
 
         addClass(viewport, 'cr-viewport');
@@ -23060,7 +23228,7 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
                 delta = 0;
             }
 
-            targetZoom = self._currentZoom + delta;
+            targetZoom = self._currentZoom + (delta * self._currentZoom);
 
             ev.preventDefault();
             _setZoomerVal.call(self, targetZoom);
@@ -23130,8 +23298,8 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
             scale = self._currentZoom,
             vpWidth = viewport.width,
             vpHeight = viewport.height,
-            centerFromBoundaryX = self.options.boundary.width / 2,
-            centerFromBoundaryY = self.options.boundary.height / 2,
+            centerFromBoundaryX = self.elements.boundary.clientWidth / 2,
+            centerFromBoundaryY = self.elements.boundary.clientHeight / 2,
             imgRect = self.elements.preview.getBoundingClientRect(),
             curImgWidth = imgRect.width,
             curImgHeight = imgRect.height,
@@ -23530,7 +23698,7 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
 
         if (exif) {
             getExifOrientation(img, function (orientation) {
-                drawCanvas(canvas, img, parseInt(orientation));
+                drawCanvas(canvas, img, num(orientation, 10));
                 if (customOrientation) {
                     drawCanvas(canvas, img, customOrientation);
                 }
@@ -23538,6 +23706,63 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
         } else if (customOrientation) {
             drawCanvas(canvas, img, customOrientation);
         }
+    }
+
+    function _getCanvas(data) {
+        var self = this,
+            points = data.points,
+            left = num(points[0]),
+            top = num(points[1]),
+            width = (points[2] - points[0]),
+            height = (points[3] - points[1]),
+            circle = data.circle,
+            canvas = document.createElement('canvas'),
+            ctx = canvas.getContext('2d'),
+            outWidth = width,
+            outHeight = height,
+            startX = 0,
+            startY = 0;
+
+        if (data.outputWidth && data.outputHeight) {
+            outWidth = data.outputWidth;
+            outHeight = data.outputHeight;
+        }
+
+        canvas.width = outWidth;
+        canvas.height = outHeight;
+
+        if (data.backgroundColor) {
+            ctx.fillStyle = data.backgroundColor;
+            ctx.fillRect(0, 0, outWidth, outHeight);
+        }
+        // start fixing data to send to draw image for enforceBoundary: false
+        if (left < 0) {
+            startX = Math.abs(left);
+            left = 0;
+        }
+        if (top < 0) {
+            startY = Math.abs(top);
+            top = 0;
+        }
+        if ((left + width) > self._originalImageWidth) {
+            width = self._originalImageWidth - left;
+            outWidth = width;
+        }
+        if ((top + height) > self._originalImageHeight) {
+            height = self._originalImageHeight - top;
+            outHeight = height;
+        }
+
+        ctx.drawImage(this.elements.preview, left, top, width, height, startX, startY, outWidth, outHeight);
+        if (circle) {
+            ctx.fillStyle = '#fff';
+            ctx.globalCompositeOperation = 'destination-in';
+            ctx.beginPath();
+            ctx.arc(outWidth / 2, outHeight / 2, outWidth / 2, 0, Math.PI * 2, true);
+            ctx.closePath();
+            ctx.fill();
+        }
+        return canvas;
     }
 
     function _getHtmlResult(data) {
@@ -23562,40 +23787,17 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
         return div;
     }
 
-    function _getCanvasResult(img, data) {
-        var points = data.points,
-            left = points[0],
-            top = points[1],
-            width = (points[2] - points[0]),
-            height = (points[3] - points[1]),
-            circle = data.circle,
-            canvas = document.createElement('canvas'),
-            ctx = canvas.getContext('2d'),
-            outWidth = width,
-            outHeight = height;
+    function _getBase64Result(data) {
+        return _getCanvas.call(this, data).toDataURL(data.format, data.quality);
+    }
 
-        if (data.outputWidth && data.outputHeight) {
-            outWidth = data.outputWidth;
-            outHeight = data.outputHeight;
-        }
-
-        canvas.width = outWidth;
-        canvas.height = outHeight;
-
-        if (data.backgroundColor) {
-            ctx.fillStyle = data.backgroundColor;
-            ctx.fillRect(0, 0, outWidth, outHeight);
-        }
-        ctx.drawImage(img, left, top, width, height, 0, 0, outWidth, outHeight);
-        if (circle) {
-            ctx.fillStyle = '#fff';
-            ctx.globalCompositeOperation = 'destination-in';
-            ctx.beginPath();
-            ctx.arc(outWidth / 2, outHeight / 2, outWidth / 2, 0, Math.PI * 2, true);
-            ctx.closePath();
-            ctx.fill();
-        }
-        return canvas.toDataURL(data.format, data.quality);
+    function _getBlobResult(data) {
+        var self = this;
+        return new Promise(function (resolve, reject) {
+            _getCanvas.call(self, data).toBlob(function (blob) {
+                resolve(blob);
+            }, data.format, data.quality);
+        });
     }
 
     function _bind(options, cb) {
@@ -23628,7 +23830,7 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
             return parseFloat(p);
         });
         self.data.boundZoom = zoom;
-        var prom = loadImage(url, self.elements.img);
+        var prom = loadImage(url, self.elements.img, self.options.useCanvas);
         prom.then(function () {
             if (self.options.useCanvas) {
                 self.elements.img.exifdata = null;
@@ -23686,7 +23888,7 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
         var self = this,
             data = _get.call(self),
             opts = deepExtend(RESULT_DEFAULTS, deepExtend({}, options)),
-            type = (typeof (options) === 'string' ? options : (opts.type || 'viewport')),
+            resultType = (typeof (options) === 'string' ? options : (opts.type || 'base64')),
             size = opts.size,
             format = opts.format,
             quality = opts.quality,
@@ -23722,11 +23924,21 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
         data.backgroundColor = backgroundColor;
 
         prom = new Promise(function (resolve, reject) {
-            if (type === 'canvas') {
-                resolve(_getCanvasResult.call(self, self.elements.preview, data));
-            }
-            else {
-                resolve(_getHtmlResult.call(self, data));
+            switch(resultType.toLowerCase())
+            {
+                case 'rawcanvas': 
+                    resolve(_getCanvas.call(self, data));
+                    break;
+                case 'canvas':
+                case 'base64':
+                    resolve(_getBase64Result.call(self, data));
+                    break;
+                case 'blob':
+                    _getBlobResult.call(self, data).then(resolve);
+                    break;
+                default: 
+                    resolve(_getHtmlResult.call(self, data));
+                    break;
             }
         });
         return prom;
@@ -23819,6 +24031,16 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
         this.element = element;
         this.options = deepExtend(deepExtend({}, Croppie.defaults), opts);
 
+        if (this.element.tagName.toLowerCase() === 'img') {
+            var origImage = this.element;
+            addClass(origImage, 'cr-original-image');
+            var replacementDiv = document.createElement('div');
+            this.element.parentNode.appendChild(replacementDiv);
+            replacementDiv.appendChild(origImage);
+            this.element = replacementDiv;
+            this.options.url = this.options.url || origImage.src;
+        }
+        
         _create.call(this);
         if (this.options.url) {
             var bindOpts = {
@@ -23837,10 +24059,7 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
             height: 100,
             type: 'square'
         },
-        boundary: {
-            width: 300,
-            height: 300
-        },
+        boundary: { },
         orientationControls: {
             enabled: true,
             leftClass: '',
@@ -23888,6 +24107,8 @@ a.version="2.15.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.
     }
 }));
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 /*! flatpickr v2.0, @license MIT */
@@ -23928,14 +24149,14 @@ function Flatpickr(element, config) {
 
 		if (self.selectedDates.length) updateValue();
 
-		if (self.config.noCalendar && !self.selectedDates.length)
-			// picking time only and method triggered from picker
-			self.selectedDates = [self.now];
-
 		triggerEvent("Ready");
 	}
 
 	function updateTime(e) {
+		if (self.config.noCalendar && !self.selectedDates.length)
+			// picking time only
+			self.selectedDates = [self.now];
+
 		timeWrapper(e);
 		updateValue();
 	}
@@ -23951,9 +24172,9 @@ function Flatpickr(element, config) {
 			});
 		}
 
-		if (typeof Event !== "undefined") self.changeEvent = new Event("change", { "bubbles": true });else {
+		if ("createEvent" in document) {
 			self.changeEvent = document.createEvent("HTMLEvents");
-			self.changeEvent.initEvent("change", true, false);
+			self.changeEvent.initEvent("change", false, true);
 		}
 
 		if (self.isMobile) return setupMobile();
@@ -24022,15 +24243,17 @@ function Flatpickr(element, config) {
 	}
 
 	function jumpToDate(jumpDate) {
-		jumpDate = jumpDate ? parseDate(jumpDate) : latestSelectedDateObj() || self.config.defaultDate || self.config.minDate || self.now;
+		jumpDate = jumpDate ? parseDate(jumpDate) : latestSelectedDateObj() || self.config.minDate || self.now;
 
 		try {
 			self.currentYear = jumpDate.getFullYear();
 			self.currentMonth = jumpDate.getMonth();
-			self.redraw();
 		} catch (e) {
+			console.error(e.stack);
 			console.warn("Invalid date supplied: " + jumpDate);
 		}
+
+		self.redraw();
 	}
 
 	function build() {
@@ -24066,8 +24289,6 @@ function Flatpickr(element, config) {
 			self.days.tabIndex = -1;
 		}
 
-		self.disabledMonthIndexes = [];
-
 		self.firstOfMonth = (new Date(self.currentYear, self.currentMonth, 1).getDay() - Flatpickr.l10n.firstDayOfWeek + 7) % 7;
 
 		self.prevMonthDays = self.utils.getDaysinMonth((self.currentMonth - 1 + 12) % 12);
@@ -24081,15 +24302,23 @@ function Flatpickr(element, config) {
 
 		if (self.config.weekNumbers) self.weekNumbers.innerHTML = "";
 
+		if (self.config.mode === "range") {
+			var dateLimits = self.config.enable.length || self.config.disable.length || self.config.mixDate || self.config.maxDate;
+			if (!dateLimits || !self.minRangeDate || !self.maxRangeDate) {
+				self.minRangeDate = new Date(self.currentYear, self.currentMonth - 1, dayNumber);
+				self.maxRangeDate = new Date(self.currentYear, self.currentMonth + 1, (42 - self.firstOfMonth) % daysInMonth);
+			}
+		}
+
 		self.days.innerHTML = "";
 
 		// prepend days from the ending of previous month
 		for (var i = 0; dayNumber <= self.prevMonthDays; i++, dayNumber++) {
 			var curDate = new Date(self.currentYear, self.currentMonth - 1, dayNumber, 0, 0, 0, 0, 0),
 			    dateIsEnabled = isEnabled(curDate),
-			    dayElement = createElement("span", "flatpickr-day prevMonthDay" + " disabled".repeat(!dateIsEnabled) + " inRange".repeat(isDateInRange(curDate)) + " selected".repeat(isDateSelected(curDate) !== false), dayNumber);
+			    dayElement = createElement("span", "flatpickr-day prevMonthDay" + (!dateIsEnabled ? " disabled" : "") + (isDateInRange(curDate) ? " inRange" : "") + (self.selectedDates.length === 1 && (curDate < self.minRangeDate || curDate > self.maxRangeDate) ? " notAllowed" : "") + (isDateSelected(curDate) !== false ? " selected" : ""), dayNumber);
 
-			if (dateIsEnabled) dayElement.tabIndex = 0;else self.disabledMonthIndexes.push(i);
+			if (dateIsEnabled) dayElement.tabIndex = 0;else if (self.selectedDates[0] && curDate > self.minRangeDate && curDate < self.selectedDates[0]) self.minRangeDate = curDate;else if (self.selectedDates[0] && curDate < self.maxRangeDate && curDate > self.selectedDates[0]) self.maxRangeDate = curDate;
 
 			triggerEvent("DayCreate", dayElement);
 			days.appendChild(dayElement);
@@ -24105,7 +24334,7 @@ function Flatpickr(element, config) {
 
 			dateIsDisabled = !isEnabled(currentDate);
 
-			var _dayElement = createElement("span", dateIsDisabled ? "flatpickr-day disabled" : "flatpickr-day" + " inRange".repeat(isDateInRange(currentDate)), dayNumber);
+			var _dayElement = createElement("span", dateIsDisabled ? "flatpickr-day disabled" : "flatpickr-day" + (isDateInRange(currentDate) ? " inRange" : "") + (self.selectedDates.length === 1 && (currentDate < self.minRangeDate || currentDate > self.maxRangeDate) ? " notAllowed" : ""), dayNumber);
 
 			if (!dateIsDisabled) {
 				_dayElement.tabIndex = 0;
@@ -24120,7 +24349,7 @@ function Flatpickr(element, config) {
 						_dayElement.className += equalDates(currentDate, self.selectedDates[0]) ? " startRange" : self.selectedDates.length > 1 ? " endRange" : "";
 					}
 				}
-			} else self.disabledMonthIndexes.push(dayNumber + self.firstOfMonth - 1);
+			} else if (self.selectedDates[0] && currentDate > self.minRangeDate && currentDate < self.selectedDates[0]) self.minRangeDate = currentDate;else if (self.selectedDates[0] && currentDate < self.maxRangeDate && currentDate > self.selectedDates[0]) self.maxRangeDate = currentDate;
 
 			triggerEvent("DayCreate", _dayElement);
 			days.appendChild(_dayElement);
@@ -24130,13 +24359,13 @@ function Flatpickr(element, config) {
 		for (var dayNum = daysInMonth + 1; dayNum <= 42 - self.firstOfMonth; dayNum++) {
 			var _curDate = new Date(self.currentYear, self.currentMonth + 1, dayNum % daysInMonth, 0, 0, 0, 0, 0),
 			    _dateIsEnabled = isEnabled(_curDate),
-			    _dayElement2 = createElement("span", "flatpickr-day nextMonthDay" + " disabled".repeat(!_dateIsEnabled) + " inRange".repeat(isDateInRange(_curDate)) + " selected".repeat(isDateSelected(_curDate) !== false), dayNum % daysInMonth);
+			    _dayElement2 = createElement("span", "flatpickr-day nextMonthDay" + (!_dateIsEnabled ? " disabled" : "") + (isDateInRange(_curDate) ? " inRange" : "") + (self.selectedDates.length === 1 && (_curDate < self.minRangeDate || _curDate > self.maxRangeDate) ? " notAllowed" : "") + (isDateSelected(_curDate) !== false ? " selected" : ""), dayNum % daysInMonth);
 
 			if (self.config.weekNumbers && dayNum % 7 === 1) {
 				self.weekNumbers.insertAdjacentHTML("beforeend", "<span class='disabled flatpickr-day'>" + self.getWeek(_curDate) + "</span>");
 			}
 
-			if (_dateIsEnabled) _dayElement2.tabIndex = 0;else self.disabledMonthIndexes.push(dayNum + self.firstOfMonth);
+			if (_dateIsEnabled) _dayElement2.tabIndex = 0;else if (self.selectedDates[0] && _curDate > self.minRangeDate && _curDate < self.selectedDates[0]) self.minRangeDate = _curDate;else if (self.selectedDates[0] && _curDate < self.maxRangeDate && _curDate > self.selectedDates[0]) self.maxRangeDate = _curDate;
 
 			triggerEvent("DayCreate", _dayElement2);
 			days.appendChild(_dayElement2);
@@ -24260,8 +24489,8 @@ function Flatpickr(element, config) {
 		return self.weekWrapper;
 	}
 
-	function changeMonth(offset) {
-		self.currentMonth += offset;
+	function changeMonth(value, is_offset) {
+		self.currentMonth = typeof is_offset === "undefined" || is_offset ? (self.currentMonth + value + 12) % 12 : value;
 
 		handleYearChange();
 		updateNavigationCurrentMonth();
@@ -24291,8 +24520,8 @@ function Flatpickr(element, config) {
 	}
 
 	function destroy() {
-		self.calendarContainer.parentNode.removeChild(self.calendarContainer);
 		self.clear();
+		self.calendarContainer.parentNode.removeChild(self.calendarContainer);
 
 		if (self.altInput) {
 			self.input.type = "text";
@@ -24321,7 +24550,7 @@ function Flatpickr(element, config) {
 			self.close();
 
 			if (self.config.mode === "range" && self.selectedDates.length === 1) {
-				self.selectedDates = [];
+				self.clear();
 				self.redraw();
 			}
 		}
@@ -24373,6 +24602,7 @@ function Flatpickr(element, config) {
 					break;
 
 				case 27:
+					self.clear();
 					self.close();
 					break;
 
@@ -24409,30 +24639,30 @@ function Flatpickr(element, config) {
 		}
 	}
 
+	function getDateFromElement(el) {
+		return new Date(self.currentYear, self.currentMonth + el.classList.contains("nextMonthDay") - el.classList.contains("prevMonthDay"), el.textContent);
+	}
+
 	function onMouseOver(e) {
-		if (self.selectedDates.length !== 1 || !e.target.classList.contains("flatpickr-day") || e.target.classList.contains("disabled")) return;
+		if (self.selectedDates.length !== 1 || !e.target.classList.contains("flatpickr-day")) return;
 
-		var firstDayIndex = !isPrevMonthDay * (self.firstOfMonth - 1),
-		    isPrevMonthDay = e.target.classList.contains("prevMonthDay"),
-		    isNextMonthDay = e.target.classList.contains("nextMonthDay"),
-		    selectedDate = self.selectedDates[0].getDate(),
-		    selectedDateIndex = firstDayIndex + selectedDate,
-		    minIndex = null,
-		    targetIndex = parseInt(e.target.textContent, 10) + self.utils.getDaysinMonth() * isNextMonthDay - self.prevMonthDays * isPrevMonthDay,
-		    startIndex = firstDayIndex + Math.min(targetIndex, selectedDate),
-		    endIndex = firstDayIndex + Math.max(targetIndex, selectedDate);
+		var hoverDate = getDateFromElement(e.target),
+		    rangeStartDate = Math.min(hoverDate.getTime(), self.selectedDates[0].getTime()),
+		    rangeEndDate = Math.max(hoverDate.getTime(), self.selectedDates[0].getTime()),
+		    containsDisabled = false;
 
-		if (self.disabledMonthIndexes.length) {
-			for (var i = 0; i < self.disabledMonthIndexes.length; i++) {
-				if (self.disabledMonthIndexes[i] > minIndex && self.disabledMonthIndexes[i] < selectedDateIndex) minIndex = self.disabledMonthIndexes[i];
+		for (var t = rangeStartDate; t < rangeEndDate; t += self.utils.duration.DAY) {
+			if (!isEnabled(new Date(t))) {
+				containsDisabled = true;
+				break;
 			}
 		}
 
-		for (var _i = 0; _i < self.days.childNodes.length; _i++) {
-			if (minIndex && _i < minIndex) self.days.childNodes[_i].classList.add("notAllowed");else {
-				self.days.childNodes[_i].classList.remove("notAllowed");
-				self.days.childNodes[_i].classList[_i < startIndex || _i > endIndex ? "remove" : "add"]("inRange");
-			}
+		for (var timestamp = getDateFromElement(self.days.childNodes[0]).getTime(), i = 0; i < 42; i++, timestamp += self.utils.duration.DAY) {
+			if (timestamp < self.minRangeDate.getTime() || timestamp > self.maxRangeDate.getTime()) {
+				self.days.childNodes[i].classList.add("notAllowed");
+				self.days.childNodes[i].classList.remove("inRange");
+			} else if (!containsDisabled && timestamp > Math.max(self.minRangeDate.getTime(), rangeStartDate) && timestamp < Math.min(self.maxRangeDate.getTime(), rangeEndDate)) self.days.childNodes[i].classList.add("inRange");else self.days.childNodes[i].classList.remove("inRange");
 		}
 	}
 
@@ -24473,33 +24703,51 @@ function Flatpickr(element, config) {
 	}
 
 	function parseConfig() {
-		self.config = {};
-		for (var _config in self.instanceConfig) {
-			self.config[_config] = self.instanceConfig[_config];
-		}for (var k in self.element.dataset || {}) {
-			self.config[k] = typeof Flatpickr.defaultConfig[k] === "boolean" ? self.element.dataset[k] !== "false" : self.element.dataset[k];
-		}
+		var boolOpts = ["utc", "wrap", "weekNumbers", "allowInput", "clickOpens", "time_24hr", "enableTime", "noCalendar", "altInput", "shorthandCurrentMonth", "inline", "static", "enableSeconds", "disableMobile"];
+		self.config = Object.create(Flatpickr.defaultConfig);
+		var userConfig = _extends({}, self.instanceConfig, self.element.dataset || {});
 
-		if (!self.config.dateFormat && self.config.enableTime) {
+		Object.defineProperty(self.config, "minDate", {
+			get: function get() {
+				return this._minDate;
+			},
+			set: function set(date) {
+				this._minDate = parseDate(date, true);
+				if (self.days) redraw();
+			}
+		});
+
+		Object.defineProperty(self.config, "maxDate", {
+			get: function get() {
+				return this._maxDate;
+			},
+			set: function set(date) {
+				this._maxDate = parseDate(date, true);
+				if (self.days) redraw();
+			}
+		});
+
+		_extends(self.config, userConfig);
+
+		for (var i = 0; i < boolOpts.length; i++) {
+			self.config[boolOpts[i]] = self.config[boolOpts[i]] === true || self.config[boolOpts[i]] === "true";
+		}if (!userConfig.dateFormat && userConfig.enableTime) {
 			self.config.dateFormat = self.config.noCalendar ? "H:i" + (self.config.enableSeconds ? ":S" : "") : Flatpickr.defaultConfig.dateFormat + " H:i" + (self.config.enableSeconds ? ":S" : "");
 		}
 
-		if (self.config.altInput && self.config.enableTime && !self.config.altFormat) {
+		if (userConfig.altInput && userConfig.enableTime && !userConfig.altFormat) {
 			self.config.altFormat = self.config.noCalendar ? "h:i" + (self.config.enableSeconds ? ":S K" : " K") : Flatpickr.defaultConfig.altFormat + (" h:i" + (self.config.enableSeconds ? ":S" : "") + " K");
-		}
-
-		for (var _k in Flatpickr.defaultConfig) {
-			self.config[_k] = typeof self.config[_k] !== "undefined" ? self.config[_k] : Flatpickr.defaultConfig[_k];
 		}
 	}
 
 	function parseDate(date) {
-		var timeless = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+		var timeless = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 		if (!date) return null;
 
 		var dateTimeRegex = /(\d+)/g,
-		    timeRegex = /^(\d{1,2})[:\s](\d\d)?[:\s](\d\d)?\s?(a|p)?/i;
+		    timeRegex = /^(\d{1,2})[:\s](\d\d)?[:\s](\d\d)?\s?(a|p)?/i,
+		    date_orig = date;
 
 		if (typeof date === "string") {
 			date = date.trim();
@@ -24523,8 +24771,8 @@ function Flatpickr(element, config) {
 				date = new Date(date);
 		}
 
-		if (!(date instanceof Date) || !date.getTime()) {
-			console.warn("flatpickr: invalid date " + date);
+		if (!(date instanceof Date)) {
+			console.warn("flatpickr: invalid date " + date_orig);
 			console.info(self.element);
 			return null;
 		}
@@ -24573,17 +24821,12 @@ function Flatpickr(element, config) {
 		e.preventDefault();
 		e.stopPropagation();
 
-		if (self.config.allowInput && e.which === 13 && (e.target === self.altInput || e.target === self.input)) return self.setDate((self.altInput || self.input).value);
+		if (self.config.allowInput && e.which === 13 && (e.target === self.altInput || self.input)) return self.setDate((self.altInput || self.input).value), e.target.blur();
 
-		if (!e.target.classList.contains("flatpickr-day") || e.target.classList.contains("disabled")) return;
+		if (!e.target.classList.contains("flatpickr-day") || e.target.classList.contains("disabled") || e.target.classList.contains("notAllowed")) return;
 
-		var isPrevMonthDay = e.target.classList.contains("prevMonthDay"),
-		    isNextMonthDay = e.target.classList.contains("nextMonthDay"),
-		    selectedDate = new Date(self.currentYear, self.currentMonth, e.target.textContent);
-
+		var selectedDate = getDateFromElement(e.target);
 		self.selectedDateElem = e.target;
-
-		if (isPrevMonthDay || isNextMonthDay) changeMonth(+isNextMonthDay - isPrevMonthDay);
 
 		if (self.config.mode === "single") {
 			self.selectedDates = [selectedDate];
@@ -24598,34 +24841,29 @@ function Flatpickr(element, config) {
 			self.selectedDates.sort(function (a, b) {
 				return a.getTime() - b.getTime();
 			});
-
-			if (self.selectedDates.length === 1) onMouseOver(e);
 		}
+
+		if (selectedDate.getMonth() !== self.currentMonth) changeMonth(selectedDate.getMonth(), false);
 
 		updateValue();
 		buildDays();
 		triggerEvent("Change");
+
+		if (self.config.mode === "range" && self.selectedDates.length === 1) onMouseOver(e);
 	}
 
 	function set(option, value) {
-		var isDateOpt = option === "minDate" || option === "maxDate" || option === "defaultDate";
-		self.config[option] = isDateOpt ? parseDate(value) : value;
+		self.config[option] = value;
 		self.redraw();
 		jumpToDate();
 	}
 
 	function setDate(date, triggerChange) {
-		if (self.config.mode === "single") {
-			date = [parseDate(date)];
-			if (!date[0]) return self.clear();
-		} else if (Array.isArray(date)) {
-			for (var i = 0; i < date.length; i++) {
-				date[i] = parseDate(date[i]);
-				if (!date[i]) return self.clear();
-			}
-		}
+		if (!date) return self.clear();
 
-		self.selectedDates = date;
+		self.selectedDates = (Array.isArray(date) ? date.map(parseDate) : [parseDate(date)]).filter(function (d) {
+			return d instanceof Date;
+		});
 		self.redraw();
 		jumpToDate();
 		updateValue(false);
@@ -24638,7 +24876,7 @@ function Flatpickr(element, config) {
 		self.now = new Date();
 		var inputDate = self.config.defaultDate || self.input.value;
 
-		if (Array.isArray(inputDate)) self.selectedDates = inputDate.map(parseDate);else if (inputDate && parseDate(inputDate)) {
+		if (Array.isArray(inputDate)) self.selectedDates = inputDate.map(parseDate);else if (inputDate) {
 			switch (self.config.mode) {
 				case "single":
 					self.selectedDates = [parseDate(inputDate)];
@@ -24655,13 +24893,13 @@ function Flatpickr(element, config) {
 				default:
 					break;
 			}
+
+			self.selectedDates = self.selectedDates.filter(function (d) {
+				return d instanceof Date;
+			});
 		}
 
-		if (self.config.minDate) self.config.minDate = parseDate(self.config.minDate, true);
-
-		if (self.config.maxDate) self.config.maxDate = parseDate(self.config.maxDate, true);
-
-		var initialDate = self.selectedDates.length ? self.selectedDates[0] : self.config.defaultDate || self.config.minDate || self.now;
+		var initialDate = self.selectedDates.length ? self.selectedDates[0] : self.config.minDate || self.now;
 
 		self.currentYear = initialDate.getFullYear();
 		self.currentMonth = initialDate.getMonth();
@@ -24768,16 +25006,19 @@ function Flatpickr(element, config) {
 
 	function setupHelperFunctions() {
 		self.utils = {
+			duration: {
+				DAY: 86400000
+			},
 			getDaysinMonth: function getDaysinMonth() {
-				var month = arguments.length <= 0 || arguments[0] === undefined ? self.currentMonth : arguments[0];
-				var yr = arguments.length <= 1 || arguments[1] === undefined ? self.currentYear : arguments[1];
+				var month = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : self.currentMonth;
+				var yr = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : self.currentYear;
 
 				if (month === 1 && yr % 4 === 0 && yr % 100 !== 0 || yr % 400 === 0) return 29;
 				return Flatpickr.l10n.daysInMonth[month];
 			},
 
 			monthToStr: function monthToStr(monthNumber) {
-				var short = arguments.length <= 1 || arguments[1] === undefined ? self.config.shorthandCurrentMonth : arguments[1];
+				var short = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : self.config.shorthandCurrentMonth;
 				return Flatpickr.l10n.months[(short ? "short" : "long") + "hand"][monthNumber];
 			}
 		};
@@ -24847,7 +25088,15 @@ function Flatpickr(element, config) {
 			}
 		}
 
-		if (event === "Change") self.input.dispatchEvent(self.changeEvent);
+		if (event === "Change") {
+			try {
+				self.input.dispatchEvent(new Event("change", { "bubbles": true }));
+			} catch (e) {
+				if ("createEvent" in document) return self.input.dispatchEvent(self.changeEvent);
+
+				self.input.fireEvent("onchange");
+			}
+		}
 	}
 
 	function latestSelectedDateObj() {
@@ -24870,10 +25119,12 @@ function Flatpickr(element, config) {
 	}
 
 	function updateNavigationCurrentMonth() {
+		if (self.config.noCalendar || self.isMobile || !self.monthNav) return;
+
 		self.currentMonthElement.textContent = self.utils.monthToStr(self.currentMonth) + " ";
 		self.currentYearElement.value = self.currentYear;
 
-		if (self.config.minDate instanceof Date) {
+		if (self.config.minDate) {
 			self.currentYearElement.min = self.config.minDate.getFullYear();
 			var hidePrevMonthArrow = self.currentYear === self.config.minDate.getFullYear() ? (self.currentMonth + 11) % 12 < self.config.minDate.getMonth() : self.currentYear < self.config.minDate.getFullYear();
 
@@ -24883,7 +25134,7 @@ function Flatpickr(element, config) {
 			self.prevMonthNav.style.display = "block";
 		}
 
-		if (self.config.maxDate instanceof Date) {
+		if (self.config.maxDate) {
 			var hideNextMonthArrow = self.currentYear === self.config.maxDate.getFullYear() ? self.currentMonth + 1 > self.config.maxDate.getMonth() : self.currentYear > self.config.maxDate.getFullYear();
 
 			self.nextMonthNav.style.display = hideNextMonthArrow ? "none" : "block";
@@ -24895,7 +25146,7 @@ function Flatpickr(element, config) {
 	}
 
 	function updateValue() {
-		var readTimeInput = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
+		var readTimeInput = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
 		if (!self.selectedDates.length) return self.clear();
 
@@ -24969,8 +25220,8 @@ function Flatpickr(element, config) {
 	}
 
 	function createElement(tag) {
-		var className = arguments.length <= 1 || arguments[1] === undefined ? "" : arguments[1];
-		var content = arguments.length <= 2 || arguments[2] === undefined ? "" : arguments[2];
+		var className = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+		var content = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
 
 		var e = document.createElement(tag);
 		e.className = className;
@@ -25068,7 +25319,7 @@ Flatpickr.defaultConfig = {
 	dateFormat: "Y-m-d",
 
 	// altInput - see https://chmln.github.io/flatpickr/#altinput
-	altInput: null,
+	altInput: false,
 
 	// the created altInput element will have this class.
 	altInputClass: "",

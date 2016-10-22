@@ -54,8 +54,7 @@ Entry =
       type = $(el).data 'type'
 
       switch type
-        when 'Text' then value = $(el).find('input').val()
-        when 'Date' then value = $(el).find('input').val()
+        when 'Text','Date','Time','DateTime','DateRange','DateTimeRange' then value = $(el).find('input').val()
         when 'Tags' then value = $(el).find('input').val().split ','
         when 'Blog'
           blog = Entities.blogGetCode entity_name
@@ -82,7 +81,7 @@ Entry =
       .done (response) ->
         Notice.i response.data.status, type: 'success'
         if Entry._id is false
-          window.history.pushState {}, '', "/structures/#{response.data._id}"
+          window.history.pushState {}, '', "/entries/#{response.data._id}"
         Entry._id = response.data._id
 
   ###
@@ -132,7 +131,7 @@ Entry =
 
       if entity.value
         switch entity.type
-          when 'Text','Tags', 'Date' then html.find('input').val entity.value
+          when 'Text','Date','Time','DateTime','DateRange','DateTimeRange' then html.find('input').val entity.value
 
       html.find('input,select,textarea').attr 'tabindex', tabindex++
       body.append html

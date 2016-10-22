@@ -73,6 +73,21 @@ Entities =
     el.find('input').flatpickr
       dateFormat: 'm/d/Y'
 
+  DateTime: (el, name, value) ->
+    el.find('input').flatpickr
+      dateFormat: 'm/d/Y h:i K'
+      enableTime: true
+
+  DateRange: (el, name, value) ->
+    el.find('input').flatpickr
+      dateFormat: 'm/d/Y'
+      mode: 'range'
+
+  DateTimeRange: (el, name, value) ->
+    el.find('input').flatpickr
+      dateFormat: 'm/d/Y h:i K'
+      enableTime: true
+      mode: 'range'
 
   Image: (el, name, value) ->
 
