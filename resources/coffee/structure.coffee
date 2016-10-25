@@ -93,6 +93,7 @@ Structure =
 
     .promise().done ->
 
+      console.log structure.entities
       Structure.modify structure
 
   modify: (structure) ->

@@ -120,7 +120,7 @@ Entry =
 
       html = $(".page.entry > #template > .entity_#{entity.type}").clone()
       html.data 'name', entity.name
-      html.addClass "entity_name_#{entity.name}"
+      html.addClass "entity_name_#{entity.name.replace(/ /g, '_')}"
 
       if entity.value
         switch entity.type
@@ -129,7 +129,7 @@ Entry =
       html.find('input,select,textarea').attr 'tabindex', tabindex++
       body.append html
 
-      entityEl = $(".page.entry > .modify > .body > .entity_name_#{entity.name}")
+      entityEl = $(".page.entry > .modify > .body > .entity_name_#{entity.name.replace(/ /g, '_')}")
       entityEl.find('.label').html entity.name
 
       if Entities[entity.type] isnt undefined

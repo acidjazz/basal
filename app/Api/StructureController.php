@@ -31,7 +31,7 @@ class StructureController extends MetApiController
     $this->addOption('name', 'required|string');
     $this->addOption('client', 'required|regex:/[0-9a-fA-F]{24}/|exists:client,_id');
     $this->addOption('entities', 'required|array');
-    $this->addOption('entities.*.name', 'required|regex:/^[a-zA-Z0-9]+$/|distinct');
+    $this->addOption('entities.*.name', 'required|string|distinct');
     $this->addOption('entities.*.type', 'required|in:'.implode((new Kernel())->getEntities(), ','));
 
     if (!$query = $this->getQuery()) {
@@ -106,7 +106,7 @@ class StructureController extends MetApiController
     $this->addOption('name', 'required|string');
     $this->addOption('client', 'regex:/[0-9a-fA-F]{24}/|exists:client,_id');
     $this->addOption('entities', 'required|array');
-    $this->addOption('entities.*.name', 'required|regex:/^[a-zA-Z0-9]+$/|distinct');
+    $this->addOption('entities.*.name', 'required|string|distinct');
     $this->addOption('entities.*.type', 'required|in:'.implode((new Kernel())->getEntities(), ','));
 
     if (!$query = $this->getQuery()) {
