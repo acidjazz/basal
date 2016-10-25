@@ -115,12 +115,14 @@ Entry =
     body.html ''
 
     tabindex = 3
+    index = 0
 
     for i, entity of entities
 
       html = $(".page.entry > #template > .entity_#{entity.type}").clone()
-      html.data 'name', entity.name
-      html.addClass "entity_name_#{entity.name.replace(/ /g, '_')}"
+      html.addClass "entity_index_#{++index}"
+      html.data "index", index
+      html.data "name", name
 
       if entity.value
         switch entity.type
@@ -129,11 +131,12 @@ Entry =
       html.find('input,select,textarea').attr 'tabindex', tabindex++
       body.append html
 
-      entityEl = $(".page.entry > .modify > .body > .entity_name_#{entity.name.replace(/ /g, '_')}")
+      entityEl = $(".page.entry > .modify > .body .entity_index_#{index}")
       entityEl.find('.label').html entity.name
 
       if Entities[entity.type] isnt undefined
         Entities[entity.type](entityEl, entity.name, entity.value)
+
     $('[tabindex=2]').focus()
     _.on '.page.entry > .modify > .submit'
     $('.page.entry > .modify > .submit').attr 'tabindex', tabindex

@@ -141,8 +141,9 @@ Entities =
     save: ->
 
       name = $(this).parent().parent().data 'name'
+      index = $(this).parent().parent().data 'index'
 
-      Spinner.i($(".entity_name_#{name}"))
+      Spinner.i($(".entity_index_#{index}"))
 
       Entities.crops[name].getCroppedCanvas().toBlob (blob) ->
         Client.imageUpload blob, (result) ->
@@ -163,6 +164,7 @@ Entities =
   cropper: (url, el) ->
 
     name = el.data 'name'
+    index = el.data 'index'
 
     if Entities.crops[name] isnt undefined
       Entities.crops[name].destroy()
@@ -174,7 +176,7 @@ Entities =
       minContainerHeight: 300
       minCanvasHeight: 300
       responsive: true
-      preview: "div.entity_name_#{name} > div.input-image > div.picture"
+      preview: "div.entity_index_#{index} > div.input-image > div.picture"
       autoCropArea: 1
       strict: false
       highlight: true
