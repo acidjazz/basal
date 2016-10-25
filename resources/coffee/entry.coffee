@@ -47,7 +47,7 @@ Entry =
   submit: ->
 
     name = $('.page.entry > .modify > .name > .input > input').val()
-    entities = []
+    entities = {}
 
     $('.page.entry > .modify > .body > .entity').each (i, el) ->
       entity_name = $(el).find('.label').html()
@@ -62,9 +62,11 @@ Entry =
         when 'Image'
           value = Entities.images[entity_name]
 
-      entities.push name: entity_name, type: type, value: value
+      entities[entity_name] = name: entity_name, type: type, value: value
 
     .promise().done ->
+
+      console.log entities
 
       Spinner.i($('.page.entry > .modify'))
 
@@ -83,15 +85,6 @@ Entry =
         if Entry._id is false
           window.history.pushState {}, '', "/entries/#{response.data._id}"
         Entry._id = response.data._id
-
-  ###
-  clientSelectHandler: (e) ->
-    client_id = $(e.currentTarget).val()
-    return false if client_id.length isnt 24
-    Entry.addSelectClientId = client_id
-    Entry.selectStructure[0].selectize.enable()
-    Entry.selectStructure[0].selectize.clearOptions()
-  ###
 
   structureSelectHandler: (e) ->
     structure_id = $(e.currentTarget).val()
@@ -123,7 +116,7 @@ Entry =
 
     tabindex = 3
 
-    for entity, i in entities
+    for i, entity of entities
 
       html = $(".page.entry > #template > .entity_#{entity.type}").clone()
       html.data 'name', entity.name

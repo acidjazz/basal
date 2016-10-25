@@ -78,18 +78,18 @@ Structure =
   submitHandler: ->
 
     structure = {}
-    structure.entities = []
+    structure.entities = {}
     structure.client = $('.modify > .client > .input > select').val()
     structure.name = $('.modify > .name > .input > input').val()
 
     $('.modify > .entities > .body > .entity').each (i, el) ->
 
-      jinput = $(el).find '.input > input'
-      jselect = $(el).find '.input > select'
+      name = $(el).find('.input > input').val()
+      type = $(el).find('.input > select').val()
 
-      structure.entities.push
-        name: jinput.val()
-        type: jselect.val()
+      structure.entities[name] =
+        name: name
+        type: type
 
     .promise().done ->
 
