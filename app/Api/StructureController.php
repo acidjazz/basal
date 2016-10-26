@@ -144,9 +144,12 @@ class StructureController extends MetApiController
 
   public function get(Request $request)
   {
+
+    /*
     if (!$this->me) {
       return $this->addError('auth', 'session.required')->error();
     }
+     */
 
     $this->addOption('view', 'in:true,false', 'false');
     $this->addOption('client', 'regex:/[0-9a-fA-F]{24}/|exists:client,_id');
@@ -157,8 +160,12 @@ class StructureController extends MetApiController
       return $this->error();
     }
 
-    $clients = Client::whereRaw(['users' => ['$elemMatch' => ['id' => $this->me->_id]]]);
-    $structures = Structure::with('entries')->whereIn('client.id', $clients->get()->pluck('_id'));
+    if ($this->me) {
+      $clients = Client::whereRaw(['users' => ['$elemMatch' => ['id' => $this->me->_id]]]);
+      $structures = Structure::with('entries')->whereIn('client.id', $clients->get()->pluck('_id'));
+    } else {
+      $structures = Structure::query();
+    }
 
     if (isset($query['combined']['client'])) {
       $structures = $structures->where(['client.id' => $query['combined']['client']]);

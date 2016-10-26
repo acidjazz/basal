@@ -1,5 +1,14 @@
 each client in self.clients
   .client.item
+
+    a.link.jsonp.ctab.hint--top(
+      aria-label="Endpoint",
+      href="/api/structures?client=" + client._id,
+      target="_new"
+    ) {&nbsp;&nbsp;}
+
+
+
     .picture.author.hint--top(
       aria-label="Creator is " + client.users[0].name,
       style="background-image: url('" + client.users[0].picture + "');"
