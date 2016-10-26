@@ -153,8 +153,6 @@ Entities =
 
   loadCropper: (file, el) ->
 
-    name = el.data 'name'
-
     reader = new FileReader()
 
     reader.onloadend = ->
@@ -165,6 +163,8 @@ Entities =
 
     name = el.data 'name'
     index = el.data 'index'
+
+    console.log name, index
 
     if Entities.crops[name] isnt undefined
       Entities.crops[name].destroy()

@@ -3,11 +3,14 @@ extends ../extends/layout
 
 block content
   .page.margined.structure
-    .modify
+    form.modify(name="modify")
       #template
         .entity
           .input.selectize-input
-            input(type="text",placeholder="Name")
+            input(type="text",
+            placeholder="Name",
+            title="only a-z, 0-9, -, _, - and spaces are allowed",
+            pattern="^[a-zA-Z0-9\/_\\- ]+$",required)
           .input
             select(name="entityOption")
               option
@@ -40,7 +43,7 @@ block content
         button.more.ctab +
         .clear
       .submit
-        button.ctap Submit
+        button.ctap(type="submit") Submit
       .clear
 
     script.

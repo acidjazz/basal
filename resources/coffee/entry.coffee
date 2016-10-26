@@ -122,7 +122,7 @@ Entry =
       html = $(".page.entry > #template > .entity_#{entity.type}").clone()
       html.addClass "entity_index_#{++index}"
       html.data "index", index
-      html.data "name", name
+      html.data "name", entity.name
 
       if entity.value
         switch entity.type
