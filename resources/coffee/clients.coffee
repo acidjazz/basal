@@ -15,7 +15,7 @@ Clients =
 
     Spinner.i($('.page.clients'))
 
-    _.get '/api/invite', client: client
+    _.get '/api/invite/get', client: client
     .always ->
       Spinner.d()
     .done (response) ->
