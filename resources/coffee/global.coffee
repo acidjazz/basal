@@ -10,7 +10,7 @@ Global =
     Global.handlers()
     Global.loginCheck()
 
-    #_.on ".menu > .options > .option_#{Page}, .menu" if Page?
+    _.on ".menu > .options > .option_#{Page}" if Page?
 
   handlers: ->
 
@@ -42,7 +42,7 @@ Global =
 
   userProfileHandler: ->
 
-    oa = $('.oauths')
+    oa = $('header > .inner > .me > .oauths')
     tl = new TimelineMax repeat: 0
 
     if oa.hasClass 'off'
@@ -110,6 +110,9 @@ Global =
 
     if User.client isnt undefined
       $('header > .inner > .client > .name').html User.client.name
+      $('header > .inner > .client > .picture').css 'background-image', "url(#{User.client.profile})"
+      _.off 'header > .inner > .logo'
+      _.off 'header > .inner > .name'
 
   loginCheck: ->
 
@@ -123,7 +126,18 @@ Global =
       else
         Spinner.d()
 
-      #location.href = '/dashboard' if location.pathname is '/' and result isnt false
-      #location.href = '/' if result is false and location.pathname isnt '/'
+      # turn on all login / registration divs
+      if window.User is undefined
+        _.on 'header > .inner > .me > .profile'
+        _.on '.home > .oauths'
+        _.on 'header > .inner >.logo'
+        _.on 'header > .inner > .name'
 
+      # client based user, go to entries
+      if User?.client isnt undefined and Page isnt 'entries'
+        location.href = '/entries'
 
+      if window.User isnt undefined and User.client is undefined
+        _.on 'header > .inner >.logo'
+        _.on 'header > .inner > .name'
+        _.on '.menu'
