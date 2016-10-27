@@ -11,7 +11,7 @@
       |Selected
     .actions
       .action.delete.ctar(data-type='delete') Delete
-      if buttons
+      if locals.buttons
         each button in buttons
           .action.cta(data-type=button)=button
   .clear

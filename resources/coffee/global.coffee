@@ -10,7 +10,7 @@ Global =
     Global.handlers()
     Global.loginCheck()
 
-    _.on ".menu > .options > .option_#{Page}, .menu" if Page?
+    #_.on ".menu > .options > .option_#{Page}, .menu" if Page?
 
   handlers: ->
 
@@ -62,7 +62,10 @@ Global =
 
     Spinner.i $('header')
 
-    Me.oauth type, (uri) ->
+    params = {}
+    params.invite = Invite.hash if Invite.hash
+
+    Me.oauth type, params, (uri) ->
       Global.window.location.href = uri
 
   oauthWindow: (url) ->
@@ -81,15 +84,20 @@ Global =
         console.log 'closing our shite'
     , 50
 
-
-
     return
 
   oauthComplete: (user) ->
     Spinner.d()
     Global.login user
     Notice.i 'Login Successful', 'success'
-    #setTimeout -> location.href = '/dashboard' , 2000
+    if User.client isnt undefined
+      setTimeout ->
+        location.href = '/entries'
+      2000
+    else
+      setTimeout ->
+        location.href = '/dashboard'
+      2000
 
   login: (user) ->
 
@@ -109,11 +117,13 @@ Global =
 
     Me.authed (result) ->
       Global.login(result) if result isnt false
-      if Global.init isnt false and result isnt false
+      if Global.init isnt false
         Spinner.d()
         window[Global.init].i()
       else
         Spinner.d()
 
-      location.href = '/dashboard' if location.pathname is '/' and result isnt false
-      location.href = '/' if result is false and location.pathname isnt '/'
+      #location.href = '/dashboard' if location.pathname is '/' and result isnt false
+      #location.href = '/' if result is false and location.pathname isnt '/'
+
+

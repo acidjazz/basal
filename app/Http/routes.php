@@ -29,6 +29,8 @@ $app->get('structures/{_id: [0-9a-fA-F]{24}|new}', ['uses' => 'Pages@structure']
 $app->get('entries', ['uses' => 'Pages@entries']);
 $app->get('entries/{_id: [0-9a-fA-F]{24}|new}', ['uses' => 'Pages@entry']);
 
+$app->get('invite/{_id: [0-9a-fA-F]{8}}', ['uses' => 'Pages@invite']);
+
 $app->group([
 
   'prefix' => 'api',
@@ -58,7 +60,8 @@ $app->group([
 
     $app->post('upload', ['uses' =>'FileController@upload']);
 
-    $app->get('invite', ['uses' =>'InviteController@invite']);
+    $app->get('invite/add', ['uses' =>'InviteController@add']);
+    $app->get('invite/get', ['uses' =>'InviteController@get']);
 
   }
 );

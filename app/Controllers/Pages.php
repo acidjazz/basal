@@ -48,4 +48,8 @@ class Pages extends Controller
   {
     return view('pages.entry');
   }
+  public function invite()
+  {
+    return view('pages.invite');
+  }
 }

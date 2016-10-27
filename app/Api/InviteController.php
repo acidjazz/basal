@@ -19,7 +19,21 @@ class InviteController extends MetApiController
     $this->me = User::loggedIn();
   }
 
-  public function invite(Request $request)
+  public function get(Request $request)
+  {
+    $this->addOption('hash', 'required|regex:/[0-9a-fA-F]{8}/|exists:invite,hash');
+
+    if (!$query = $this->getQuery()) {
+      return $this->error();
+    }
+
+    $invite = Invite::where(['hash' => $query['combined']['hash']])->first();
+
+    return $this->render(['status' => 'Invite found', 'invite' => $invite]);
+
+  }
+
+  public function add(Request $request)
   {
     if (!$this->me) {
       return $this->addError('auth', 'session.required')->error();
@@ -41,7 +55,7 @@ class InviteController extends MetApiController
       "profile" => $client->profile,
     ];
 
-    $invite->hash = bin2hex(mcrypt_create_iv(22, MCRYPT_DEV_URANDOM));
+    $invite->hash = substr(md5(uniqid(rand(), true)), 0, 8);
 
     $invite->save();
 

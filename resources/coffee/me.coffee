@@ -6,9 +6,9 @@ Me =
       .done (response) ->
         complete()
 
-  oauth: (type, complete) ->
+  oauth: (type, params={}, complete) ->
 
-    _.get "/api/auth/#{type}"
+    _.get "/api/auth/#{type}", params
       .done (response) ->
         complete(response.data.uri)
 

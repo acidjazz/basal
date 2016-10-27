@@ -3,12 +3,17 @@
 namespace App\Api;
 
 use App\Models\User;
+use App\Models\Client;
+use App\Models\Invite;
+
 use Illuminate\Http\Request;
 
 use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
 
 use OAuth\OAuth2\Service\Google;
+
+use Validator;
 
 class AuthController extends MetApiController
 {
@@ -64,19 +69,51 @@ class AuthController extends MetApiController
         'email' => $result['email'],
         'name' => $result['name'],
         'picture' => $result['picture'],
-        'provider' => 'google'
+        'provider' => 'google',
       ];
 
-      return $this->login($params, 'google');
+      $validator = Validator::make($request->all(), [
+        'state' => 'required|regex:/[0-9a-fA-F]{8}/|exists:invite,hash',
+      ]);
+
+      if ($validator->fails()) {
+        return $this->login($params);
+      }
+
+      return $this->login($params, $request->input('state'));
 
     }
 
-    return $this->render(['uri' => (string) $google->getAuthorizationUri()]);
+    $validator = Validator::make($request->all(), [
+      'invite' => 'required|regex:/[0-9a-fA-F]{8}/|exists:invite,hash',
+    ]);
+
+    if ($validator->fails()) {
+      return $this->render(['uri' => (string) $google->getAuthorizationUri()]);
+    }
+
+    return $this->render([
+      'uri' => (string) $google->getAuthorizationUri(['state' => $request->input('invite')])
+    ]);
   }
 
-  public function login($params) {
+  public function login($params, $hash=false) {
 
     $user = User::where(['id' => $params['id']])->get()->first();
+
+    if ($hash !== false) {
+
+      if ($user !== null) {
+        return view('partial.error', ['title' => 'Error', 'error' => "This account already exists"]);
+      }
+
+      $invite = Invite::where(['hash' => $hash])->first();
+
+      if ($invite === null) {
+        return view('partial.error', ['title' => 'Error', 'error' => "Invite not found"]);
+      }
+
+    }
 
     if ($user !== null) {
       if ($user->provider != $params['provider']) {
@@ -96,6 +133,10 @@ class AuthController extends MetApiController
 
     } else {
 
+      if (isset($invite) && $invite !== null) {
+        $params['client'] = $invite->client;
+      }
+
       // registration
       $user = new User();
       foreach ($params as $key=>$value) {
@@ -104,6 +145,25 @@ class AuthController extends MetApiController
 
       $user->sessions = [];
       $user->save();
+
+      if (isset($invite) && $invite !== null) {
+
+        $client = Client::find($invite->client['id']);
+
+        $users = $client->users;
+
+        $users[] = [
+          'id' => $user->_id,
+          'email' => $user->email,
+          'name' => $user->name,
+          'picture' => $user->picture,
+          'role' => 'client',
+        ];
+
+        $client->users = $users;
+        $client->save();
+
+      }
 
       $user->sessionize();
     }
