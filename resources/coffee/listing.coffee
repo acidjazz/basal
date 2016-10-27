@@ -3,9 +3,12 @@ Listing =
   selected: []
   selectedCursor: 0
 
+  otherActions: false
 
-  i: (content) ->
+
+  i: (content, otherActions=false) ->
     @content = content
+    @otherActions = otherActions
     @load()
     @handlers()
 
@@ -54,6 +57,9 @@ Listing =
           'Are you sure you want to delete these?', ['Yes','No'], (response) ->
             return true if response isnt 'Yes'
             Listing.deleteSelected()
+      else
+        Listing.otherActions(type)
+
                         
   delete: (id, callback) ->
 

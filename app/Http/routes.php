@@ -58,5 +58,7 @@ $app->group([
 
     $app->post('upload', ['uses' =>'FileController@upload']);
 
+    $app->get('invite', ['uses' =>'InviteController@invite']);
+
   }
 );

@@ -81,9 +81,6 @@ Client =
     if Client.crop isnt false
       Client.crop.croppie 'result',
         type: 'canvas'
-        size:
-          width: 100
-          height: 100
         format: 'jpeg'
       .then (response) ->
         Client.imageUpload Client.dataURItoBlob(response), ->

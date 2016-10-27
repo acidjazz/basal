@@ -26,6 +26,12 @@ Prompt =
       Prompt.el.find '.textarea > textarea'
         .val params.value
 
+    if typeof params is 'object' and 'clipboard' of params and params.clipboard is true
+      input = Prompt.el.find '.input'
+      _.on input
+      input.find('input').val params.value
+
+
     Prompt.options = Prompt.el.find '.options > .option'
     _.off Prompt.options
     Prompt.options.removeClass 'active'
@@ -47,6 +53,15 @@ Prompt =
     $(document).keydown Prompt.keydown
     Prompt.options.on 'click', Prompt.click
     Prompt.el.find('.inner > .cancel').on 'click', Prompt.cancel
+    Prompt.el.find('.clipboard').on 'click', Prompt.clipboard
+
+
+  clipboard: ->
+    Prompt.el.find('.input > input').select()
+    if document.execCommand('copy')
+      Notice.i 'Copied to clipboard', type: 'success'
+    else
+      Notice.i 'Unable to clipboard', type: 'warning'
 
   keydown: ->
     k = event.which
