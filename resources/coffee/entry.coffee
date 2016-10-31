@@ -64,7 +64,7 @@ Entry =
       type = $(el).data 'type'
 
       switch type
-        when 'Text','Date','Time','DateTime','DateRange','DateTimeRange' then value = $(el).find('input').val()
+        when 'Text','Link','Date','Time','DateTime','DateRange','DateTimeRange' then value = $(el).find('input').val()
         when 'Tags' then value = $(el).find('input').val().split ','
         when 'Blog'
           blog = Entities.blogGetCode entity_name
@@ -75,8 +75,6 @@ Entry =
       entities[entity_name] = name: entity_name, type: type, value: value
 
     .promise().done ->
-
-      console.log entities
 
       Spinner.i($('.page.entry > .modify'))
 
@@ -99,10 +97,10 @@ Entry =
   structureSelectHandler: (e) ->
     structure_id = $(e.currentTarget).val()
     return false if structure_id.length isnt 24
-    if Entry.entry isnt false
-      Entry.loadEntities Entry.entry.entities, Entry.entry.name
-    else
-      Entry.loadStructure structure_id
+    #if Entry.entry isnt false
+    #  Entry.loadEntities Entry.entry.entities, Entry.entry.name
+    #else
+    Entry.loadStructure structure_id
 
   loadStructure: (_id) ->
 
@@ -119,7 +117,8 @@ Entry =
   loadEntities: (entities, name=false) ->
 
     _.on '.page.entry > .modify > .name'
-    $('.page.entry > .modify > .name > .input > input').val(name) if name isnt false
+    if Entry.entry.name isnt false
+      $('.page.entry > .modify > .name > .input > input').val(Entry.entry.name)
 
     body = $('.page.entry > .modify > .body')
     body.html ''
@@ -134,9 +133,12 @@ Entry =
       html.data "index", index
       html.data "name", entity.name
 
-      if entity.value
+      if Entry.entry.entities?[i]?.value
+
+        value = Entry.entry.entities[i].value
+
         switch entity.type
-          when 'Text','Date','Time','DateTime','DateRange','DateTimeRange' then html.find('input').val entity.value
+          when 'Text','Link','Date','Time','DateTime','DateRange','DateTimeRange' then html.find('input').val value
 
       html.find('input,select,textarea').attr 'tabindex', tabindex++
       body.append html
@@ -145,7 +147,7 @@ Entry =
       entityEl.find('.label').html entity.name
 
       if Entities[entity.type] isnt undefined
-        Entities[entity.type](entityEl, entity.name, entity.value)
+        Entities[entity.type](entityEl, entity.name, value)
 
     $('[tabindex=2]').focus()
     _.on '.page.entry > .modify > .submit'
