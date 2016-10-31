@@ -30,6 +30,7 @@ class StructureController extends MetApiController
 
     $this->addOption('name', 'required|string');
     $this->addOption('client', 'required|regex:/[0-9a-fA-F]{24}/|exists:client,_id');
+    $this->addOption('clientAccess', "required|in:true,false", "false");
     $this->addOption('entities', 'required|array');
     $this->addOption('entities.*.name', 'required|regex:/^[a-zA-Z0-9\/_\- ]+$/|distinct');
     $this->addOption('entities.*.type', 'required|in:'.implode((new Kernel())->getEntities(), ','));
@@ -41,6 +42,7 @@ class StructureController extends MetApiController
     $structure = new Structure();
 
     $structure->name = $query['combined']['name'];
+    $structure->clientAccess = $query['combined']['clientAccess'] === 'true' ? true : false;
     $structure->entities = $query['combined']['entities'];
 
     $client = Client::find($query['combined']['client']);
@@ -74,9 +76,11 @@ class StructureController extends MetApiController
       return $this->error();
     }
 
+    /* allow updating of structures even if entries exist (for now)
     if (Entry::where(['structure.id' => $_id])->count() > 0) {
       return $this->addError('disabled', 'entries.exist')->error();
     }
+     */
 
     $structure = Structure::find($_id);
 
@@ -105,6 +109,7 @@ class StructureController extends MetApiController
 
     $this->addOption('name', 'required|string');
     $this->addOption('client', 'regex:/[0-9a-fA-F]{24}/|exists:client,_id');
+    $this->addOption('clientAccess', "in:true,false", "false");
     $this->addOption('entities', 'required|array');
     $this->addOption('entities.*.name', 'required|regex:/^[a-zA-Z0-9\/_\- ]+$/|distinct');
     $this->addOption('entities.*.type', 'required|in:'.implode((new Kernel())->getEntities(), ','));
@@ -113,14 +118,20 @@ class StructureController extends MetApiController
       return $this->error();
     }
 
+    /* allow updating of structures even if entries exist (for now)
     if (Entry::where(['structure.id' => $_id])->count() > 0) {
       return $this->addError('disabled', 'entries.exist')->error();
     }
+     */
 
     $structure = Structure::find($_id);
 
     if (isset($query['combined']['name'])) {
       $structure->name = $query['combined']['name'];
+    }
+
+    if (isset($query['combined']['clientAccess'])) {
+      $structure->clientAccess = $query['combined']['clientAccess'] === 'true' ? true : false;
     }
 
     if (isset($query['combined']['client'])) {

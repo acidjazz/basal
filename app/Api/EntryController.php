@@ -117,10 +117,18 @@ class EntryController extends MetApiController
 
     $entries = Entry::query();
 
+
     if ($this->me !== false) {
       $clients = Client::whereRaw(['users' => ['$elemMatch' => ['id' => $this->me->_id]]]);
       $entries = $entries->whereIn('client.id', $clients->get()->pluck('_id'));
     }
+
+    # filter only client accessable structures for client-based users
+    if ($this->me->client && count($this->me->client) === 3) {
+      $structures = Structure::where(['client.id' => $this->me->client['id'], 'clientAccess' => true]);
+      $entries = $entries->whereIn('structure.id', $structures->get()->pluck('_id'));
+    }
+
 
     if (isset($query['combined']['structure'])) {
       $entries = $entries->where(['structure.id' => $query['combined']['structure']]);

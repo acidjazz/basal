@@ -16,18 +16,25 @@ Structure =
     if match = location.pathname.match /\/structures\/([0-9a-fA-F]{24})/
       @_id = match[1]
       @load @_id
+      _.on '.modify > .submit > .cta'
     else
       @entityAdd()
 
-
     @clientSelect[0].selectize.focus() if @_id is false
-
 
   handlers: ->
 
     $('.modify > .entities > .more').click @entityAddHandler
     $('.modify > .entities').on 'click','.entity > .remove', @entityRemoveHandler
     $('.modify > .submit > .ctap').click @submitHandler
+    $('.modify > .submit > .cta').click @newEntryHandler
+    $('.modify > .clientAccess > .checkbox').on 'click', @checkboxHandler
+
+  checkboxHandler: ->
+    cb = $(this).find 'input'
+    if event.target.type isnt 'checkbox'
+      cb[0].checked = !cb[0].checked
+      cb.change()
 
   load: ->
 
@@ -41,6 +48,10 @@ Structure =
       location.href = '/structures/new' if response.data.length < 1
       structure = response.data[0]
       $('.modify > .name > .input > input').val structure.name
+
+      if structure.clientAccess is true
+        $('.modify > .clientAccess > .checkbox > input')[0].checked = true
+
       for i, entity of structure.entities
         Structure.entityAdd false, entity
 
@@ -81,6 +92,7 @@ Structure =
     structure.entities = {}
     structure.client = $('.modify > .client > .input > select').val()
     structure.name = $('.modify > .name > .input > input').val()
+    structure.clientAccess = $('.modify > .clientAccess > .checkbox > input')[0].checked
 
     $('.modify > .entities > .body > .entity').each (i, el) ->
 
@@ -96,6 +108,9 @@ Structure =
       console.log structure.entities
       Structure.modify structure
 
+  newEntryHandler: ->
+    location.href = "/entries/new#structure=#{Structure._id}"
+
   modify: (structure) ->
 
     Spinner.i($('.page.structure'))
@@ -109,6 +124,7 @@ Structure =
         Spinner.d()
       .done (response) ->
         Notice.i response.data.status, 'success'
+        _.on '.modify > .submit > .cta'
         if Structure._id is false
           window.history.pushState {}, '', "/structures/#{response.data._id}"
         Structure._id = response.data._id

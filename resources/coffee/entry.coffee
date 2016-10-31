@@ -4,9 +4,13 @@ Entry =
 
   _id: false
   structure: false
+  selectedStructure: false
   entry: false
 
   i: ->
+
+    if match = location.hash.match /#structure=([0-9a-fA-F]{24})/
+      Entry.selectedStructure = match[1]
 
     @selectize()
     @handlers()
@@ -16,7 +20,13 @@ Entry =
       @load @_id
     else
       Entry.selectStructure[0].selectize.focus()
+
+  structureSpecified: ->
+    if Entry.selectedStructure isnt false
+      Entry.selectStructure[0].selectize.setValue Entry.selectedStructure
+
  
+
   selectize: ->
 
     @selectStructure = Selectize.structures $('.modify > .structure > select'),

@@ -31,6 +31,8 @@ Selectize =
       searchField: 'name'
       create: false
       preload: 'focus'
+      openOnFocus: true
+      onLoad: Entry.structureSpecified
       render:
         option: (item, escape) ->
           return "<div>#{item.name}</div>"

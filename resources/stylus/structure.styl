@@ -1,3 +1,10 @@
+.testing // https://github.com/wavded/vim-stylus/issues/48
+  &.google
+    > svg path
+      fill red
+  &.github> svg path
+    fill blue
+
 .page.structure
   > .modify
     margin 10px 0
@@ -24,6 +31,11 @@
         width 80%
         > input
           width 100%
+      > .checkbox
+        cursor pointer
+        float left
+        padding 10px
+        margin-left -10px
     > .entities
       border-bottom 1px solid gc(grey1)
       > .more
@@ -59,10 +71,15 @@
             gf(h2)
     > .submit
       margin 20px 0 0 0
-      > .ctap
+      > .ctap, > .cta
         gf(c1b)
         float right
         padding 10px
+        margin 0 0 0 10px
+      > .cta
+        onoff()
+        gf(c1tb)
+        padding 12px 10px
   > .content
     padding 20px 0
     > .listing
