@@ -10,26 +10,25 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
+$app->group([
+  'namespace' => 'App\Controllers',
+], function($app) {
 
-$app->get('guide', ['uses' => 'Pages@guide']);
+  $app->get('guide', ['uses' => 'Pages@guide']);
+  $app->get('/', ['uses' => 'Pages@home']);
+  $app->get('/loading', ['uses' => 'Pages@loading']);
+  $app->get('/dashboard', ['uses' => 'Pages@dashboard']);
+  $app->get('users', ['uses' => 'Pages@users']);
+  $app->get('clients', ['uses' => 'Pages@clients']);
+  $app->get('clients/{_id: [0-9a-fA-F]{24}|new}', ['uses' => 'Pages@client']);
+  $app->get('structures', ['uses' => 'Pages@structures']);
+  $app->get('structures/{_id: [0-9a-fA-F]{24}|new}', ['uses' => 'Pages@structure']);
+  $app->get('entries', ['uses' => 'Pages@entries']);
+  $app->get('entries/{_id: [0-9a-fA-F]{24}|new}', ['uses' => 'Pages@entry']);
+  $app->get('invite/{_id: [0-9a-fA-F]{8}}', ['uses' => 'Pages@invite']);
 
-$app->get('/', ['uses' => 'Pages@home']);
-
-$app->get('/loading', ['uses' => 'Pages@loading']);
-
-$app->get('/dashboard', ['uses' => 'Pages@dashboard']);
-$app->get('users', ['uses' => 'Pages@users']);
-
-$app->get('clients', ['uses' => 'Pages@clients']);
-$app->get('clients/{_id: [0-9a-fA-F]{24}|new}', ['uses' => 'Pages@client']);
-
-$app->get('structures', ['uses' => 'Pages@structures']);
-$app->get('structures/{_id: [0-9a-fA-F]{24}|new}', ['uses' => 'Pages@structure']);
-
-$app->get('entries', ['uses' => 'Pages@entries']);
-$app->get('entries/{_id: [0-9a-fA-F]{24}|new}', ['uses' => 'Pages@entry']);
-
-$app->get('invite/{_id: [0-9a-fA-F]{8}}', ['uses' => 'Pages@invite']);
+  }
+);
 
 $app->group([
 

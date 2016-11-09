@@ -131,7 +131,7 @@ $app->singleton('filesystem', function ($app) {
 |
 */
 
-$app->group(['namespace' => 'App\Controllers'], function ($app) {
+$app->group([], function ($app) {
     require __DIR__.'/../app/Http/routes.php';
 });
 
