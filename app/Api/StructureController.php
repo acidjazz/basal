@@ -175,7 +175,7 @@ class StructureController extends MetApiController
       $clients = Client::whereRaw(['users' => ['$elemMatch' => ['id' => $this->me->_id]]]);
       $structures = Structure::with('entries')->whereIn('client.id', $clients->get()->pluck('_id'));
     } else {
-      $structures = Structure::query();
+      $structures = Structure::with('entries');
     }
 
     if (isset($query['combined']['client'])) {
