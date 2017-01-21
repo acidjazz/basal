@@ -27,6 +27,7 @@ each entry in self.entries
         time.hint--top.value(title=entry.updated_at)
           include ../../vector/time.svg
 
-      .detail.structure structure 
+      .detail.structure uses the  
         a.value(href='/structures/' + entry.structure.id) #{entry.structure.name}
+        | structure
     .clear
