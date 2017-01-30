@@ -138,6 +138,8 @@ class EntryController extends MetApiController
       $entries = $entries->where(['_id' => $query['combined']['_id']]);
     }
 
+    $entries = $entries->orderBy('updated_at', 'desc');
+
     $entries = $entries->paginate(20);
     $this->addPaginate($entries);
 

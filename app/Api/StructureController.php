@@ -156,16 +156,9 @@ class StructureController extends MetApiController
   public function get(Request $request)
   {
 
-    /*
-    if (!$this->me) {
-      return $this->addError('auth', 'session.required')->error();
-    }
-     */
-
     $this->addOption('view', 'in:true,false', 'false');
     $this->addOption('client', 'regex:/[0-9a-fA-F]{24}/|exists:client,_id');
     $this->addOption('_id', 'regex:/[0-9a-fA-F]{24}/');
-
 
     if (!$query = $this->getQuery()) {
       return $this->error();
@@ -185,6 +178,8 @@ class StructureController extends MetApiController
     if (isset($query['combined']['_id'])) {
       $structures = $structures->where(['_id' => $query['combined']['_id']]);
     }
+
+    $structures = $structures->orderBy('updated_at', 'desc');
 
     $structures = $structures->paginate(20);
 
