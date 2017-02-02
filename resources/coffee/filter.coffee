@@ -33,6 +33,7 @@ Filter =
 
   select: (option) ->
     console.log 'selected', option
+    qs.param Filter.filter, option
 
   handlers:
 

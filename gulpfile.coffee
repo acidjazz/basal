@@ -1,4 +1,5 @@
 gulp         = require 'gulp'
+browserify   = require 'browserify'
 sync         = require('browser-sync').create()
 notify       = require 'gulp-notify'
 
@@ -21,6 +22,8 @@ gulpif       = require 'gulp-if'
 fs           = require 'fs'
 objectus     = require 'objectus'
 
+gutil          = require 'gulp-util'
+
 env = 'dev'
 
 dirs =
@@ -39,7 +42,6 @@ objectify = (complete) ->
     delete pubconfig[dim] for dim in secure
     fs.writeFileSync(dirs.coffee + '/config.coffee', "config = " + JSON.stringify(pubconfig) + ";", 'utf8')
     complete?()
-  
     
 objectify()
 
@@ -49,6 +51,12 @@ gulp.task 'goprod', ->
   env = 'prod'
 
 gulp.task 'vendor', ->
+
+  b = browserify('', {require: 'qs', standalone: 'qs'})
+  b.bundle()
+  .pipe(source('requires.js'))
+  .pipe(gulpif(env != 'dev',uglify()))
+  .pipe gulp.dest('public/js/')
 
   gulp.src([
     'node_modules/jquery/dist/jquery.js',
@@ -61,12 +69,13 @@ gulp.task 'vendor', ->
     'node_modules/croppie/croppie.js',
     'node_modules/flatpickr/dist/flatpickr.js',
     'node_modules/cropperjs/dist/cropper.js',
-    'node_modules/qs/compiled.js',
+    'public/js/requires.js',
   ])
-
   .pipe(gulpif(env != 'dev',uglify()))
   .pipe(concat('vendor.js'))
   .pipe gulp.dest('public/js/')
+
+  #fs.unlinkSync __dirname + '/public/js/requires.js'
 
   gulp.src([
     'node_modules/json-browse/json-browse/jquery.json-browse.css',
