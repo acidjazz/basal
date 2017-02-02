@@ -17,15 +17,19 @@
           .action.cta(data-type=button)=button
 
   .filters
-    .filter.filter_structures.off(data-filter='structures')
-      .option.option_default.on Structures
+    .filter.filter_structure.off(data-filter='structure',data-endpoint='structures')
+      .option.option_default.on
+        .copy Structure
         .icon.down
           include ../../vector/down.svg
-      .option.option_selected.off Events
+        .clear
+      .option.option_selected.off
+        .copy.copy_selected ???
         .icon.cancel
           include ../../vector/close.svg
+        .clear
 
-    .selection.selection_structures.off
+    .selection.selection_structure.off
       .inner
         .label
           .icon.cancel
@@ -33,7 +37,7 @@
 
           .copy Filter by structure
         .search
-          input(type="text",placeholder="Filter structures")
+          input(type="text",placeholder="Filter structure")
         .values
 
   .clear

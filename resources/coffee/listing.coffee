@@ -14,14 +14,14 @@ Listing =
     @load()
     @handlers()
 
-    _.on ".filter_#{filter}" for filter in @filters
+
+    Filter.i @filters if @filters.length > 0
 
   handlers: ->
     $(".listing.#{@content}").on 'click', '.checkbox', @checkboxHandler
     $(".listing.#{@content}").on 'change', '.list-header > .checkbox > input', @selectAllHandler
     $(".listing.#{@content}").on 'change', '.checkbox > input', @stateHandler
     $(".listing.#{@content}").on 'click', '.list-header > .state_actions > .actions > .action', @actionHandler
-    $(".listing.#{@content}").on 'click', '.list-header > .filters > .filter', @filterHandler if @filters.length > 0
 
   checkboxHandler: ->
     cb = $(this).find 'input'
@@ -63,10 +63,6 @@ Listing =
             Listing.deleteSelected()
       else
         Listing.otherActions(type)
-
-  filterHandler: ->
-    event.stopPropagation()
-    Filter.i $(this).data 'filter'
                         
   delete: (id, callback) ->
 
@@ -93,9 +89,19 @@ Listing =
 
     Spinner.i($(".page.#{Listing.content}"))
 
-    _.get "/api/#{@content}", view: true
+    options = view: true
+
+    for filter in @filters
+      if Query.param(filter) isnt undefined
+        options[filter + '.name'] = Query.param filter
+
+    console.log options
+
+    _.get "/api/#{@content}", options
     .done (response) =>
       Time.i()
       Spinner.d()
       $('.listing > .list-header > .state_stats > .copy > .value').text response.data.length
       $(".#{@content} > .content > .listing > .items").html response.view
+
+

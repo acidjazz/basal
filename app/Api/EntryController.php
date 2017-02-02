@@ -108,6 +108,8 @@ class EntryController extends MetApiController
       $this->addOption('structure', 'regex:/[0-9a-fA-F]{24}/|exists:structure,_id');
     }
 
+    $this->addOption('structure_name', 'regex:/[a-zA-Z0-9]+/|exists:structure,name');
+
     $this->addOption('_id', 'regex:/[0-9a-fA-F]{24}/|exists:entry,_id');
     $this->addOption('view', "in:true,false", "false");
 
@@ -132,6 +134,10 @@ class EntryController extends MetApiController
 
     if (isset($query['combined']['structure'])) {
       $entries = $entries->where(['structure.id' => $query['combined']['structure']]);
+    }
+
+    if (isset($query['combined']['structure_name'])) {
+      $entries = $entries->where(['structure.name' => $query['combined']['structure_name']]);
     }
 
     if (isset($query['combined']['_id'])) {
