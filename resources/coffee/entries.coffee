@@ -1,4 +1,4 @@
 Entries =
 
   i: ->
-    Listing.i 'entries'
+    Listing.i 'entries', false, ['structures']

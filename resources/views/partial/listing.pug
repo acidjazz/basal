@@ -5,6 +5,7 @@
     .copy
       .value ?
       |Total
+
   .state.state_actions.off
     .copy
       .value 12
@@ -14,5 +15,26 @@
       if buttons
         each button in buttons
           .action.cta(data-type=button)=button
+
+  .filters
+    .filter.filter_structures.off(data-filter='structures')
+      .option.option_default.on Structures
+        .icon.down
+          include ../../vector/down.svg
+      .option.option_selected.off Events
+        .icon.cancel
+          include ../../vector/close.svg
+
+    .selection.selection_structures.off
+      .inner
+        .label
+          .icon.cancel
+            include ../../vector/close.svg
+
+          .copy Filter by structure
+        .search
+          input(type="text",placeholder="Filter structures")
+        .values
+
   .clear
 .items

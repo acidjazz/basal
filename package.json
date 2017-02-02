@@ -22,6 +22,7 @@
   "homepage": "https://github.com/acidjazz/basal#readme",
   "dependencies": {
     "browser-sync": "^2.14.3",
+    "browserify": "^14.0.0",
     "coffee-script": "^1.10.0",
     "cropperjs": "^0.8.1",
     "croppie": "^2.3.0",
@@ -46,6 +47,7 @@
     "moment": "^2.15.1",
     "novacancy.js": "0.0.1",
     "objectus": "^1.1.1",
+    "qs": "^6.3.0",
     "rollup-plugin-coffee-script": "^1.1.0",
     "rollup-stream": "^1.12.0",
     "selectize": "^0.12.3",

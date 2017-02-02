@@ -1,23 +1,27 @@
 Listing =
   content: false
   selected: []
+  filters: []
   selectedCursor: 0
 
   otherActions: false
 
+  i: (content, otherActions=false, filters=[]) ->
 
-  i: (content, otherActions=false) ->
+    @filters = filters
     @content = content
     @otherActions = otherActions
     @load()
     @handlers()
 
+    _.on ".filter_#{filter}" for filter in @filters
+
   handlers: ->
     $(".listing.#{@content}").on 'click', '.checkbox', @checkboxHandler
     $(".listing.#{@content}").on 'change', '.list-header > .checkbox > input', @selectAllHandler
     $(".listing.#{@content}").on 'change', '.checkbox > input', @stateHandler
-
     $(".listing.#{@content}").on 'click', '.list-header > .state_actions > .actions > .action', @actionHandler
+    $(".listing.#{@content}").on 'click', '.list-header > .filters > .filter', @filterHandler if @filters.length > 0
 
   checkboxHandler: ->
     cb = $(this).find 'input'
@@ -60,6 +64,9 @@ Listing =
       else
         Listing.otherActions(type)
 
+  filterHandler: ->
+    event.stopPropagation()
+    Filter.i $(this).data 'filter'
                         
   delete: (id, callback) ->
 

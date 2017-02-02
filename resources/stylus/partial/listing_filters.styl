@@ -1,0 +1,99 @@
+> .filters
+  position relative
+  float right
+  margin 0 15px
+
+  > .selection
+    onoff()
+    position absolute
+    width 300px
+    border 1px solid gc(grey1)
+    border-radius 3px
+    background-color gc(grey2)
+    z-index 10
+    top 38px
+    right 0
+    box-shadow 0 3px 12px rgba(0,0,0,0.15)
+    > .inner
+      > .label
+        > .copy
+          padding 10px
+          gf(c1sb)
+        > .icon
+          cursor pointer
+          float right
+          width 30px
+          height 36px
+          &:hover > svg > path
+            fill gc(black1)
+          > svg
+            float right
+            width 10px
+            height 10px
+            margin 12px 9px 0 0
+            > path
+              fill gc(grey3)
+              transition fill 0.2s linear 0s
+      > .search
+        border-top 1px solid gc(grey1)
+        border-bottom 1px solid gc(grey1)
+        padding 5px
+        > input
+          width 100%
+          background-color gc(white1)
+          gf(c1)
+          line-height 20px
+          padding 5px 
+          outline none
+          box-shadow inset 0 1px 2px rgba(0,0,0,0.075)
+          border-radius 3px
+          border 1px solid gc(grey1);
+          &:focus
+            outline 1px solid gc(blue1)
+
+      > .values
+        min-height 100px
+        background-color gc(white1)
+        > .value
+          cursor pointer
+          border-bottom 1px solid gc(grey1)
+          padding 10px
+          gf(c1b)
+          transition background-color 0.1s linear 0s
+          &.on
+            background-color gc(grey2)
+
+  > .filter
+    padding 8px 0
+    float left
+    onoff()
+    margin 0 0 0 10px
+    > .option
+      onoff()
+      padding 6px 12px
+      border 1px solid gc(grey1)
+      background-color gc(white1)
+      color gc(black3)
+      &:hover
+        color gc(black1)
+        > .icon.down > svg > path
+          fill gc(black1)
+      cursor pointer
+      > .icon
+        float right
+        margin 0 0 0 10px
+        &.down
+          width 10px
+          height 10px
+        &.cancel
+          width 10px
+          height 10px
+          > svg > path
+            fill gc(black1)
+        > svg
+          width inherit
+          height inherit
+          > path
+            fill gc(grey3)
+            transition fill 0.2s linear 0s
+

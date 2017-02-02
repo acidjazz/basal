@@ -76,11 +76,9 @@ class StructureController extends MetApiController
       return $this->error();
     }
 
-    /* allow updating of structures even if entries exist (for now)
     if (Entry::where(['structure.id' => $_id])->count() > 0) {
       return $this->addError('disabled', 'entries.exist')->error();
     }
-     */
 
     $structure = Structure::find($_id);
 
@@ -156,9 +154,11 @@ class StructureController extends MetApiController
   public function get(Request $request)
   {
 
-    $this->addOption('view', 'in:true,false', 'false');
+    $this->addOption('view', 'in:true,false,filters', 'false');
     $this->addOption('client', 'regex:/[0-9a-fA-F]{24}/|exists:client,_id');
     $this->addOption('_id', 'regex:/[0-9a-fA-F]{24}/');
+
+    $this->addOption('name', 'regex:/[0-9a-zA-z]/');
 
     if (!$query = $this->getQuery()) {
       return $this->error();
@@ -179,6 +179,11 @@ class StructureController extends MetApiController
       $structures = $structures->where(['_id' => $query['combined']['_id']]);
     }
 
+    if (isset($query['combined']['name'])) {
+      $structures = $structures->where('name', 'regexp',
+        new \MongoDB\BSON\Regex($query['combined']['name'], 'i'));
+    }
+
     $structures = $structures->orderBy('updated_at', 'desc');
 
     $structures = $structures->paginate(20);
@@ -188,6 +193,9 @@ class StructureController extends MetApiController
     $view = false;
     if ($query['combined']['view'] === 'true') {
       $view = view('partial.structures', ['structures' => $structures->items()])->render();
+    }
+    if ($query['combined']['view'] === 'filters') {
+      $view = view('partial.listing_filters_values', ['structures' => $structures->items()])->render();
     }
 
     return $this->render($structures->items(),$view);

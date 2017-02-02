@@ -139,8 +139,8 @@ class EntryController extends MetApiController
     }
 
     $entries = $entries->orderBy('updated_at', 'desc');
-
     $entries = $entries->paginate(20);
+
     $this->addPaginate($entries);
 
     $view = false;

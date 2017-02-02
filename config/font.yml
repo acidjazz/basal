@@ -40,9 +40,9 @@ c1tb:
 
 c1sb:
   font-family: Roboto
-  font-size: 14px
+  font-size: 12px
   font-weight: '600'
-  letter-spacing: 1px
+  letter-spacing: 0.5px
 
 c2:
   font-family: Roboto

@@ -61,6 +61,7 @@ gulp.task 'vendor', ->
     'node_modules/croppie/croppie.js',
     'node_modules/flatpickr/dist/flatpickr.js',
     'node_modules/cropperjs/dist/cropper.js',
+    'node_modules/qs/compiled.js',
   ])
 
   .pipe(gulpif(env != 'dev',uglify()))
