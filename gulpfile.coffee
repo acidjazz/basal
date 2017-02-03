@@ -43,19 +43,24 @@ objectify = (complete) ->
     fs.writeFileSync(dirs.coffee + '/config.coffee', "config = " + JSON.stringify(pubconfig) + ";", 'utf8')
     complete?()
     
-objectify()
-
-gulp.task 'larjectus', objectify
+gulp.task 'larjectus', (done) ->
+  objectify (complete) ->
+    done()
 
 gulp.task 'goprod', ->
   env = 'prod'
+
+gulp.task 'cleanup', ['vendor'], ->
+
+  #requires = __dirname + '/public/js/requires.js'
+  #if fs.existsSync requires
+  #  fs.unlinkSync requires
 
 gulp.task 'vendor', ->
 
   b = browserify('', {require: 'qs', standalone: 'qs'})
   b.bundle()
   .pipe(source('requires.js'))
-  .pipe(gulpif(env != 'dev',uglify()))
   .pipe gulp.dest('public/js/')
 
   gulp.src([
@@ -75,8 +80,6 @@ gulp.task 'vendor', ->
   .pipe(concat('vendor.js'))
   .pipe gulp.dest('public/js/')
 
-  #fs.unlinkSync __dirname + '/public/js/requires.js'
-
   gulp.src([
     'node_modules/json-browse/json-browse/jquery.json-browse.css',
     'node_modules/selectize/dist/css/selectize.css',
@@ -92,7 +95,7 @@ gulp.task 'vendor', ->
   .pipe gulp.dest('public/css/')
 
 
-gulp.task 'coffee', ->
+gulp.task 'coffee', ['larjectus'], ->
   gulp.src(dirs.coffee + '/*.coffee')
     .pipe(gulpif(env == 'dev', sourcemaps.init(loadMaps: true)))
     .pipe(coffee(bare: true)
@@ -107,31 +110,7 @@ gulp.task 'coffee', ->
     .pipe(gulp.dest('./public/js'))
     .pipe(sync.stream())
 
-gulp.task 'rollup', ->
-  
-  rollup(
-    entry: dirs.coffee + '/main.coffee'
-    plugins: [
-      rollupc()
-    ]
-    format: 'iife'
-    sourceMap: (env == 'dev')
-  )
-    .on('error', notify.onError((error) ->
-      title: 'Rollup error: ' + error.name
-      message: error.message
-      sound: 'Pop'
-    ))
-
-  .pipe(source('bundle.js'))
-  .pipe(buffer())
-  .pipe(gulpif(env == 'dev', sourcemaps.init(loadMaps: true)))
-  .pipe(gulpif(env != 'dev',uglify()))
-  .pipe(gulpif(env == 'dev',sourcemaps.write()))
-  .pipe(gulp.dest('public/js'))
-  .pipe sync.stream()
-
-gulp.task 'stylus',->
+gulp.task 'stylus', ['larjectus'], ->
   objectify ->
     gulp.src(dirs.stylus + '/main.styl')
       .pipe(gulpif(env == 'dev',sourcemaps.init(loadMaps: true)))
@@ -175,5 +154,5 @@ gulp.task 'sync', ->
   watch()
 
 gulp.task 'watch', watch
-gulp.task 'default', ['larjectus','stylus','vendor','coffee']
+gulp.task 'default', ['stylus','coffee', 'cleanup']
 gulp.task 'prod', ['goprod','default']
