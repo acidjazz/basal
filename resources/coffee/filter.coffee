@@ -105,7 +105,6 @@ Filter =
       _.off '.selection > .inner > .values > .value.on'
       _.on $(this)
 
-
     selectHandler: ->
       Filter.select $(this).find('.name').html()
 
@@ -114,8 +113,8 @@ Filter =
       key = event.keyCode
 
       switch key
-        when 40 then Filter.nav 'down'
-        when 38 then Filter.nav 'up'
+        when 40, 39 then Filter.nav 'down'
+        when 37,38 then Filter.nav 'up'
         when 13 then Filter.select $('.selection > .inner > .values > .value.on > .name').html()
         else Filter.get $(this).val()
 
