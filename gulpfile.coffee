@@ -20,6 +20,7 @@ pug          = require 'gulp-pug'
 sourcemaps   = require 'gulp-sourcemaps'
 gulpif       = require 'gulp-if'
 fs           = require 'fs'
+del           = require 'del'
 objectus     = require 'objectus'
 
 gutil          = require 'gulp-util'
@@ -50,18 +51,16 @@ gulp.task 'larjectus', (done) ->
 gulp.task 'goprod', ->
   env = 'prod'
 
-gulp.task 'cleanup', ['vendor'], ->
-
-  #requires = __dirname + '/public/js/requires.js'
-  #if fs.existsSync requires
-  #  fs.unlinkSync requires
-
-gulp.task 'vendor', ->
-
+gulp.task 'cleanup', ['requires'], ->
+  return del([ __dirname + '/public/js/requires.js' ])
+  
+gulp.task 'requires', ['vendor'], ->
   b = browserify('', {require: 'qs', standalone: 'qs'})
-  b.bundle()
+  return b.bundle()
   .pipe(source('requires.js'))
   .pipe gulp.dest('public/js/')
+
+gulp.task 'vendor', ->
 
   gulp.src([
     'node_modules/jquery/dist/jquery.js',
@@ -93,7 +92,6 @@ gulp.task 'vendor', ->
   .pipe(gulpif(env != 'dev',clean()))
   .pipe(concat('vendor.css'))
   .pipe gulp.dest('public/css/')
-
 
 gulp.task 'coffee', ['larjectus'], ->
   gulp.src(dirs.coffee + '/*.coffee')
@@ -154,5 +152,5 @@ gulp.task 'sync', ->
   watch()
 
 gulp.task 'watch', watch
-gulp.task 'default', ['stylus','coffee', 'cleanup']
+gulp.task 'default', ['stylus','coffee','cleanup']
 gulp.task 'prod', ['goprod','default']

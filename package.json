@@ -26,6 +26,7 @@
     "coffee-script": "^1.10.0",
     "cropperjs": "^0.8.1",
     "croppie": "^2.3.0",
+    "del": "^2.2.2",
     "flatpickr": "chmln/flatpickr#gh-pages",
     "gsap": "^1.19.0",
     "gulp": "^3.9.1",
