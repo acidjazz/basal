@@ -35,6 +35,16 @@ class EntryController extends MetApiController
       return $this->error();
     }
 
+    $entries = Entry::where([
+      'structure.id' =>  $query['combined']['structure'],
+      'name' =>  $query['combined']['name'],
+    ]);
+
+    if ($entries->count() > 0) {
+      $this->addError('name', 'validation.unique');
+      return $this->error();
+    }
+
     $entry = new Entry();
     $entry->name = $query['combined']['name'];
 
