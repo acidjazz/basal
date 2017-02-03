@@ -25,8 +25,6 @@ Entry =
     if Entry.selectedStructure isnt false
       Entry.selectStructure[0].selectize.setValue Entry.selectedStructure
 
- 
-
   selectize: ->
 
     @selectStructure = Selectize.structures $('.modify > .structure > select'),
@@ -34,6 +32,7 @@ Entry =
 
   handlers: ->
     $('.page.entry > .modify > .submit').click @submit
+    $('.page.entry > .modify > .another').click @another
 
     $('.focusme').focus ->
       $('.note-editable').focus()
@@ -93,9 +92,13 @@ Entry =
         if Entry._id is false
           window.history.pushState {}, '', "/entries/#{response.data._id}"
         Entry._id = response.data._id
+        _.on '.page.entry > .modify > .another'
 
+  another: ->
+    location.href = "/entries/new#structure=#{Entry.structure}"
   structureSelectHandler: (e) ->
     structure_id = $(e.currentTarget).val()
+    console.log structure_id
     return false if structure_id.length isnt 24
     #if Entry.entry isnt false
     #  Entry.loadEntities Entry.entry.entities, Entry.entry.name
@@ -151,4 +154,5 @@ Entry =
 
     $('[tabindex=2]').focus()
     _.on '.page.entry > .modify > .submit'
-    $('.page.entry > .modify > .submit').attr 'tabindex', tabindex
+    $('.page.entry > .modify > .submit').attr 'tabindex', tabindex++
+    $('.page.entry > .modify > .another').attr 'tabindex', tabindex
