@@ -5,9 +5,11 @@ Query =
 
   setQuery: (params) ->
     query = qs.stringify params
-    location.search = '?' + query if query isnt undefined
-    location.search = location.search.substr(1) if query is undefined
+    if query is undefined or query is ''
+      history.pushState null, null, location.pathname
+      return true
 
+    history.pushState null, null, location.pathname + '?' + query
     
   param: (key, value) ->
 

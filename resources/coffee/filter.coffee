@@ -11,11 +11,10 @@ Filter =
 
     for filter in @filters
       if Query.param(filter) isnt undefined
-        $(".filter_#{filter} > .option_selected > .copy").html Query.param filter
-        _.off ".filter_#{filter} > .option_default"
-        _.on ".filter_#{filter} > .option_selected"
+        Filter.selected filter
 
-    @handlers.i()
+    $(".listing").on 'click', '.list-header > .filters > .filter', @handlers.filterHandler
+    $(".listing").on 'click', '.list-header > .filters > .filter > .option_selected > .icon.cancel', @handlers.filterClearHandler
 
   d: ->
     _.off ".selection.selection_#{Filter.filter}"
@@ -34,14 +33,25 @@ Filter =
       Spinner.d()
 
   select: (option) ->
-
     Query.param Filter.filter, option
+    Filter.selected Filter.filter
+    Filter.d()
+    Listing.load()
+
+  selected: (filter) ->
+    if Query.param(filter) is undefined
+      console.log 'we undefined'
+      $(".filter_#{filter} > .option_selected > .copy").html ''
+      _.on ".filter_#{filter} > .option_default"
+      _.off ".filter_#{filter} > .option_selected"
+      return true
+    $(".filter_#{filter} > .option_selected > .copy").html Query.param filter
+    _.off ".filter_#{filter} > .option_default"
+    _.on ".filter_#{filter} > .option_selected"
 
   handlers:
 
     i: ->
-
-      $(".listing").on 'click', '.list-header > .filters > .filter', @filterHandler
 
       $('.selection').on 'click', '.inner > .label > .icon.cancel', Filter.d
       $('.selection').on 'keyup',' .inner > .search > input', @keyHandler
@@ -64,24 +74,28 @@ Filter =
       $(document).off 'click', @outsideCheck
 
 
+    filterClearHandler: ->
+      Filter.filter = $(this).data 'filter'
+      console.log 'filterClearHandler()'
+      Filter.select false
+      Filter.d()
+
+      return false
+
     filterHandler: ->
-
       event.stopPropagation()
-
       Filter.filter = $(this).data 'filter'
       Filter.endpoint = $(this).data 'endpoint'
 
-      if $(this).has('.option_selected.on').length
-        Filter.select false
-        return true
+      @filterClearHandler() if $(".selection.selection_#{Filter.filter}").hasClass 'on'
 
+      Filter.handlers.i()
 
       $(".selection.selection_#{Filter.filter} > .inner > .values").html ''
       _.on ".selection.selection_#{Filter.filter}"
       $(".selection.selection_#{Filter.filter} > .inner > .search > input").focus()
 
       Filter.get()
-
 
     insideCheck: ->
       event.stopPropagation()

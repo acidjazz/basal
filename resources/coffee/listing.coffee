@@ -95,8 +95,6 @@ Listing =
       if Query.param(filter) isnt undefined
         options[filter + '.name'] = Query.param filter
 
-    console.log options
-
     _.get "/api/#{@content}", options
     .done (response) =>
       Time.i()

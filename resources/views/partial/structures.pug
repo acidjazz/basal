@@ -22,12 +22,12 @@ each structure in self.structures
       .detail.created created 
         time.hint--top.value(title=structure.created_at)
           include ../../vector/time.svg
-        |,
+        |,&nbsp;
       .detail.updated updated 
         time.hint--top.value(title=structure.updated_at)
           include ../../vector/time.svg
-        |,
-      .detail.entries
+        |,&nbsp;
+      a.detail.entries(href='/entries?structure=' + structure.name)
         .value #{structure.entries.length}
         |  entries
       .entities.detail
