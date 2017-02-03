@@ -51,16 +51,16 @@ gulp.task 'larjectus', (done) ->
 gulp.task 'goprod', ->
   env = 'prod'
 
-gulp.task 'cleanup', ['requires'], ->
+gulp.task 'cleanup', ['vendor'], ->
   return del([ __dirname + '/public/js/requires.js' ])
   
-gulp.task 'requires', ['vendor'], ->
+gulp.task 'requires', ->
   b = browserify('', {require: 'qs', standalone: 'qs'})
   return b.bundle()
   .pipe(source('requires.js'))
   .pipe gulp.dest('public/js/')
 
-gulp.task 'vendor', ->
+gulp.task 'vendor', ['requires'], ->
 
   gulp.src([
     'node_modules/jquery/dist/jquery.js',
