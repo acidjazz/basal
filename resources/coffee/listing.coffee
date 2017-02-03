@@ -23,6 +23,8 @@ Listing =
     $(".listing.#{@content}").on 'change', '.checkbox > input', @stateHandler
     $(".listing.#{@content}").on 'click', '.list-header > .state_actions > .actions > .action', @actionHandler
 
+    $(".listing.#{@content}").on 'click', '> .inner > .paginate > .inner > .num', @pageHandler
+
   checkboxHandler: ->
     cb = $(this).find 'input'
     if event.target.type isnt 'checkbox'
@@ -51,6 +53,22 @@ Listing =
         _.on '.listing > .list-header > .state_stats'
         _.off '.listing > .list-header > .state_actions'
       Listing.selected = ids
+
+  pageLinks: ->
+    params = Query.params()
+    $('.paginate > .inner > .num').each (i, el) ->
+      page = $(el).data 'page'
+      return if page is undefined
+      params.page = page
+      query = Query.stringify params
+      $(el).attr 'href', "?#{Query.stringify(params)}"
+
+  pageHandler: ->
+    page = $(this).data 'page'
+    return true if page is undefined
+    Query.param 'page', page
+    Listing.load()
+    return false
 
   actionHandler: ->
     type = $(this).data 'type'
@@ -87,19 +105,22 @@ Listing =
 
   load: ->
 
-    Spinner.i($(".page.#{Listing.content}"))
+    Spinner.i($(".listing.#{Listing.content}"))
 
     options = view: true
 
     for filter in @filters
       if Query.param(filter) isnt undefined
         options[filter + '.name'] = Query.param filter
+    if Query.param('page') isnt undefined
+      options.page = Query.param 'page'
 
     _.get "/api/#{@content}", options
     .done (response) =>
       Time.i()
       Spinner.d()
-      $('.listing > .list-header > .state_stats > .copy > .value').text response.data.length
-      $(".#{@content} > .content > .listing > .items").html response.view
+      $('.listing > .list-header > .state_stats > .copy > .value').text response.paginate.total
+      $(".#{@content} > .content > .listing > .inner").html response.view
+      Listing.pageLinks()
 
 

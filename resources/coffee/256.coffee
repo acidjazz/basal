@@ -65,6 +65,12 @@ _ =
   rand: (min, max) ->
     return Math.floor(Math.random() * max) + min
 
+  range: (start, end) ->
+    result = []
+    for num in [start..end]
+      result.push num
+    result
+
   fit: (srcWidth, srcHeight, maxWidth, maxHeight) ->
     ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight)
     width: srcWidth*ratio, height: srcHeight*ratio

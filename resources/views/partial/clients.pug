@@ -1,41 +1,42 @@
-each client in self.clients
-  .client.item
+.items
+  each client in self.clients
+    .client.item
 
-    a.link.jsonp.ctab.hint--top(
-      aria-label="Endpoint",
-      href="/api/structures?client=" + client._id,
-      target="_new"
-    ) {&nbsp;&nbsp;}
+      a.link.jsonp.ctab.hint--top(
+        aria-label="Endpoint",
+        href="/api/structures?client=" + client._id,
+        target="_new"
+      ) {&nbsp;&nbsp;}
 
 
 
-    .picture.author.hint--top(
-      aria-label="Creator is " + client.users[0].name,
-      style="background-image: url('" + client.users[0].picture + "');"
-    )
-    .checkbox
-      input(type="checkbox",data-_id=client._id)
-    if client.profile
-      .profile(style="background-image: url('" + client.profile + "');")
-    else
-      .profile
-    a.name(href='/clients/' + client._id)=client.name
-    .details
-      .detail.created created 
-        time.hint--top.value(title=client.created_at)
-          include ../../vector/time.svg
-        |,
-      .detail.updated updated 
-        time.hint--top.value(title=client.updated_at)
-          include ../../vector/time.svg
-        |,
-      .detail
-        .value #{client.users.length}
-        |  collaborators,
-      .detail
-        .value #{client.structures.length}
-        |  structures,
-      .detail
-        .value #{client.entries.length}
-        |  entries,
-    .clear
+      .picture.author.hint--top(
+        aria-label="Creator is " + client.users[0].name,
+        style="background-image: url('" + client.users[0].picture + "');"
+      )
+      .checkbox
+        input(type="checkbox",data-_id=client._id)
+      if client.profile
+        .profile(style="background-image: url('" + client.profile + "');")
+      else
+        .profile
+      a.name(href='/clients/' + client._id)=client.name
+      .details
+        .detail.created created 
+          time.hint--top.value(title=client.created_at)
+            include ../../vector/time.svg
+          |,
+        .detail.updated updated 
+          time.hint--top.value(title=client.updated_at)
+            include ../../vector/time.svg
+          |,
+        .detail
+          .value #{client.users.length}
+          |  collaborators,
+        .detail
+          .value #{client.structures.length}
+          |  structures,
+        .detail
+          .value #{client.entries.length}
+          |  entries,
+      .clear

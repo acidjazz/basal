@@ -1,0 +1,33 @@
+.paginate
+  margin 20px 0
+  text-align center
+  > .inner
+    display inline-block
+    overflow hidden
+    > .num
+      display inline-block
+      background-color gc(white1)
+      padding 10px
+      color gc(blue2)
+      gf(c1b)
+      border-top 1px solid gc(grey1)
+      border-bottom 1px solid gc(grey1)
+      border-right 1px solid gc(grey1)
+      &.num_prev
+          border-top-left-radius 3px
+          border-bottom-left-radius 3px
+          border-left 1px solid gc(grey1)
+      &.num_next
+          border-top-right-radius 3px
+          border-bottom-right-radius 3px
+      &:hover
+        background-color gc(grey1)
+      &.disabled
+        background-color gc(grey2)
+        color gc(grey3)
+      &.current
+        margin-left -1px
+        border 1px solid gc(blue2)
+        background-color gc(blue2)
+        color gc(white1)
+

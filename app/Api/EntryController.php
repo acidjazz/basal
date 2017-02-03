@@ -161,7 +161,7 @@ class EntryController extends MetApiController
 
     $view = false;
     if ($query['combined']['view'] === 'true') {
-      $view = view('partial.entries', ['entries' => $entries->items()])->render();
+      $view = view('partial.entries', ['entries' => $entries->items(), 'paginate' => $this->meta['paginate']])->render();
     }
 
     return $this->render($entries->items(),$view);

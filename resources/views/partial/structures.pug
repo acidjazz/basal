@@ -1,37 +1,38 @@
-each structure in self.structures
-  .structure.item
-    a.link.jsonp.ctab.hint--top(
-      aria-label="Endpoint",
-      href="/api/entries?structure=" + structure._id,
-      target="_new"
-    ) {&nbsp;&nbsp;}
+.items
+  each structure in self.structures
+    .structure.item
+      a.link.jsonp.ctab.hint--top(
+        aria-label="Endpoint",
+        href="/api/entries?structure=" + structure._id,
+        target="_new"
+      ) {&nbsp;&nbsp;}
 
-    .picture.author.hint--top(
-      aria-label="Author is "+structure.user.name,
-      style="background-image: url('" + structure.user.picture + "');"
-    )
-    if structure.client.profile
-      .picture.client.hint--top(
-        aria-label="Client is " + structure.client.name,
-        style="background-image: url('" + structure.client.profile + "');"
+      .picture.author.hint--top(
+        aria-label="Author is "+structure.user.name,
+        style="background-image: url('" + structure.user.picture + "');"
       )
-    .checkbox
-      input(type="checkbox",data-_id=structure._id)
-    a.name(href='/structures/' + structure._id)=structure.name
-    .details
-      .detail.created created 
-        time.hint--top.value(title=structure.created_at)
-          include ../../vector/time.svg
-        |,&nbsp;
-      .detail.updated updated 
-        time.hint--top.value(title=structure.updated_at)
-          include ../../vector/time.svg
-        |,&nbsp;
-      a.detail.entries(href='/entries?structure=' + structure.name)
-        .value #{structure.entries.length}
-        |  entries
-      .entities.detail
-        each entity in structure.entities
-          .entity #{entity.name}
-            span.type(class=entity.type)=entity.type
-    .clear
+      if structure.client.profile
+        .picture.client.hint--top(
+          aria-label="Client is " + structure.client.name,
+          style="background-image: url('" + structure.client.profile + "');"
+        )
+      .checkbox
+        input(type="checkbox",data-_id=structure._id)
+      a.name(href='/structures/' + structure._id)=structure.name
+      .details
+        .detail.created created 
+          time.hint--top.value(title=structure.created_at)
+            include ../../vector/time.svg
+          |,&nbsp;
+        .detail.updated updated 
+          time.hint--top.value(title=structure.updated_at)
+            include ../../vector/time.svg
+          |,&nbsp;
+        a.detail.entries(href='/entries?structure=' + structure.name)
+          .value #{structure.entries.length}
+          |  entries
+        .entities.detail
+          each entity in structure.entities
+            .entity #{entity.name}
+              span.type(class=entity.type)=entity.type
+      .clear

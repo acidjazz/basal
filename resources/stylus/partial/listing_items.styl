@@ -1,58 +1,59 @@
-> .items
-  border-left 1px solid gc(grey1)
-  border-right 1px solid gc(grey1)
-  border-bottom 1px solid gc(grey1)
+> .inner
   min-height 40px
-  > .item
-    color gc(black1)
-    display block
+  > .items
+    border-left 1px solid gc(grey1)
+    border-right 1px solid gc(grey1)
     border-bottom 1px solid gc(grey1)
-    background-color gc(white1)
-    animation cellInX 0.1s 0s ease-in both
-    for num in 0..20
-      &:nth-child({num})
-        animation-delay unit(num*0.02, 's')
-    &:hover
-      background-color gc(grey2)
-    &:last-child
-      border-bottom 1px solid transparent
-    > .checkbox
-      cursor pointer
-      float left
-      padding 24px 20px 22px 10px
-    > .profile
-      float left
-      width 40px
-      height 40px
-      background-color gc(grey1)
-      background-size contain
-      margin 10px
-    > .name
-      gf(c1b)
+    > .item
+      color gc(black1)
       display block
-      padding 10px 0 0 10px
-    > .link
-      float right
-      margin 17px 10px 17px 0
-      padding 6px 
-      gf(c1tb)
-      color gc(white1)
+      border-bottom 1px solid gc(grey1)
+      background-color gc(white1)
+      animation cellInX 0.1s 0s ease-in both
+      for num in 0..20
+        &:nth-child({num})
+          animation-delay unit(num*0.02, 's')
+      &:hover
+        background-color gc(grey2)
+      &:last-child
+        border-bottom 1px solid transparent
+      > .checkbox
+        cursor pointer
+        float left
+        padding 24px 20px 22px 10px
+      > .profile
+        float left
+        width 40px
+        height 40px
+        background-color gc(grey1)
+        background-size contain
+        margin 10px
+      > .name
+        gf(c1b)
+        display block
+        padding 10px 0 0 10px
+      > .link
+        float right
+        margin 17px 10px 17px 0
+        padding 6px 
+        gf(c1tb)
+        color gc(white1)
 
-    > .picture
-      float right
-      width 30px
-      height 30px
-      background-size contain
-      margin 17px 10px 17px 0
-      background-color gc(grey1)
-      gf(c1tb)
-      &:first-child
-        margin 17px 17px 17px 0
-      border-radius 4px
-    > .details
-      padding 5px 0 10px 35px
-      > .detail
-        display inline-block
-        > .value
+      > .picture
+        float right
+        width 30px
+        height 30px
+        background-size contain
+        margin 17px 10px 17px 0
+        background-color gc(grey1)
+        gf(c1tb)
+        &:first-child
+          margin 17px 17px 17px 0
+        border-radius 4px
+      > .details
+        padding 5px 0 10px 35px
+        > .detail
           display inline-block
-          gf(c1tb)
+          > .value
+            display inline-block
+            gf(c1tb)

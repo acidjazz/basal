@@ -1,24 +1,25 @@
-each user in self.users
-  .user.item
-    .checkbox
-      input(type="checkbox",data-_id=user._id)
-    if user.picture
-      .profile(style="background-image: url('" + user.picture + "');")
-    else
-      .profile
-    a.name=user.name
-    .details
-      .detail.created created 
-        time.hint--top.value(title=user.created_at)
-          include ../../vector/time.svg
-        |,
-      .detail.updated updated 
-        time.hint--top.value(title=user.updated_at)
-          include ../../vector/time.svg
-        |,
+.items
+  each user in self.users
+    .user.item
+      .checkbox
+        input(type="checkbox",data-_id=user._id)
+      if user.picture
+        .profile(style="background-image: url('" + user.picture + "');")
+      else
+        .profile
+      a.name=user.name
+      .details
+        .detail.created created 
+          time.hint--top.value(title=user.created_at)
+            include ../../vector/time.svg
+          |,
+        .detail.updated updated 
+          time.hint--top.value(title=user.updated_at)
+            include ../../vector/time.svg
+          |,
 
-      .detail.email email
-        .value=user.email
-      .detail.provider provider
-        .value=user.provider
-    .clear
+        .detail.email email
+          .value=user.email
+        .detail.provider provider
+          .value=user.provider
+      .clear

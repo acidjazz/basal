@@ -18,6 +18,7 @@ Filter =
 
   d: ->
     _.off ".selection.selection_#{Filter.filter}"
+    $('.selection > .inner > .search > input').val ''
     Filter.handlers.d()
     Spinner.d()
 
@@ -34,6 +35,7 @@ Filter =
       Spinner.d()
 
   select: (option) ->
+    Query.param 'page', false
     Query.param Filter.filter, option
     Filter.selected Filter.filter
     Filter.d()
@@ -117,6 +119,7 @@ Filter =
       key = event.keyCode
 
       switch key
+        when 27 then Filter.d()
         when 40, 39 then Filter.nav 'down'
         when 37,38 then Filter.nav 'up'
         when 13 then Filter.select $('.selection > .inner > .values > .value.on > .name').html()

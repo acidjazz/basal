@@ -24,3 +24,10 @@ Query =
     else
       params[key] = value
     @setQuery params
+
+  params: ->
+    return qs.parse @getQuery()
+
+  stringify: (params) ->
+    return qs.stringify params
+
