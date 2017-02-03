@@ -1,0 +1,59 @@
+
+offset = 187
+duration = 1.4s
+size = 65
+
+.spinner_android
+  onoff()
+  position absolute
+  width 200px
+  height 200px
+  top 20px
+  left 20px
+  background-color: rgba(gc(white1), 0.5)
+  z-index 30
+  > .inner
+    width unit(size, px)
+    height unit(size, px)
+    position absolute
+    top 50%
+    left 50%
+    margin-top - unit(size/2, px)
+    margin-left - unit(size/2, px)
+    > svg
+      width inherit
+      height inherit
+      animation rotator duration linear infinite
+      > circle
+        stroke-dasharray offset
+        stroke-dashoffset 0
+        transform-origin center
+        animation dash duration ease-in-out infinite, colors (duration*4) ease-in-out infinite
+
+@keyframes rotator
+  0% 
+    transform rotate(0deg)
+  100% 
+    transform rotate(270deg)
+
+@keyframes colors
+  0% 
+    stroke: gc(red1)
+  20% 
+    stroke: gc(cyan1)
+  40% 
+    stroke: gc(yellow1)
+  60% 
+    stroke: gc(orange1)
+  80% 
+    stroke: gc(skin1)
+
+@keyframes dash
+  0% 
+    stroke-dashoffset offset
+  50% 
+    stroke-dashoffset (offset/4)
+    transform rotate(135deg)
+  100%
+   stroke-dashoffset offset
+   transform rotate(450deg)

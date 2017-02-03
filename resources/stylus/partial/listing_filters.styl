@@ -60,6 +60,10 @@
           padding 10px
           gf(c1b)
           transition background-color 0.1s linear 0s
+          animation cellInX 0.1s 0s ease-in both
+          for num in 0..10
+            &:nth-child({num})
+              animation-delay unit(num*0.02, 's')
           &.on
             background-color gc(grey2)
           > .count

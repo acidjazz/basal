@@ -19,6 +19,7 @@ Filter =
   d: ->
     _.off ".selection.selection_#{Filter.filter}"
     Filter.handlers.d()
+    Spinner.d()
 
   get: (search=null) ->
     Spinner.i($(".selection.selection_#{Filter.filter} > .inner > .values"))
@@ -74,6 +75,7 @@ Filter =
 
 
     filterClearHandler: ->
+      console.log 'about to clear'
       Filter.filter = $(this).data 'filter'
       Filter.select false
       Filter.d()
@@ -85,7 +87,9 @@ Filter =
       Filter.filter = $(this).data 'filter'
       Filter.endpoint = $(this).data 'endpoint'
 
-      @filterClearHandler() if $(".selection.selection_#{Filter.filter}").hasClass 'on'
+      if $(".selection.selection_#{Filter.filter}").hasClass 'on'
+        Filter.d()
+        return false
 
       Filter.handlers.i()
 

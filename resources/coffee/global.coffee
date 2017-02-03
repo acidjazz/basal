@@ -116,15 +116,15 @@ Global =
 
   loginCheck: ->
 
-    Spinner.i($('header'))
+    #Spinner.i($('header'))
 
     Me.authed (result) ->
       Global.login(result) if result isnt false
       if Global.init isnt false
-        Spinner.d()
+        #Spinner.d()
         window[Global.init].i()
       else
-        Spinner.d()
+        #Spinner.d()
 
       # turn on all login / registration divs
       if window.User is undefined
