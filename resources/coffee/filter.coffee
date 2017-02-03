@@ -40,7 +40,6 @@ Filter =
 
   selected: (filter) ->
     if Query.param(filter) is undefined
-      console.log 'we undefined'
       $(".filter_#{filter} > .option_selected > .copy").html ''
       _.on ".filter_#{filter} > .option_default"
       _.off ".filter_#{filter} > .option_selected"
@@ -76,7 +75,6 @@ Filter =
 
     filterClearHandler: ->
       Filter.filter = $(this).data 'filter'
-      console.log 'filterClearHandler()'
       Filter.select false
       Filter.d()
 
