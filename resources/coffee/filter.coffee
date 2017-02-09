@@ -20,7 +20,7 @@ Filter =
     _.off ".selection.selection_#{Filter.filter}"
     $('.selection > .inner > .search > input').val ''
     Filter.handlers.d()
-    Spinner.d()
+    #Spinner.d()
 
   get: (search=null) ->
     Spinner.i($(".selection.selection_#{Filter.filter} > .inner > .values"))
