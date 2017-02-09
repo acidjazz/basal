@@ -39,6 +39,58 @@
         gf(c1tb)
         color gc(white1)
 
+      > .switch
+        cursor pointer
+        float right
+        width 50px
+        height 30px
+        margin 17px 40px 17px 0
+        border-radius 14px
+        transition background 0.2s ease-in-out
+        &.on
+          //background linear-gradient(to bottom, gc(green3), gc(green1))
+          //background radial-gradient(gc(green2), gc(green1))
+          //background linear-gradient(to bottom, gc(green2), gc(green1))
+          background-color gc(green3)
+        &.off
+          background-color gc(grey1)
+
+        > .toggle
+          width 22px
+          height 22px
+          background-color gc(white1)
+          margin 4px 0 0 4px
+          border-radius 50%
+          transition transform 0.2s ease-in-out
+          overflow hidden
+          > .icon
+            width 12px
+            height 12px
+            margin 4px 0 0.2px
+            > svg
+              width inherit
+              height inherit
+              position absolute
+              top 5px
+              left 5px
+              transition opacity 0.2s ease-in-out
+              > path
+                transition fill 0.2s ease-in-out
+        &.on
+          > .toggle
+            transform translate(20px, 0px)
+          > .toggle > .icon > svg > path
+            fill gc(green2)
+          > .toggle > .icon > svg:first-child
+            opacity 0
+        &.off 
+          > .toggle
+            transform translate(0px, 0px)
+          > .toggle > .icon > svg > path
+            fill gc(grey3)
+          > .toggle > .icon > svg:last-child
+            opacity 0
+
       > .picture
         float right
         width 30px

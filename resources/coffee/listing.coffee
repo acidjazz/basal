@@ -19,6 +19,7 @@ Listing =
 
   handlers: ->
     $(".listing.#{@content}").on 'click', '.checkbox', @checkboxHandler
+    $(".listing.#{@content}").on 'click', '.switch', @switchHandler
     $(".listing.#{@content}").on 'change', '.list-header > .checkbox > input', @selectAllHandler
     $(".listing.#{@content}").on 'change', '.checkbox > input', @stateHandler
     $(".listing.#{@content}").on 'click', '.list-header > .state_actions > .actions > .action', @actionHandler
@@ -30,6 +31,24 @@ Listing =
     if event.target.type isnt 'checkbox'
       cb[0].checked = !cb[0].checked
       cb.change()
+
+  switchHandler: ->
+
+    _.swap this
+
+    ###
+    sw = $(this)
+
+    tl = new TimelineMax repeat: 0
+
+    if sw.hasClass 'off'
+      _.on sw
+      tl.to '#closeSVG', 0.5, {morphSVG: '#checkedSVG', ease:Power4.easeInOut}
+    else
+      tl.to '#closeSVG', 0.5, {morphSVG: '#closeSVG', ease:Power4.easeInOut}
+      _.off sw
+    ###
+
 
   selectAllHandler: ->
     if this.checked
