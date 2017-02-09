@@ -1,15 +1,16 @@
-.paginate
-  .inner
-    if self.paginate.current_page == 1
-      .num.num_prev.disabled Previous
-    else
-      a.num.num_prev(data-page=self.paginate.current_page-1) Previous
-    - for (var i = 1; i <= self.paginate.last_page; i++)
-      if i == self.paginate.current_page
-        a.num.current.num_num=i
+if self.paginate.pages > 1
+  .paginate
+    .inner
+      if self.paginate.current_page == 1
+        .num.num_prev.disabled Previous
       else
-        a.num(data-page=i)=i
-    if self.paginate.current_page == self.paginate.last_page
-      .num.num_next.disabled Next
-    else
-      a.num.num_next(data-page=self.paginate.current_page+1) Next
+        a.num.num_prev(data-page=self.paginate.current_page-1) Previous
+      - for (var i = 1; i <= self.paginate.last_page; i++)
+        if i == self.paginate.current_page
+          a.num.current.num_num=i
+        else
+          a.num(data-page=i)=i
+      if self.paginate.current_page == self.paginate.last_page
+        .num.num_next.disabled Next
+      else
+        a.num.num_next(data-page=self.paginate.current_page+1) Next

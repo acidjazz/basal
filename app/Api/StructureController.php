@@ -116,15 +116,19 @@ class StructureController extends MetApiController
       return $this->error();
     }
 
-    /* allow updating of structures even if entries exist (for now)
-    if (Entry::where(['structure.id' => $_id])->count() > 0) {
-      return $this->addError('disabled', 'entries.exist')->error();
-    }
-     */
-
     $structure = Structure::find($_id);
 
     if (isset($query['combined']['name'])) {
+
+      $entries = Entry::where(['structure.id' => $_id]);
+
+      foreach ($entries->get() as $key=>$value) {
+        $entrystruct = $value->structure;
+        $entrystruct['name'] = $query['combined']['name'];
+        $value->structure = $entrystruct;
+        $value->save();
+      }
+
       $structure->name = $query['combined']['name'];
     }
 
@@ -142,6 +146,11 @@ class StructureController extends MetApiController
     }
 
     if (isset($query['combined']['entities'])) {
+
+      if (Entry::where(['structure.id' => $_id])->count() > 0) {
+        return $this->addError('disabled', 'entries.exist')->error();
+      }
+
       $structure->entities = $query['combined']['entities'];
     }
 
