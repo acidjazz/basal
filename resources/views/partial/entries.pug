@@ -6,10 +6,16 @@
         aria-label="Endpoint",
         href="/api/entries?_id=" + entry._id,
         target="_new") {&nbsp;&nbsp;}
+
+      .switch.active.hint--top(
+        aria-label='Toggle Entry Activation'
+      )
+
       .picture.author.hint--top(
         aria-label="Author is "+entry.user.name,
         style="background-image: url('" + entry.user.picture + "');"
       )
+
       if entry.client.profile
         .picture.client.hint--top(
           aria-label="Client is " + entry.client.name,
