@@ -1,11 +1,11 @@
 .items
   each entry in self.entries
     .entry.item
-      a.link.jsonp.ctab.hint--top(
+
+      //a.link.jsonp.ctab.hint--top(
         aria-label="Endpoint",
         href="/api/entries?_id=" + entry._id,
-        target="_new"
-      ) {&nbsp;&nbsp;}
+        target="_new") {&nbsp;&nbsp;}
       .picture.author.hint--top(
         aria-label="Author is "+entry.user.name,
         style="background-image: url('" + entry.user.picture + "');"

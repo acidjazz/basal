@@ -33,9 +33,9 @@ Listing =
 
   selectAllHandler: ->
     if this.checked
-      $('.listing > .items > .item > .checkbox > input').prop 'checked', true
+      $('.listing > .inner > .items > .item > .checkbox > input').prop 'checked', true
     else
-      $('.listing > .items > .item > .checkbox > input').prop 'checked', false
+      $('.listing > .inner > .items > .item > .checkbox > input').prop 'checked', false
 
   stateHandler: ->
     ids = []
