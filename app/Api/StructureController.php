@@ -147,11 +147,14 @@ class StructureController extends MetApiController
 
     if (isset($query['combined']['entities'])) {
 
+      $structure->entities = $query['combined']['entities'];
+
       if (Entry::where(['structure.id' => $_id])->count() > 0) {
-        return $this->addError('disabled', 'entries.exist')->error();
+        if ($structure->isDirty() && isset($structure->getDirty()['entities'])) {
+          return $this->addError('disabled', 'entries.exist')->error();
+        }
       }
 
-      $structure->entities = $query['combined']['entities'];
     }
 
     $structure->save();
