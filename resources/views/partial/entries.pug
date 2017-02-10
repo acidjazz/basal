@@ -19,8 +19,10 @@
         )
 
       .switch.active.hint--top(
-        aria-label='Toggle Entry Activation'
+        aria-label=(entry.active == true ? 'Hide your entry' : 'Publish your entry')
         class=(entry.active == true ? 'on' : 'off')
+        data-name='active'
+        data-_id=entry._id
       )
         .toggle
           .icon
@@ -40,6 +42,7 @@
           time.hint--top.value(title=entry.updated_at)
             include ../../vector/time.svg
 
+          |,
         .detail.structure uses the  
           a.value(href='/structures/' + entry.structure.id) #{entry.structure.name} 
           |  structure

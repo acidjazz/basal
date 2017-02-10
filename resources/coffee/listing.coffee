@@ -34,27 +34,39 @@ Listing =
 
   switchHandler: ->
 
-    _.swap this
+    el = $(this)
 
-    ###
-    sw = $(this)
+    _id = el.data '_id'
+    name = el.data 'name'
+    value = !el.hasClass 'on'
 
-    tl = new TimelineMax repeat: 0
+    Listing.toggle [_id], name, value, ->
+      _.swap el
 
-    if sw.hasClass 'off'
-      _.on sw
-      tl.to '#closeSVG', 0.5, {morphSVG: '#checkedSVG', ease:Power4.easeInOut}
-    else
-      tl.to '#closeSVG', 0.5, {morphSVG: '#closeSVG', ease:Power4.easeInOut}
-      _.off sw
-    ###
+  toggle: (ids, name, value, complete) ->
 
+    ids.forEach (_id, index) ->
+
+      options = {}
+      options[name] = value
+
+      _.get "/api/#{Listing.content}/update/#{_id}",
+        options
+      .done (resposne) ->
+        if index is ids.length-1
+          Notice.i "Updated successfully", type: 'success'
+          complete?()
 
   selectAllHandler: ->
     if this.checked
       $('.listing > .inner > .items > .item > .checkbox > input').prop 'checked', true
     else
       $('.listing > .inner > .items > .item > .checkbox > input').prop 'checked', false
+
+  unselectAll: ->
+      $(".listing.#{Listing.content} > .inner > .items > .item > .checkbox > input").prop 'checked', false
+      $(".listing.#{Listing.content} > .list-header > .checkbox > input").prop 'checked', false
+      Listing.stateHandler()
 
   stateHandler: ->
     ids = []
@@ -85,6 +97,7 @@ Listing =
   pageHandler: ->
     page = $(this).data 'page'
     return true if page is undefined
+    Listing.unselectAll()
     Query.param 'page', page
     Listing.load()
     return false
@@ -95,14 +108,38 @@ Listing =
     switch type
       when 'delete'
         Prompt.i "Deleting #{Listing.selected.length} items(s)",
+          'This feature is currently in development', ['OK'], (response) ->
+        ###
+        Prompt.i "Deleting #{Listing.selected.length} items(s)",
           'Are you sure you want to delete these?', ['Yes','No'], (response) ->
             return true if response isnt 'Yes'
             Listing.deleteSelected()
+        ###
+
+      when 'publish', 'hide'
+
+        value = (type is 'publish')
+        Spinner.i($(".listing.#{Listing.content}"))
+        Listing.toggle Listing.selected, 'active', value, ->
+
+          $('.switch.active').each (i, el) ->
+            for _id in Listing.selected
+              _.on $(el) if _id is $(el).data('_id') and value is true
+              _.off $(el) if _id is $(el).data('_id') and value is false
+
+          if value
+            Notice.i "#{Listing.selected.length} Entries published", type: 'success'
+          else
+            Notice.i "#{Listing.selected.length} Entries hidden", type: 'success'
+          Spinner.d()
+
+
       else
         Listing.otherActions(type)
                         
   delete: (id, callback) ->
 
+    ###
     Spinner.i($(".listing.#{Listing.content}"))
     _.get "/api/#{Listing.content}/delete/#{id}"
     .always ->
@@ -111,6 +148,7 @@ Listing =
       callback true
     .fail ->
       callback false
+    ###
 
   deleteSelected: (cursor=0) ->
 

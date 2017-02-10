@@ -88,6 +88,7 @@ class EntryController extends MetApiController
     $this->addOption('_id', 'required|regex:/[0-9a-fA-F]{24}/|exists:entry,_id');
 
     $this->addOption('name', 'string');
+    $this->addOption('active', "in:true,false", "false");
     $this->addOption('entities', 'array');
     $this->addOption('entities.*.type', 'in:'.implode((new Kernel())->getEntities(), ','));
 
@@ -100,6 +101,11 @@ class EntryController extends MetApiController
     if (isset($query['combined']['name'])) {
       $entry->name = $query['combined']['name'];
     }
+
+    if (isset($query['combined']['active'])) {
+      $entry->active = ($query['combined']['active'] === 'true' ? true : false);
+    }
+
     if (isset($query['combined']['entities'])) {
       $entry->entities = $this->formatEntities($query['combined']['entities']);
     }
@@ -119,8 +125,8 @@ class EntryController extends MetApiController
     }
 
     $this->addOption('structure_name', 'regex:/[a-zA-Z0-9]+/|exists:structure,name');
-
     $this->addOption('_id', 'regex:/[0-9a-fA-F]{24}/|exists:entry,_id');
+    $this->addOption('active', "in:true,false");
     $this->addOption('view', "in:true,false", "false");
 
     if (!$query = $this->getQuery()) {
@@ -141,6 +147,13 @@ class EntryController extends MetApiController
       $entries = $entries->whereIn('structure.id', $structures->get()->pluck('_id'));
     }
 
+    if (isset($query['combined']['active'])) {
+      if ($query['combined']['active'] === 'true') {
+        $entries = $entries->where(['active' => true]);
+      } else {
+        $entries = $entries->where(['active' => false]);
+      }
+    }
 
     if (isset($query['combined']['structure'])) {
       $entries = $entries->where(['structure.id' => $query['combined']['structure']]);
