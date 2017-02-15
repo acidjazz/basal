@@ -20,6 +20,7 @@ Filter =
     _.off ".selection.selection_#{Filter.filter}"
     $('.selection > .inner > .search > input').val ''
     Filter.handlers.d()
+    Listing.unselectAll()
     #Spinner.d()
 
   get: (search=null) ->
