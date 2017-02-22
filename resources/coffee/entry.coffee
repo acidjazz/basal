@@ -98,7 +98,6 @@ Entry =
     location.href = "/entries/new#structure=#{Entry.structure}"
   structureSelectHandler: (e) ->
     structure_id = $(e.currentTarget).val()
-    console.log structure_id
     return false if structure_id.length isnt 24
     #if Entry.entry isnt false
     #  Entry.loadEntities Entry.entry.entities, Entry.entry.name
