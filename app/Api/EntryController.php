@@ -88,7 +88,7 @@ class EntryController extends MetApiController
     $this->addOption('_id', 'required|regex:/[0-9a-fA-F]{24}/|exists:entry,_id');
 
     $this->addOption('name', 'string');
-    $this->addOption('active', "in:true,false", "false");
+    $this->addOption('active', "in:true,false");
     $this->addOption('entities', 'array');
     $this->addOption('entities.*.type', 'in:'.implode((new Kernel())->getEntities(), ','));
 
