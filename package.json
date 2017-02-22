@@ -27,7 +27,7 @@
     "cropperjs": "^0.8.1",
     "croppie": "^2.3.0",
     "del": "^2.2.2",
-    "flatpickr": "chmln/flatpickr#gh-pages",
+    "flatpickr": "^2.4.2",
     "gsap": "^1.19.0",
     "gulp": "^3.9.1",
     "gulp-clean-css": "^2.0.12",
