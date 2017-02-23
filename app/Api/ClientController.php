@@ -147,6 +147,7 @@ class ClientController extends MetApiController
     }
 
     if ($query['combined']['view'] === 'dashboard') {
+      sleep(1);
       $view = view('partial.collections', ['clients' => $clients->items()])->render();
     }
 
