@@ -49,7 +49,8 @@ Entry =
     .done (response) ->
       entry = response.data[0]
       Entry.entry = entry
-      Entry.selectStructure[0].selectize.addOption entry.structure
+      Entry.selectStructure[0].selectize.addOption
+        id: entry.structure.id, name: entry.structure.name, clientProfile: entry.client.profile
       Entry.selectStructure[0].selectize.setValue entry.structure.id
       Entry.selectStructure[0].selectize.disable()
 
@@ -140,7 +141,7 @@ Entry =
         value = Entry.entry.entities[i].value
 
         switch entity.type
-          when 'Text','Link','Date','Time','DateTime','DateRange','DateTimeRange' then html.find('input').val value
+          when 'Tags', 'Text','Link','Date','Time','DateTime','DateRange','DateTimeRange' then html.find('input').val value
 
       html.find('input,select,textarea').attr 'tabindex', tabindex++
       body.append html

@@ -34,14 +34,16 @@ Selectize =
       openOnFocus: true
       onLoad: Entry.structureSpecified
       render:
+        item: (item, escape) ->
+          return "<div><img class=\"profile\" src=\"#{item.clientProfile}\"/> #{item.name}</div>"
         option: (item, escape) ->
-          return "<div>#{item.name}</div>"
+          return "<div><img class=\"profile\" src=\"#{item.clientProfile}\"/> #{item.name}</div>"
       load: (query, callback) ->
         _.get '/api/structures', options
           .done (response) ->
             results = []
             for item in response.data
-              results.push id: item._id, name: item.name
+              results.push id: item._id, name: item.name, clientName: item.client.name, clientProfile: item.client.profile
             callback(results)
 
     selectStructure.change handler
