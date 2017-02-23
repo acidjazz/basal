@@ -23,7 +23,7 @@ a
   &:visited
     color gc(black2)
   &:hover
-    color gc(green1)
+    color gc(blue2)
     text-decoration none !important
 
 ::selection
@@ -70,13 +70,9 @@ input
   &:focus
     outline 1px solid gc(blue1)
 
+[class*="hint--"]:after
+  gfi(c1s)
 
-/*
-*:focus
-  outline: none
-*/
-
-*
   box-sizing border-box !important
 
 @import 'listing.styl'

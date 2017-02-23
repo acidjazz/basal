@@ -38,6 +38,12 @@ c1tb:
   font-size: 14px
   font-weight: '400'
 
+c1s:
+  font-family: Roboto
+  font-size: 12px
+  font-weight: '300'
+  letter-spacing: 0.5px
+
 c1sb:
   font-family: Roboto
   font-size: 12px

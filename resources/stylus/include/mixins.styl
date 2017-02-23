@@ -89,7 +89,11 @@ clearfix()
 
 gf(k)
   for key, value in config.font[k]
-    {key} unquote(value)
+    {key} unquote(value) 
+
+gfi(k)
+  for key, value in config.font[k]
+    {key} unquote(value) !important
 
 gc(k)
   return convert(config.color[k])

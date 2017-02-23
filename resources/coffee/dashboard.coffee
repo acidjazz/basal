@@ -1,32 +1,17 @@
 Dashboard =
 
-  data:{}
-
   i: ->
-    @getdata =>
-      @populate()
+    @load()
 
-  populate: ->
-    $('.dashboard .value').each (i, el) =>
-      $(el).html @dotstovalue $(el).data 'value'
+  load: (complete) ->
+    Spinner.i($('.page.dashboard > .collections'))
 
-  getdata: (complete) ->
-
-    gets = ['users','clients', 'structures', 'entries']
-    Spinner.i($('.page.dashboard'))
-
-    $(gets).each (index, get) =>
-      _.get "/api/#{get}"
-        .done (response) =>
-          @data[get] = response
-          if Object.keys(@data).length == gets.length
-            Spinner.d()
-            complete()
-
-  dotstovalue: (dots) ->
-    result = @data
-    for dim in dots.split '.'
-      result = result[dim]
-
-    return result
+    _.get '/api/clients',
+      view: 'dashboard'
+    .always ->
+      console.log 'always'
+      Spinner.d()
+    .done (response) ->
+      Time.i()
+      $('.collections').html response.view
 

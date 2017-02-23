@@ -5,11 +5,14 @@ white3: "#F4F4F4"
 grey1: "#e5e5e5"
 grey2: "#f5f5f5"
 grey3: "#d0d0d0"
+
 black1: "#000000"
 black2: "#282828"
 black3: "#333333"
 black4: "#23292E"
 black5: "#3E4347"
+
+
 red1: "#C8212B"
 
 yellow1: "#F6BB45"
@@ -22,6 +25,7 @@ green2: "#88d96d"
 green3: "#77d358"
 blue1: "#1da7ee"
 blue2: "#0073bb"
+blue3: "#4F5D95"
 
 google_blue: "#4285f4"
 google_green: "#34a853"
