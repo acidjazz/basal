@@ -1,4 +1,4 @@
 Structures =
   i: ->
-    Listing.i 'structures'
+    Listing.i 'structures', false, ['client']
 

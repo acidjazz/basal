@@ -1,25 +1,22 @@
 .page.dashboard
   > .collections
-    text-align center
+
     > .collection
-      display inline-block
-      background-color gc(white2)
-      padding 10px 20px
-      border-radius 4px
-      transition background-color 0.1s linear 0.1s
-      margin 0 20px 20px 0
-      min-width 150px
-      &:hover
-        background-color gc(blue2)
-        color gc(white1)
-        transition background-color 0.1s linear
-      > .title
-        gf(h2)
-      > .stat
-        > .copy
+      float left
+      width 300px
+      border 1px solid gc(grey1)
+      border-radius 3px
+      padding 20px
+
+      > .client
+        > img.profile
           float left
+          width 50px
+          height 50px
+          background-color gc(grey1)
+          margin 0 10px 0 0
+        > .name
           gf(c2)
-        > .value
-          float right
-          gf(c2b)
+        > .stat
+          padding 3px 0
 

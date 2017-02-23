@@ -3,30 +3,18 @@ extends ../extends/layout
 block content
   .page.dashboard.margined 
     .collections
-      a.collection.users(href='/users')
-        .title Users
-        .stat
-          .copy Total
-          .value(data-value='users.paginate.total') ?
-      a.collection.clients(href='/clients')
-        .title Clients
-        .stat
-          .copy Total
-          .value(data-value='clients.paginate.total') ?
-      a.collection.structures(href='/structures')
-        .title Structures
-        .stat
-          .copy Total
-          .value(data-value='structures.paginate.total') ?
 
-      a.collection.entries(href='/entries')
-        .title Entries
-        .stat
-          .copy Total
-          .value(data-value='entries.paginate.total') ?
+      a.collection(href='/')
+        .client
+          img.profile
+          .name Client Name
+          .stat 6 Structures
+          .stat 12 Entries
+
       .clear
     .clear
 
     script.
       Page = 'dashboard';
       Global.init = 'Dashboard';
+
