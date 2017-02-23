@@ -80,9 +80,11 @@ Listing =
         $('.listing > .list-header > .state_actions > .copy > .value').text ids.length
         _.off '.listing > .list-header > .state_stats'
         _.on '.listing > .list-header > .state_actions'
+        _.on ".listing > .list-header > .state_actions > .actions > .action_#{Listing.content}"
       else
         _.on '.listing > .list-header > .state_stats'
         _.off '.listing > .list-header > .state_actions'
+        _.off ".listing > .list-header > .state_actions > .actions > .action_#{Listing.content}"
       Listing.selected = ids
 
   pageLinks: ->
