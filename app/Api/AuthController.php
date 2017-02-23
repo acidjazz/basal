@@ -31,6 +31,11 @@ class AuthController extends MetApiController
     $uriFactory = new \OAuth\Common\Http\Uri\UriFactory();
     $this->currentUri = $uriFactory->createFromSuperGlobalArray($_SERVER);
     $this->currentUri->setQuery('');
+
+    if (app()->environment() !== 'local') {
+      $this->currentUri->setScheme('https');
+    }
+
     $this->storage = new Session();
 
     parent::__construct($request);
