@@ -207,7 +207,7 @@ class StructureController extends MetApiController
       $view = view('partial.structures', ['structures' => $structures->items()])->render();
     }
     if ($query['combined']['view'] === 'filters') {
-      $view = view('partial.listing_filters_values', ['structures' => $structures->items()])->render();
+      $view = view('partial.listing_filters_values', ['items' => $structures->items()])->render();
     }
 
     return $this->render($structures->items(),$view);

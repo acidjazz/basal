@@ -111,8 +111,10 @@ class ClientController extends MetApiController
       return $this->addError('auth', 'session.required')->error();
     }
 
-    $this->addOption('view', "in:true,false", "false");
+    $this->addOption('view', "in:true,false,filters", "false");
     $this->addOption('_id', 'regex:/[0-9a-fA-F]{24}/');
+
+    $this->addOption('name', 'regex:/[0-9a-zA-z]/');
 
     if (!$query = $this->getQuery()) {
       return $this->error();
@@ -126,12 +128,20 @@ class ClientController extends MetApiController
       $clients = $clients->where(['_id' => $query['combined']['_id']]);
     }
 
+    if (isset($query['combined']['name'])) {
+      $clients = $clients->where('name', 'regexp',
+        new \MongoDB\BSON\Regex($query['combined']['name'], 'i'));
+    }
+
     $clients = $clients->paginate(20);
     $this->addPaginate($clients);
 
     $view = false;
     if ($query['combined']['view'] === 'true') {
       $view = view('partial.clients', ['clients' => $clients->items()])->render();
+    }
+    if ($query['combined']['view'] === 'filters') {
+      $view = view('partial.listing_filters_values', ['items' => $clients->items()])->render();
     }
 
     return $this->render($clients->items(),$view);
