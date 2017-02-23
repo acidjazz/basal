@@ -97,7 +97,7 @@ Global =
       2000
     else
       setTimeout ->
-        location.href = '/dashboard'
+        location.href = '/'
       2000
 
   login: (user) ->
