@@ -8,10 +8,6 @@ class Pages extends Controller
   {
     return view('pages.home');
   }
-  public function dashboard()
-  {
-    return view('pages.dashboard');
-  }
   public function guide()
   {
     return view('pages.guide');

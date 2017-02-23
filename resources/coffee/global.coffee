@@ -5,6 +5,7 @@ Global =
   window: false
   windowTimer: false
   init: false
+  protected: ['entries','structures','clients','users']
 
   i: ->
     Global.handlers()
@@ -116,23 +117,22 @@ Global =
 
   loginCheck: ->
 
-    #Spinner.i($('header'))
-    console.log 'loginCheck'
-
     Me.authed (result) ->
-      console.log 'authed'
+
       Global.login(result) if result isnt false
-      if Global.init isnt false
-        #Spinner.d()
+
+      # if the page were on 
+      if Global.protected.indexOf(location.pathname.replace(/\//g, '')) isnt -1 and result is false
+        location.href = '/'
+
+      if Global.init isnt false and result isnt false
         window[Global.init].i()
-      else
-        #Spinner.d()
 
       # turn on all login / registration divs
       if window.User is undefined
         _.on 'header > .inner > .me > .profile'
-        _.on '.home > .oauths'
-        _.on 'header > .inner >.logo'
+        _.on '.page.home'
+        _.on 'header > .inner > .logo'
         _.on 'header > .inner > .name'
 
       # client based user, go to entries

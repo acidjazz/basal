@@ -1,17 +1,18 @@
 extends ../extends/layout
 
 block content
-  .page.home.margined
+  .page.home.margined.on
 
     .title welcome to basal
 
-    .oauths.off
+    .oauths.on
       .oauth.google(data-type="google")
         img(src="/images/google/btn_google_signin_dark_normal_web.png")
 
-
-    .dashboard
+  .page.dashboard.margined.off
+    include ../partial/dashboard.pug
 
 
   script.
-    Page = 'home';
+    Page = 'dashboard';
+    Global.init = 'Dashboard';

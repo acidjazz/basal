@@ -2,7 +2,6 @@ Entries =
 
   i: ->
 
-
     # limit filter types based on user type
     if User?.client isnt undefined
       Listing.i 'entries', false, ['structure']
