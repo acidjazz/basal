@@ -10,13 +10,13 @@ each client in self.clients
         a.stat.stat_users.hint--top(href='/clients/' + client._id,aria-label= client.users.length + " Collaborators") 
           .icon
             include ../../vector/users.svg
-          .number 6 
+          .number=client.users.length 
         a.stat.stat_structures.hint--top(href='/structures/?client=' + client.name,aria-label= client.structures.length + " Structures")
           .icon
             include ../../vector/structure.svg
-          .number 6 
+          .number=client.structures.length 
         a.stat.stat_entries.hint--top(href='/entries/?client=' + client.name,aria-label= client.entries.length + " Entries")
           .icon
             include ../../vector/entry.svg
-          .number 6 
+          .number=client.entries.length
 

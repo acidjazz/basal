@@ -4,5 +4,8 @@ each item in self.items
       img.profile(src=item.profile)
     if item.client && item.client.profile
       img.profile(src=item.client.profile)
-    .count=item.entries.length
+    if item.profile
+      .count=item.structures.length
+    else
+      .count=item.entries.length
     .name=item.name

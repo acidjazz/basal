@@ -39,7 +39,7 @@
         border-bottom 1px solid gc(grey1)
         padding 5px
         > input
-          width 100%
+          width 96%
           background-color gc(white1)
           gf(c1)
           line-height 20px
@@ -84,9 +84,12 @@
     > .option
       onoff()
       padding 6px 12px
-      border 1px solid gc(grey1)
-      background-color gc(white1)
+      border 1px solid gc(grey2)
+      //background-color gc(white1)
       color gc(black3)
+      &.option_selected
+        border 1px solid gc(grey1)
+        background-color gc(white1)
       &:hover
         color gc(black1)
         > .icon.down > svg > path
