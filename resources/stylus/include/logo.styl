@@ -6,11 +6,13 @@
   onoff()
   > .dots
     size = 40
-    background-color gc(black2)
+    background-color gc(black5)
     width unit(size, px)
     height unit(size, px)
     border-radius 50%
     text-align center
+    &:hover
+      background-color gc(black6)
     > .dot
       float left
       width unit(size/5, px)

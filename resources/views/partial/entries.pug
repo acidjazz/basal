@@ -19,7 +19,7 @@
         )
 
       .switch.active.hint--top(
-        aria-label=(entry.active == true ? 'Hide your entry' : 'Publish your entry')
+        aria-label=(entry.active == true ? 'Unpublish your entry' : 'Publish your entry')
         class=(entry.active == true ? 'on' : 'off')
         data-name='active'
         data-_id=entry._id

@@ -11,19 +11,19 @@ Global =
     Global.handlers()
     Global.loginCheck()
 
-    _.on ".menu > .options > .option_#{Page}" if Page?
+    $(".menu > .option_#{Page}").addClass('active') if Page?
 
   handlers: ->
 
     $('header > .inner > .me > .profile').click Global.userProfileHandler
     $('.oauths > .oauth').click Global.userOauthHandler
     $('header > .inner > .me > .picture > .logout').click Global.logoutHandler
-    $('.menu > .options > .option').click Global.menuHandler
+    $('.menu > .option').click Global.menuHandler
 
   menuHandler: ->
-    _.off $('.menu > .options > .option')
-    selected = $(this).find('.label').html()
-    _.on $(".menu > .options > .option.option_#{selected}")
+    $('.menu > .option').removeClass 'active'
+    $(this).addClass 'active'
+    Spinner.i($('header'))
 
   logoutHandler: ->
 
@@ -112,8 +112,12 @@ Global =
     if User.client isnt undefined
       $('header > .inner > .client > .name').html User.client.name
       $('header > .inner > .client > .picture').css 'background-image', "url(#{User.client.profile})"
+      _.on 'header > .inner > .client'
       _.off 'header > .inner > .logo'
       _.off 'header > .inner > .name'
+      _.off 'header > .inner > .menu > .option_clients'
+      _.off 'header > .inner > .menu > .option_structures'
+      _.on 'header > .inner > .menu'
 
   loginCheck: ->
 

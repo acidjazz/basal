@@ -1,8 +1,17 @@
 header
   .inner
-    .logo.off
+    a.logo.off(href='/')
       include logo
-    .name.off basal
+    a.name.off(href='/') basal
+    .client.off
+      .picture
+      .name
+    .menu.off
+      .divider
+      a.option.option_clients(href='/clients') Clients
+      a.option.option_structures(href='/structures') Structures
+      a.option.option_entries(href='/entries') Entries
+      .clear
     .me
       .oauths.off
         .oauth.google(data-type='google')
@@ -14,7 +23,4 @@ header
         .image
         .logout
           include ../../vector/cancel.svg
-    .client
-      .picture
-      .name
     .clear

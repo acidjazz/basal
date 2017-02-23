@@ -1,18 +1,23 @@
 header
+  height 80px
+  background-color gc(black4)
   > .inner
     padding 20px
     > .name
       float left
       gf(h2b)
-      margin 7px 0 0 70px
+      margin 7px 0 0 58px
+      color gc(white1)
       onoff()
     > .client
+      onoff()
       float left
-      margin 0px 40px 0 00px
+      margin 0 -6px 0 0
       > .name
         gf(h2b)
         float left
         line-height 40px
+        color gc(white1)
       > .picture
         width 40px
         height 40px
@@ -20,6 +25,29 @@ header
         float left
         margin 0 20px 0 0
         border-radius 4px
+
+    > .menu
+      float left
+      onoff()
+      > .divider
+        width 5px
+        height 40px
+        background-color gc(black1)
+        float left
+        margin 0 10px 0 20px
+      > .option
+        onoff()
+        float left
+        gf(c2b)
+        padding 5px 8px
+        margin 7px 5px 0 5px
+        color gc(grey3)
+        &:hover
+          color gc(white1)
+        &.active
+          background-color gc(black6)
+          border-radius 3px
+
     > .me
       float right
       > .picture
@@ -27,7 +55,7 @@ header
         cursor pointer
         width 40px
         height 40px
-        border 2px solid gc(black2)
+        border 2px solid gc(black1)
         border-radius 50%
         overflow hidden
         position relative
@@ -54,13 +82,14 @@ header
         width 40px
         height 40px
         border-radius 50%
-        border 2px solid gc(black2)
+        border 2px solid gc(black1)
         overflow hidden
         transition background-color 0.2s linear
         animation fadeIn 0.2s linear 0.1s both
+        background-color gc(black5)
         onoff()
         &:hover
-          background-color gc(white1)
+          background-color gc(grey3)
         margin 0 0 0 5px
         > svg
           width 50px
@@ -86,8 +115,9 @@ header
           border 2px solid gc(black2)
           cursor pointer
           transition background-color 0.2s linear
+          background-color gc(grey1)
           &:hover
-            background-color gc(grey1)
+            background-color gc(white1)
           > svg
             width 20px
             height 20px
