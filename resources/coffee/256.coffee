@@ -165,7 +165,7 @@ _ =
       mmm/............................................................./mmm
 
       :: syntactic sugar by 256
-      :: http://256.io/
+      :: https://256.io/
       :: #{config.meta.repo}
     """
     console.log ascii, "color: grey; font-family: Menlo, monospace;"
