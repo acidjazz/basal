@@ -117,8 +117,10 @@ Global =
   loginCheck: ->
 
     #Spinner.i($('header'))
+    console.log 'loginCheck'
 
     Me.authed (result) ->
+      console.log 'authed'
       Global.login(result) if result isnt false
       if Global.init isnt false
         #Spinner.d()

@@ -25,8 +25,13 @@ Filter =
 
   get: (search=null) ->
     Spinner.i($(".selection.selection_#{Filter.filter} > .inner > .values"))
+
     options =
       view: 'filters'
+
+    for index, filter of Filter.filters
+      if filter isnt Filter.filter and Query.param(filter) isnt undefined
+        options[filter + '.name'] = Query.param filter
 
     options.name = search if search isnt null
 
@@ -86,9 +91,12 @@ Filter =
       return false
 
     filterHandler: ->
+      Filter.d()
+
       event.stopPropagation()
       Filter.filter = $(this).data 'filter'
       Filter.endpoint = $(this).data 'endpoint'
+
 
       if $(".selection.selection_#{Filter.filter}").hasClass 'on'
         Filter.d()

@@ -1,4 +1,8 @@
 each item in self.items
   .value
+    if item.profile
+      img.profile(src=item.profile)
+    if item.client && item.client.profile
+      img.profile(src=item.client.profile)
     .count=item.entries.length
     .name=item.name

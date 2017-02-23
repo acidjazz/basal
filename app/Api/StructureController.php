@@ -171,6 +171,7 @@ class StructureController extends MetApiController
     $this->addOption('_id', 'regex:/[0-9a-fA-F]{24}/');
 
     $this->addOption('name', 'regex:/[0-9a-zA-z]/');
+    $this->addOption('client_name', 'regex:/[0-9a-zA-z]/');
 
     if (!$query = $this->getQuery()) {
       return $this->error();
@@ -194,6 +195,11 @@ class StructureController extends MetApiController
     if (isset($query['combined']['name'])) {
       $structures = $structures->where('name', 'regexp',
         new \MongoDB\BSON\Regex($query['combined']['name'], 'i'));
+    }
+
+    if (isset($query['combined']['client_name'])) {
+      $structures = $structures->where('client.name', 'regexp',
+        new \MongoDB\BSON\Regex($query['combined']['client_name'], 'i'));
     }
 
     $structures = $structures->orderBy('updated_at', 'desc');
