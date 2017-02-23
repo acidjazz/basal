@@ -140,6 +140,6 @@ Global =
         location.href = '/entries'
 
       if window.User isnt undefined and User.client is undefined
-        _.on 'header > .inner >.logo'
+        _.on 'header > .inner > .logo'
         _.on 'header > .inner > .name'
         _.on '.menu'
