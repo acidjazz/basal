@@ -180,6 +180,12 @@ class StructureController extends MetApiController
     if ($this->me) {
       $clients = Client::whereRaw(['users' => ['$elemMatch' => ['id' => $this->me->_id]]]);
       $structures = Structure::with('entries')->whereIn('client.id', $clients->get()->pluck('_id'));
+
+      # filter only client accessable structures for client-based users
+      if ($this->me->client && count($this->me->client) === 3) {
+        $structures = $structures->where(['client.id' => $this->me->client['id'], 'clientAccess' => true]);
+      }
+
     } else {
       $structures = Structure::with('entries');
     }

@@ -33,6 +33,7 @@ Entry =
   handlers: ->
     $('.page.entry > .modify > .submit').click @submit
     $('.page.entry > .modify > .another').click @another
+    $('.page.entry > .modify > .cancel').click @cancel
 
     $('.focusme').focus ->
       $('.note-editable').focus()
@@ -97,6 +98,11 @@ Entry =
 
   another: ->
     location.href = "/entries/new#structure=#{Entry.structure}"
+  cancel: ->
+    if document.referrer.indexOf(window.location.host) is -1
+      location.href = "/entries"
+    else
+      window.history.back()
   structureSelectHandler: (e) ->
     structure_id = $(e.currentTarget).val()
     return false if structure_id.length isnt 24
