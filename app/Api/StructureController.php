@@ -63,38 +63,6 @@ class StructureController extends MetApiController
     return $this->render(['status' => 'Structure added successfully', '_id' => $structure->_id]);
   }
 
-  public function delete(Request $request, $_id)
-  {
-    if (!$this->me) {
-      return $this->addError('auth', 'session.required')->error();
-    }
-
-    $request->request->add(['_id' => $_id]);
-    $this->addOption('_id', 'required|regex:/[0-9a-fA-F]{24}/|exists:structure,_id');
-
-    if (!$query = $this->getQuery()) {
-      return $this->error();
-    }
-
-    if (Entry::where(['structure.id' => $_id])->count() > 0) {
-      return $this->addError('disabled', 'entries.exist')->error();
-    }
-
-    $structure = Structure::find($_id);
-
-    // verify the user is of the same client
-    $client = Client::where(['_id'=> $structure->client['id']])
-      ->whereRaw(['users' => ['$elemMatch' => ['id' => $this->me->_id]]])->get();
-
-    if ($client->count() < 1) {
-      return $this->addError('auth', 'restricted')->error();
-    }
-
-    $structure->delete();
-
-    return $this->render(['status' => 'Structure deleted successfully']);
-  }
-
   public function update(Request $request, $_id)
   {
     if (!$this->me) {
@@ -151,7 +119,7 @@ class StructureController extends MetApiController
 
       if (Entry::where(['structure.id' => $_id])->count() > 0) {
         if ($structure->isDirty() && isset($structure->getDirty()['entities'])) {
-          return $this->addError('disabled', 'entries.exist')->error();
+          return $this->addError('Update Error', 'You cannot update a structure with existing entries')->error();
         }
       }
 
@@ -172,6 +140,7 @@ class StructureController extends MetApiController
 
     $this->addOption('name', 'regex:/[0-9a-zA-z]/');
     $this->addOption('client_name', 'regex:/[0-9a-zA-z]/');
+    $this->addOption('deleted', "in:true,false");
 
     if (!$query = $this->getQuery()) {
       return $this->error();
@@ -208,6 +177,11 @@ class StructureController extends MetApiController
         new \MongoDB\BSON\Regex($query['combined']['client_name'], 'i'));
     }
 
+    # deleted structures only
+    if (isset($query['combined']['deleted']) && $query['combined']['deleted'] === 'true') {
+      $structures = $structures->onlyTrashed();
+    }
+
     $structures = $structures->orderBy('updated_at', 'desc');
 
     $structures = $structures->paginate(20);
@@ -223,6 +197,89 @@ class StructureController extends MetApiController
     }
 
     return $this->render($structures->items(),$view);
+
+  }
+
+  public function delete(Request $request, $_id)
+  {
+    return $this->soft($request, $_id, 'delete');
+  }
+
+  public function restore(Request $request, $_id)
+  {
+    return $this->soft($request, $_id, 'restore');
+  }
+
+  public function force(Request $request, $_id)
+  {
+    return $this->soft($request, $_id, 'force');
+  }
+
+  private function soft(Request $request, $_id, $type)
+  {
+
+    if (!$this->me) {
+      return $this->addError('auth', 'session.required')->error();
+    }
+
+    $request->request->add(['_id' => $_id]);
+    $this->addOption('_id', 'required|regex:/[0-9a-fA-F]{24}/|exists:structure,_id');
+
+    if (!$query = $this->getQuery()) {
+      return $this->error();
+    }
+
+    if ($type === 'restore' || $type === 'force') {
+      $structure = Structure::withTrashed()->find($_id);
+    } else {
+      $structure = Structure::find($_id);
+    } 
+
+    if ($this->verifyStructure($structure) === false) {
+      return $this->error();
+    }
+
+
+    if ($type == 'delete' || $type == 'force') {
+      if (Entry::where(['structure.id' => $_id])->withTrashed()->count() > 0) {
+        return $this->addError('Delete Error', 'You cannot delete a structure with existing entries (even deleted ones)')->error();
+      }
+    }
+
+    if ( ($type === 'restore' || $type === 'force') && $structure->trashed() !== true) {
+      return $this->addError('auth', 'invalid')->error();
+    }
+
+    if ($type === 'delete') {
+      $structure->delete();
+      return $this->render(['status' => 'Structure deleted successfully']);
+    }
+
+    if ($type === 'restore') {
+      $structure->restore();
+      return $this->render(['status' => 'Structure restored successfully']);
+    }
+
+    if ($type === 'force') {
+      $structure->forceDelete();
+      return $this->render(['status' => 'Structure Permanently deleted successfully']);
+    }
+
+  }
+
+  private function verifyStructure($structure)
+  {
+
+    // verify the user is of the same client
+    $client = Client::where(['_id'=> $structure->client['id']])
+      ->whereRaw(['users' => ['$elemMatch' => ['id' => $this->me->_id]]])->get();
+
+    if ($client->count() < 1) {
+      return $this->addError('auth', 'restricted')->error();
+      return false;
+    }
+
+    return true;
 
   }
 

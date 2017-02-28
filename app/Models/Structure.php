@@ -2,12 +2,9 @@
 
 namespace App\Models;
 
-use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
-
-
-class Structure extends Eloquent
+class Structure extends \Moloquent
 {
 
   use SoftDeletes;

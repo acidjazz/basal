@@ -3,6 +3,10 @@ extends ../extends/layout
 block content
   .page.margined.structures
     a.ctap(href='/structures/new') New Structure
+    a.deleted.off.hint--left(href='/structures/deleted',aria-label="Show Deleted Entries")
+      include ../../vector/trash.svg
+    a.deleted.active.off.hint--left(href='/structures',aria-label="Show Entries")
+      include ../../vector/trash.svg
     .clear
     .content
       .listing.structures

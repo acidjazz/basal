@@ -19,6 +19,7 @@ Route::get('clients', function() { return view('pages.clients'); });
 Route::get('clients/{_idn}', function() { return view('pages.client'); });
 Route::get('structures', function() { return view('pages.structures'); });
 Route::get('structures/{_idn}', function() { return view('pages.structure'); });
+Route::get('structures/deleted', function() { return view('pages.structures'); });
 Route::get('entries', function() { return view('pages.entries'); });
 Route::get('entries/deleted', function() { return view('pages.entries'); });
 Route::get('entries/{_idn}', function() { return view('pages.entry'); });

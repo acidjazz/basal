@@ -1,4 +1,18 @@
 .page.structures
+  > .deleted
+    float right
+    width 33px
+    height 33px
+    padding 5px
+    margin 0 10px 0 0
+    &:hover
+      background-color gc(grey1)
+      border-radius 3px
+    onoff()
+    &.active
+      > svg
+        fill gc(red1)
+
   > .ctap
     float right
     gf(c1b)

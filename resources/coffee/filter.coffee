@@ -29,6 +29,8 @@ Filter =
     options =
       view: 'filters'
 
+    options.deleted = true if Listing.deleted is true
+
     for index, filter of Filter.filters
       if filter isnt Filter.filter and Query.param(filter) isnt undefined
         options[filter + '.name'] = Query.param filter

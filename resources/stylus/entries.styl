@@ -1,4 +1,17 @@
 .page.entries
+  > .deleted
+    float right
+    width 33px
+    height 33px
+    padding 5px
+    margin 0 10px 0 0
+    &:hover
+      background-color gc(grey1)
+      border-radius 3px
+    onoff()
+    &.active
+      > svg
+        fill gc(red1)
   > .title
     float left
     gf(h2b)
@@ -11,15 +24,3 @@
 
   > .content
     padding 20px 0
-    > .listing > .inner > .deleted
-      position absolute
-      bottom 0px
-      right 0px
-      width 33px
-      height 33px
-      margin 10px
-      padding 5px
-      &:hover
-        background-color gc(grey3)
-        border-radius 3px
-

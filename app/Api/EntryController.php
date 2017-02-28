@@ -128,6 +128,7 @@ class EntryController extends MetApiController
     $this->addOption('client_name', 'regex:/[a-zA-Z0-9]+/|exists:client,name');
     $this->addOption('_id', 'regex:/[0-9a-fA-F]{24}/|exists:entry,_id');
     $this->addOption('active', "in:true,false");
+    $this->addOption('deleted', "in:true,false");
     $this->addOption('view', "in:true,false", "false");
 
     if (!$query = $this->getQuery()) {
@@ -171,6 +172,11 @@ class EntryController extends MetApiController
       $entries = $entries->where(['_id' => $query['combined']['_id']]);
     }
 
+    # deleted entries only
+    if (isset($query['combined']['deleted']) && $query['combined']['deleted'] === 'true') {
+      $entries = $entries->onlyTrashed();
+    }
+
     $entries = $entries->orderBy('updated_at', 'desc');
     $entries = $entries->paginate(config('settings.perpage'));
 
@@ -182,6 +188,82 @@ class EntryController extends MetApiController
     }
 
     return $this->render($entries->items(),$view);
+
+  }
+
+  public function delete(Request $request, $_id)
+  {
+    return $this->soft($request, $_id, 'delete');
+  }
+
+  public function restore(Request $request, $_id)
+  {
+    return $this->soft($request, $_id, 'restore');
+  }
+
+  public function force(Request $request, $_id)
+  {
+    return $this->soft($request, $_id, 'force');
+  }
+
+  private function soft(Request $request, $_id, $type)
+  {
+
+    if (!$this->me) {
+      return $this->addError('auth', 'session.required')->error();
+    }
+
+    $request->request->add(['_id' => $_id]);
+    $this->addOption('_id', 'required|regex:/[0-9a-fA-F]{24}/|exists:entry,_id');
+
+    if (!$query = $this->getQuery()) {
+      return $this->error();
+    }
+
+    if ($type === 'restore' || $type === 'force') {
+      $entry = Entry::withTrashed()->find($_id);
+    } else {
+      $entry = Entry::find($_id);
+    } 
+
+    if ($this->verifyEntry($entry) === false) {
+      return $this->error();
+    }
+
+    if ( ($type === 'restore' || $type === 'force') && $entry->trashed() !== true) {
+      return $this->addError('auth', 'invalid')->error();
+    }
+
+    if ($type === 'delete') {
+      $entry->delete();
+      return $this->render(['status' => 'Entry deleted successfully']);
+    }
+
+    if ($type === 'restore') {
+      $entry->restore();
+      return $this->render(['status' => 'Entry restored successfully']);
+    }
+
+    if ($type === 'force') {
+      $entry->forceDelete();
+      return $this->render(['status' => 'Entry Permanently deleted successfully']);
+    }
+
+  }
+
+  private function verifyEntry($entry)
+  {
+
+    // verify the user is of the same client
+    $client = Client::where(['_id'=> $entry->client['id']])
+      ->whereRaw(['users' => ['$elemMatch' => ['id' => $this->me->_id]]])->get();
+
+    if ($client->count() < 1) {
+      return $this->addError('auth', 'restricted')->error();
+      return false;
+    }
+
+    return true;
 
   }
 

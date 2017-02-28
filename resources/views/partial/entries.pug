@@ -2,11 +2,6 @@
   each entry in self.entries
     .entry.item
 
-      //a.link.jsonp.ctab.hint--top(
-        aria-label="Endpoint",
-        href="/api/entries?_id=" + entry._id,
-        target="_new") {&nbsp;&nbsp;}
-
       .picture.author.hint--top(
         aria-label="Author is "+entry.user.name,
         style="background-image: url('" + entry.user.picture + "');"
@@ -18,36 +13,44 @@
           style="background-image: url('" + entry.client.profile + "');"
         )
 
-      .switch.active.listing.hint--top(
-        aria-label=(entry.active == true ? 'Unpublish your entry' : 'Publish your entry')
-        class=(entry.active == true ? 'on' : 'off')
-        data-name='active'
-        data-_id=entry._id
-      )
-        .toggle
-          .icon
-            include ../../vector/close.svg
-            include ../../vector/checked.svg
+      if !entry.deleted_at
+        .switch.active.listing.hint--top(
+          aria-label=(entry.active == true ? 'Unpublish your entry' : 'Publish your entry')
+          class=(entry.active == true ? 'on' : 'off')
+          data-name='active'
+          data-_id=entry._id
+        )
+          .toggle
+            .icon
+              include ../../vector/close.svg
+              include ../../vector/checked.svg
 
       .checkbox
         input(type="checkbox",data-_id=entry._id)
-      a.name(href='/entries/' + entry._id)=entry.name
+      if entry.deleted_at
+        .name=entry.name
+      else
+        a.name(href='/entries/' + entry._id)=entry.name
       .details
         .detail.created created 
           time.hint--top.value(title=entry.created_at)
             include ../../vector/time.svg
           |,
-        .detail.updated updated 
 
+        .detail.updated updated 
           time.hint--top.value(title=entry.updated_at)
             include ../../vector/time.svg
-
           |,
+
+        if entry.deleted_at
+          .detail.deleted deleted 
+            time.hint--top.value(title=entry.deleted_at)
+              include ../../vector/time.svg
+          |,
+
         .detail.structure uses the  
           a.value(href='/structures/' + entry.structure.id) #{entry.structure.name} 
           |  structure
       .clear
 
-a.deleted.hint--left(href='/entries/deleted',aria-label="Toggle Deleted Entries")
-  include ../../vector/trash.svg
 include paginate

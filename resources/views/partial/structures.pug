@@ -23,6 +23,11 @@
           time.hint--top.value(title=structure.updated_at)
             include ../../vector/time.svg
           |,&nbsp;
+        if structure.deleted_at
+          .detail.deleted deleted 
+            time.hint--top.value(title=structure.deleted_at)
+              include ../../vector/time.svg
+          |, 
         a.detail.entries(href='/entries?structure=' + structure.name)
           .value #{structure.entries.length}
           |  entries

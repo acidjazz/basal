@@ -18,6 +18,7 @@ Prompt =
 
     Prompt.el.find '.title'
       .html title
+      .attr 'title', title
     Prompt.el.find '.copy'
       .html copy
 

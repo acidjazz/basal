@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
+
 class Client extends \Moloquent
 {
+
+  use SoftDeletes;
 
   protected $collection = 'client';
   protected $primaryKey = '_id';

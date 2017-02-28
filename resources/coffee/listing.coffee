@@ -3,6 +3,7 @@ Listing =
   selected: []
   filters: []
   selectedCursor: 0
+  deleted: false
 
   otherActions: false
 
@@ -11,6 +12,18 @@ Listing =
     @filters = filters
     @content = content
     @otherActions = otherActions
+
+    if document.location.pathname.indexOf('deleted') isnt -1
+      _.on ".page.#{@content} > .active.deleted"
+      @deleted = true
+      _.off '.state_actions > .actions > .action.delete'
+      _.on '.state_actions > .actions > .action.restore'
+      _.on '.state_actions > .actions > .action.force'
+      _.off ".state_actions > .actions > .action_#{Listing.content}"
+    else
+      _.on $(".page.#{@content} > .deleted").not '.active'
+      _.on ".state_actions > .actions > .action_#{Listing.content}"
+
     @load()
     @handlers()
 
@@ -80,11 +93,9 @@ Listing =
         $('.listing > .list-header > .state_actions > .copy > .value').text ids.length
         _.off '.listing > .list-header > .state_stats'
         _.on '.listing > .list-header > .state_actions'
-        _.on ".listing > .list-header > .state_actions > .actions > .action_#{Listing.content}"
       else
         _.on '.listing > .list-header > .state_stats'
         _.off '.listing > .list-header > .state_actions'
-        _.off ".listing > .list-header > .state_actions > .actions > .action_#{Listing.content}"
       Listing.selected = ids
 
   pageLinks: ->
@@ -109,14 +120,20 @@ Listing =
 
     switch type
       when 'delete'
-        Prompt.i "Deleting #{Listing.selected.length} items(s)",
-          'This feature is currently in development', ['OK'], (response) ->
-        ###
-        Prompt.i "Deleting #{Listing.selected.length} items(s)",
+        Prompt.i "Deleting #{Listing.selected.length} item(s)",
           'Are you sure you want to delete these?', ['Yes','No'], (response) ->
             return true if response isnt 'Yes'
             Listing.deleteSelected()
-        ###
+      when 'restore'
+        Prompt.i "Restoring #{Listing.selected.length} item(s)",
+          'Are you sure you want to restore these?', ['Yes','No'], (response) ->
+            return true if response isnt 'Yes'
+            Listing.deleteSelected 0, 'restore'
+      when 'force'
+        Prompt.i "Deleting #{Listing.selected.length} item(s)",
+          'Are you sure you want to PERMANENTLY delete these?', ['Yes','No'], (response) ->
+            return true if response isnt 'Yes'
+            Listing.deleteSelected 0, 'force'
 
       when 'publish', 'hide'
 
@@ -139,34 +156,41 @@ Listing =
       else
         Listing.otherActions(type)
                         
-  delete: (id, callback) ->
+  delete: (id,type='delete',callback) ->
 
-    ###
     Spinner.i($(".listing.#{Listing.content}"))
-    _.get "/api/#{Listing.content}/delete/#{id}"
+    _.get "/api/#{Listing.content}/#{type}/#{id}"
     .always ->
       Spinner.d()
     .done (response) ->
       callback true
     .fail ->
       callback false
-    ###
 
-  deleteSelected: (cursor=0) ->
+  deleteSelected: (cursor=0,type='delete') ->
 
     if Listing.selected.length is cursor
-      Notice.i 'Structure(s) deleted successfully', type: 'success'
+      if type is 'delete'
+        Notice.i 'Deleted successfully', type: 'success'
+      if type is 'restore'
+        Notice.i 'Restored successfully', type: 'success'
+      if type is 'force'
+        Notice.i 'Permanently deleted successfully', type: 'success'
+      Listing.unselectAll()
       @load()
+
       return true
 
-    Listing.delete Listing.selected[cursor], (result) ->
-      Listing.deleteSelected ++cursor if result is true
+    Listing.delete Listing.selected[cursor],type, (result) ->
+      Listing.deleteSelected(++cursor, type) if result is true
 
   load: ->
 
     Spinner.i($(".listing.#{Listing.content}"))
 
     options = view: true
+
+    options.deleted = true if Listing.deleted is true
 
     for filter in @filters
       if Query.param(filter) isnt undefined

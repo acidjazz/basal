@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
+
 class Entry extends \Moloquent
 {
+
+  use SoftDeletes;
 
   protected $collection = 'entry';
   protected $primaryKey = '_id';
@@ -12,6 +16,6 @@ class Entry extends \Moloquent
 
   protected $dateFormat = 'c';
 
-  protected $dates = ['entities.*.date'];
+  protected $dates = ['entities.*.date', 'deleted_at'];
 
 }

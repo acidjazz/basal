@@ -14,6 +14,10 @@
       .action.action_entries.hide.cta.off(data-type='hide') Unpublish
       .action.action_entries.publish.ctag.off(data-type='publish') Publish
       .action.delete.ctar(data-type='delete') Delete
+
+      .action.restore.cta.off(data-type='restore') Restore
+      .action.force.ctar.off(data-type='force') Delete Permanently
+
       if buttons
         each button in buttons
           .action.cta(data-type=button)=button

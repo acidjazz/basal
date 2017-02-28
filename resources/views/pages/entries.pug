@@ -3,8 +3,11 @@ extends ../extends/layout
 block content
 
   .page.margined.entries
-    .title Entries
     a.ctap(href='/entries/new') New Entry
+    a.deleted.off.hint--left(href='/entries/deleted',aria-label="Show Deleted Entries")
+      include ../../vector/trash.svg
+    a.deleted.active.off.hint--left(href='/entries',aria-label="Show Entries")
+      include ../../vector/trash.svg
     .clear
     .content
       .listing.entries
