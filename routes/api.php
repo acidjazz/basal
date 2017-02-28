@@ -13,6 +13,29 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('auth', 'AuthController@auth');
+Route::get('auth/google', 'AuthController@google');
+Route::get('auth/logout', 'AuthController@logout');
+
+Route::get('users', 'UserController@get');
+Route::get('users/update/{_id}', 'UserController@update');
+
+Route::get('clients', 'ClientController@get');
+Route::get('clients/add', 'ClientController@add');
+Route::get('clients/update/{_id}', 'ClientController@update');
+
+Route::get('structures', 'StructureController@get');
+Route::get('structures/add', 'StructureController@add');
+Route::get('structures/update/{_id}', 'StructureController@update');
+Route::get('structures/delete/{_id}', 'StructureController@delete');
+
+Route::get('entries', 'EntryController@get');
+Route::get('entries/add', 'EntryController@add');
+Route::get('entries/update/{_id}', 'EntryController@update');
+Route::get('entries/delete/{_id}', 'EntryController@delete');
+
+Route::get('invite/add', 'InviteController@add');
+Route::get('invite/get', 'InviteController@get');
+
+
+
