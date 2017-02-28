@@ -1,16 +1,5 @@
-.testing // https://github.com/wavded/vim-stylus/issues/48
-  &.google
-    > svg path
-      fill red
-  &.github > svg path
-    fill blue
-
 .page.structure
   > .modify
-    margin 10px 0
-    padding 20px
-    animation cellOutY 0.2s linear
-    border 1px solid gc(grey1)
     > #template
       display none
     > .title
@@ -30,7 +19,7 @@
         float left
         width 80%
         > input
-          width 100%
+          input()
       > .checkbox
         cursor pointer
         float left
@@ -51,7 +40,6 @@
           padding 6px 0 2px 0
           gf(c1b)
         > .entity
-          animation cellOutY 0.2s linear
           margin 0 auto 20px auto
           width 580px
           > .input
@@ -60,6 +48,7 @@
             margin 0 20px 0 0
             > input
               width 100%
+              input()
             > select
               width 100%
           > .remove

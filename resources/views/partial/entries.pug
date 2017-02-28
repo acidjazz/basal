@@ -18,7 +18,7 @@
           style="background-image: url('" + entry.client.profile + "');"
         )
 
-      .switch.active.hint--top(
+      .switch.active.listing.hint--top(
         aria-label=(entry.active == true ? 'Unpublish your entry' : 'Publish your entry')
         class=(entry.active == true ? 'on' : 'off')
         data-name='active'

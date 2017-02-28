@@ -2,7 +2,7 @@
 extends ../extends/layout
 
 block content
-  .page.margined.structure
+  .page.margined.form.structure
     form.modify(name="modify")
       #template
         .entity
@@ -34,13 +34,16 @@ block content
         .clear
       .detail.name
         .label Structure Name
-        .input.selectize-input
+        .input
           input(type="text",name="structureName")
         .clear
       .detail.clientAccess
         .label Client Access
-        .checkbox.selectall
-          input(type="checkbox")
+        .switch.form
+          .toggle
+            .icon
+              include ../../vector/close.svg
+              include ../../vector/checked.svg
         .clear
       .clear
       .title Entities

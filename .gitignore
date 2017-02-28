@@ -6,9 +6,13 @@
 *.swp
 
 # js
-node_modules
+/node_modules
 
 # php
 composer.lock
 /vendor
 .env*
+/public/storage
+/public/hot
+/storage/*.key
+

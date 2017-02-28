@@ -2,7 +2,7 @@
 extends ../extends/layout
 
 block content
-  .page.margined.client
+  .page.client.form
     .label Client Name
     .input.input-name.selectize-input
       input(type="text")
@@ -10,8 +10,9 @@ block content
     .label Profile Picture
     .input.input-image
       .picture
-      input(type="file",name="file",accept="image/*")
+      input(type="file",name="file",accept="image/png,image/jpeg")
       button.cta Choose an image or drag it here
+      .clear
       .croppie
     .clear
     .label Collaborators
@@ -20,6 +21,7 @@ block content
     .clear
     .submit
       button.ctap Submit
+    .clear
 
   script.
     Page = 'clients';

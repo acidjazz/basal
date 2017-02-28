@@ -19,6 +19,7 @@ Structure =
       _.on '.modify > .submit > .cta'
     else
       @entityAdd()
+      _.off '.modify > .clientAccess > .switch'
 
     @clientSelect[0].selectize.focus() if @_id is false
 
@@ -28,13 +29,10 @@ Structure =
     $('.modify > .entities').on 'click','.entity > .remove', @entityRemoveHandler
     $('.modify > .submit > .ctap').click @submitHandler
     $('.modify > .submit > .cta').click @newEntryHandler
-    $('.modify > .clientAccess > .checkbox').on 'click', @checkboxHandler
+    $('.modify > .clientAccess > .switch').on 'click', @checkboxHandler
 
   checkboxHandler: ->
-    cb = $(this).find 'input'
-    if event.target.type isnt 'checkbox'
-      cb[0].checked = !cb[0].checked
-      cb.change()
+    _.swap this
 
   load: ->
 
@@ -50,7 +48,9 @@ Structure =
       $('.modify > .name > .input > input').val structure.name
 
       if structure.clientAccess is true
-        $('.modify > .clientAccess > .checkbox > input')[0].checked = true
+        _.on '.modify > .clientAccess > .switch'
+      else
+        _.off '.modify > .clientAccess > .switch'
 
       for i, entity of structure.entities
         Structure.entityAdd false, entity
@@ -92,7 +92,7 @@ Structure =
     structure.entities = {}
     structure.client = $('.modify > .client > .input > select').val()
     structure.name = $('.modify > .name > .input > input').val()
-    structure.clientAccess = $('.modify > .clientAccess > .checkbox > input')[0].checked
+    structure.clientAccess = $('.modify > .clientAccess > .switch').hasClass 'on'
 
     $('.modify > .entities > .body > .entity').each (i, el) ->
 

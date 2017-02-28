@@ -32,6 +32,7 @@ Client =
     event.preventDefault()
 
   dragover: ->
+    console.log event
     _.on '.input-image'
 
   dragleave: ->

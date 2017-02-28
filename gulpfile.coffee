@@ -52,13 +52,13 @@ gulp.task 'goprod', ->
   env = 'prod'
 
 gulp.task 'cleanup', ['vendor'], ->
-  return del([ __dirname + '/public/js/requires.js' ])
+  return del([ __dirname + '/public/javascript/requires.js' ])
   
 gulp.task 'requires', ->
   b = browserify('', {require: 'qs', standalone: 'qs'})
   return b.bundle()
   .pipe(source('requires.js'))
-  .pipe gulp.dest('public/js/')
+  .pipe gulp.dest('public/javascript/')
 
 gulp.task 'vendor', ['requires'], ->
 
@@ -66,18 +66,18 @@ gulp.task 'vendor', ['requires'], ->
     'node_modules/jquery/dist/jquery.js',
     'node_modules/json-browse/json-browse/jquery.json-browse.js',
     'node_modules/gsap/src/uncompressed/TweenMax.js',
-    'public/js/MorphSVGPlugin.min.js',
+    'public/javascript/MorphSVGPlugin.min.js',
     'node_modules/novacancy.js/javascript/jquery.novacancy.js',
     'node_modules/moment/min/moment.min.js',
     'node_modules/selectize/dist/js/standalone/selectize.js',
     'node_modules/croppie/croppie.js',
     'node_modules/flatpickr/dist/flatpickr.js',
     'node_modules/cropperjs/dist/cropper.js',
-    'public/js/requires.js',
+    'public/javascript/requires.js',
   ])
   .pipe(gulpif(env != 'dev',uglify()))
   .pipe(concat('vendor.js'))
-  .pipe gulp.dest('public/js/')
+  .pipe gulp.dest('public/javascript/')
 
   gulp.src([
     'node_modules/json-browse/json-browse/jquery.json-browse.css',
@@ -105,7 +105,7 @@ gulp.task 'coffee', ['larjectus'], ->
     .pipe(gulpif(env != 'dev',uglify()))
     .pipe(concat('bundle.js'))
     .pipe(gulpif(env == 'dev',sourcemaps.write()))
-    .pipe(gulp.dest('./public/js'))
+    .pipe(gulp.dest('./public/javascript'))
     .pipe(sync.stream())
 
 gulp.task 'stylus', ['larjectus'], ->
