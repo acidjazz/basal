@@ -129,7 +129,7 @@ Global =
       if Global.protected.indexOf(location.pathname.replace(/\//g, '')) isnt -1 and result is false
         location.href = '/'
 
-      if Global.init isnt false and result isnt false
+      if Global.init isnt false and ( result isnt false or Global.init is 'Invite' )
         window[Global.init].i()
 
       # turn on all login / registration divs

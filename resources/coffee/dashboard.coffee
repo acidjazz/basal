@@ -11,7 +11,6 @@ Dashboard =
     _.get '/api/clients',
       view: 'dashboard'
     .always ->
-      console.log 'always'
       Spinner.d()
     .done (response) ->
       Time.i()

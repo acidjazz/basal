@@ -23,5 +23,5 @@ Route::get('structures/deleted', function() { return view('pages.structures'); }
 Route::get('entries', function() { return view('pages.entries'); });
 Route::get('entries/deleted', function() { return view('pages.entries'); });
 Route::get('entries/{_idn}', function() { return view('pages.entry'); });
-Route::get('invite/{_id}', function() { return view('pages.invite'); });
+Route::get('invite/{id}', function() { return view('pages.invite'); });
 

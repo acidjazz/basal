@@ -29,6 +29,7 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::pattern('_id', '[0-9a-fA-F]{24}');
         Route::pattern('_idn', '[0-9a-fA-F]{24}|new');
+        Route::pattern('id', '[0-9a-fA-F]{8}');
 
         parent::boot();
     }
