@@ -5,8 +5,9 @@
   max-width 640px
   min-width 320px
   background-color gc(white1)
-  border 1px solid gc(black1)
-  box-shadow 0 0 16px 2px gc(black2), 0.5
+  border 1px solid gc(black5)
+  border-radius 3px
+  box-shadow 0 3px 12px rgba(0,0,0,0.15)
   z-index 21
   onoff()
   animation scaleInMid 0.6s ease-in-out 0s both
@@ -57,14 +58,13 @@
       width 100%
       > input
         width 400px
+        input()
       > .clipboard
         cursor pointer
         float right
         width 34px
         height 34px
         padding 5px
-        border-left 1px solid gc(grey1)
-        margin -7px -7px -7px 0
         &:hover
           background-color gc(grey2)
         > svg
