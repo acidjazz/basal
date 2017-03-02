@@ -6,7 +6,7 @@
     "type": "project",
  
     "require": {
-      "php": ">=7.0.12",
+      "php": ">=7.0.0",
       "acidjazz/larjectus": "^0.9.0",
       "acidjazz/larpug": "^0.2.2",
       "acidjazz/summon": "^1.4",

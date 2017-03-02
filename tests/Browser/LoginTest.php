@@ -39,7 +39,6 @@ class LoginTest extends DuskTestCase
         ->assertVisible('.collections')
         ->pause(2000);
 
-
     });
 
   }
@@ -68,7 +67,6 @@ class LoginTest extends DuskTestCase
     });
 
   }
-
 
   public function testClientDelete()
   {
@@ -102,7 +100,6 @@ class LoginTest extends DuskTestCase
     // how you do it :
     //$this->TakeScreenshot($browser);
 
-    // Change the Path to your own settings
     $screenshot = __DIR__.'/screenshots/' . time() . ".png";
 
     // Change the driver instance
