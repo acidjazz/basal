@@ -7,7 +7,7 @@ sudo:
 
 before_script:
   - pecl install mongodb 
-  - printf "\n" | pecl install yaml
+  - printf "\n" | pecl install yaml-2.0.0
   - composer install
   - npm i --prefix vendor/acidjazz/larpug/node/
     
