@@ -11,6 +11,7 @@ before_script:
   - composer install
   - npm i --prefix vendor/acidjazz/larpug/node/
     
+script: vendor/bin/phpunit
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
