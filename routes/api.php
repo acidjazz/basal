@@ -38,6 +38,8 @@ Route::get('entries/delete/{_id}', 'EntryController@delete');
 Route::get('entries/restore/{_id}', 'EntryController@restore');
 Route::get('entries/force/{_id}', 'EntryController@force');
 
+Route::post('upload', 'FileController@upload');
+
 Route::get('invite/add', 'InviteController@add');
 Route::get('invite/get', 'InviteController@get');
 

@@ -23,7 +23,10 @@ class ClientController extends MetApiController
     $this->addOption('name', 'required|string|unique:client');
     $this->addOption('profile', 'url');
     $this->addOption('users', 'array');
-    $this->addOption('users.*', 'regex:/[0-9a-fA-F]{24}/|exists:user,_id');
+
+    if (is_array($request->users) && count($request->users) > 0 && $request->users[0] !== null) {
+      $this->addOption('users.*', 'regex:/[0-9a-fA-F]{24}/|exists:user,_id');
+    }
 
     if (!$query = $this->getQuery()) {
       return $this->error();

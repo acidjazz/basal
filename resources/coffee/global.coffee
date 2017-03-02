@@ -35,7 +35,7 @@ Global =
       Me.logout ->
         _.swap '.me > .profile'
         _.swap '.me > .picture'
-        Notice.i 'Logout Successful', 'success'
+        Notice.i 'Logout successful', type: 'success'
         Spinner.d()
         setTimeout ->
           location.href = '/'
@@ -90,7 +90,7 @@ Global =
   oauthComplete: (user) ->
     Spinner.d()
     Global.login user
-    Notice.i 'Login Successful', 'success'
+    Notice.i 'Login successful', type: 'success'
     if User.client isnt undefined
       setTimeout ->
         location.href = '/entries'

@@ -32,7 +32,6 @@ Client =
     event.preventDefault()
 
   dragover: ->
-    console.log event
     _.on '.input-image'
 
   dragleave: ->
@@ -104,7 +103,7 @@ Client =
       .always ->
         Spinner.d()
       .done (response) ->
-        Notice.i response.data.status, 'success'
+        Notice.i response.data.status, type: 'success'
         if Client._id is false
           window.history.pushState {}, '', "/clients/#{response.data._id}"
         Client._id = response.data._id
@@ -171,8 +170,10 @@ Client =
       error: ->
         Notice.d()
       success: (result) ->
-        Notice.i 'File uploaded successfully', type: 'success'
+        Notice.i 'File uploaded successfully', type: 'success', timeout: 600
         Client.profile = result.data.url
-        callback(result)
+        setTimeout ->
+          callback(result)
+        , 1200
 
 
