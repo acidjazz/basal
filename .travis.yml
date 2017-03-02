@@ -6,8 +6,8 @@ sudo:
   false 
 
 before_script:
-  - pecl install mongodb
-  - composer install --dev
+  - pecl install mongodb yaml
+  - composer install
   - npm i --prefix vendor/acidjazz/larpug/node/
     
 
