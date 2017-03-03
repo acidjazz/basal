@@ -9,7 +9,7 @@
       "php": ">=7.0.0",
       "acidjazz/larjectus": "^0.9.0",
       "acidjazz/larpug": "^0.2.2",
-      "acidjazz/summon": "^1.4",
+      "acidjazz/summon": "^1.4.2",
       "barryvdh/laravel-debugbar": "^2.3",
       "filp/whoops": "^2.1",
       "jenssegers/mongodb": "3.2.0",
