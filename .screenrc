@@ -1,0 +1,4 @@
+split
+screen -t serve php artisan serve
+focus
+screen -t sync npm run sync

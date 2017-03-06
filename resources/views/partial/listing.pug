@@ -22,6 +22,11 @@
         each button in buttons
           .action.cta(data-type=button)=button
 
+  .search.on
+    .cancel
+      include ../../vector/cancel.svg
+    input(type="text",placeholder="Search")
+
   .filters
 
     .filter.filter_client.off(data-filter='client',data-endpoint='clients')

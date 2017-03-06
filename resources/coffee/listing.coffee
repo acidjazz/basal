@@ -27,8 +27,9 @@ Listing =
     @load()
     @handlers()
 
-
     Filter.i @filters if @filters.length > 0
+
+    Search.i
 
   handlers: ->
     $(".listing.#{@content}").on 'click', '.checkbox', @checkboxHandler
