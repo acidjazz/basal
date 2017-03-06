@@ -18,4 +18,4 @@ after_success:
     
 
 notifications:
-  webhooks: https://discordapp.com/api/webhooks/288431600226533376/K5RaukLCBPuvzPCylQWvH89b_6VrhfRApbV9DY4B6KP1iz3vbW4hitCvM_MLVi9QIMtt/travisci
+  webhooks: https://discordapp.com/api/webhooks/288431600226533376/K5RaukLCBPuvzPCylQWvH89b_6VrhfRApbV9DY4B6KP1iz3vbW4hitCvM_MLVi9QIMtt
