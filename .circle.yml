@@ -1,0 +1,21 @@
+language: php
+php:
+  - 7.0.0
+
+sudo:
+  false 
+
+before_script:
+  - pecl install mongodb 
+  - printf "\n" | pecl install yaml-2.0.0
+  - composer install
+  - npm i --prefix vendor/acidjazz/larpug/node/
+    
+script: vendor/bin/phpunit
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+    
+
+notifications:
+  webhooks: https://discordapp.com/api/webhooks/288431600226533376/K5RaukLCBPuvzPCylQWvH89b_6VrhfRApbV9DY4B6KP1iz3vbW4hitCvM_MLVi9QIMtt
