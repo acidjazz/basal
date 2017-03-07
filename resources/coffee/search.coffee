@@ -14,7 +14,6 @@ Search =
     $('.listing').on 'keyup', '.list-header > .search > input', @searchHandler
 
   cancelHandler: ->
-    console.log 'cancelHeader handler'
     $('.list-header > .search > input').val ''
     _.off '.list-header > .search > .cancel'
     $('.list-header > .search > input').removeClass 'active'
