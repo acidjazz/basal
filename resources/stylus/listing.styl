@@ -16,18 +16,24 @@
       margin 7px 0 0 20px
       border-radius 3px
       > input
-        background-color gc(white3)
+        border 1px solid gc(white2)
+        background-color gc(white2)
         box-shadow none
-        &:focus
+        &:focus, &.active
           border-color gc(grey1)
           background-color gc(white1)
       > .cancel
+        onoff()
         position absolute
         top 6px
         right 6px
         cursor pointer
         width 25px
         height 25px
+        > svg > path
+          fill gc(grey3)
+        &:hover > svg > path
+          fill gc(black5)
 
     > .state
       margin 0 0 0 40px

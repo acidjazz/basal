@@ -24,11 +24,11 @@ Listing =
       _.on $(".page.#{@content} > .deleted").not '.active'
       _.on ".state_actions > .actions > .action_#{Listing.content}"
 
+    Search.i()
     @load()
     @handlers()
 
     Filter.i @filters if @filters.length > 0
-    #Search.i()
 
   handlers: ->
     $(".listing.#{@content}").on 'click', '.checkbox', @checkboxHandler
@@ -197,6 +197,8 @@ Listing =
         options[filter + '.name'] = Query.param filter
     if Query.param('page') isnt undefined
       options.page = Query.param 'page'
+    if Query.param('search') isnt undefined
+      options.search = Query.param 'search'
 
     _.get "/api/#{@content}", options
     .done (response) =>

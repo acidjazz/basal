@@ -131,6 +131,8 @@ class EntryController extends MetApiController
     $this->addOption('deleted', "in:true,false");
     $this->addOption('view', "in:true,false", "false");
 
+    $this->addOption('search', 'regex:/[a-zA-Z0-9 ]+/');
+
     if (!$query = $this->getQuery()) {
       return $this->error();
     }
@@ -166,6 +168,11 @@ class EntryController extends MetApiController
 
     if (isset($query['combined']['structure_name'])) {
       $entries = $entries->where(['structure.name' => $query['combined']['structure_name']]);
+    }
+
+    if (isset($query['combined']['search'])) {
+      $entries = $entries->where('name', 'regexp',
+        new \MongoDB\BSON\Regex($query['combined']['search'], 'i'));
     }
 
     if (isset($query['combined']['_id'])) {
