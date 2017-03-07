@@ -16,7 +16,7 @@ Search =
   cancelHandler: ->
     console.log 'cancelHeader handler'
     $('.list-header > .search > input').val ''
-    _.off '.list_header > .search > .cancel'
+    _.off '.list-header > .search > .cancel'
     $('.list-header > .search > input').removeClass 'active'
     if Query.param('search') isnt undefined
       Query.param 'search', false
@@ -28,13 +28,12 @@ Search =
 
     val = $(this).val()
 
-    if val isnt '' and $('.list-header > .search > .cancel').hasClass('off')
-      _.on '.list-header > .search > .cancel'
-
     if val isnt ''
       $('.list-header > .search > input').addClass 'active'
+      _.on '.list-header > .search > .cancel'
     else
       $('.list-header > .search > input').removeClass 'active'
+      _.off '.list-header > .search > .cancel'
 
     if key is 13
       Query.param('search', val)
