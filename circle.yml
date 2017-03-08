@@ -1,6 +1,6 @@
 machine:
   timezone:
-    America/Los Angeles
+    America/Los_Angeles
 
   php:
     version: 7.0.14
