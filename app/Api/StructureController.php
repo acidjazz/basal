@@ -142,6 +142,8 @@ class StructureController extends MetApiController
     $this->addOption('client_name', 'regex:/[0-9a-zA-z]/');
     $this->addOption('deleted', "in:true,false");
 
+    $this->addOption('search', 'regex:/[a-zA-Z0-9 ]+/');
+
     if (!$query = $this->getQuery()) {
       return $this->error();
     }
@@ -175,6 +177,11 @@ class StructureController extends MetApiController
     if (isset($query['combined']['client_name'])) {
       $structures = $structures->where('client.name', 'regexp',
         new \MongoDB\BSON\Regex($query['combined']['client_name'], 'i'));
+    }
+
+    if (isset($query['combined']['search'])) {
+      $structures = $structures->where('name', 'regexp',
+        new \MongoDB\BSON\Regex($query['combined']['search'], 'i'));
     }
 
     # deleted structures only

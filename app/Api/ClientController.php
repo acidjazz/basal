@@ -119,6 +119,8 @@ class ClientController extends MetApiController
 
     $this->addOption('name', 'regex:/[0-9a-zA-z]/');
 
+    $this->addOption('search', 'regex:/[a-zA-Z0-9 ]+/');
+
     if (!$query = $this->getQuery()) {
       return $this->error();
     }
@@ -134,6 +136,11 @@ class ClientController extends MetApiController
     if (isset($query['combined']['name'])) {
       $clients = $clients->where('name', 'regexp',
         new \MongoDB\BSON\Regex($query['combined']['name'], 'i'));
+    }
+
+    if (isset($query['combined']['search'])) {
+      $clients = $clients->where('name', 'regexp',
+        new \MongoDB\BSON\Regex($query['combined']['search'], 'i'));
     }
 
     $clients = $clients->paginate(20);

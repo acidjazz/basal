@@ -92,9 +92,11 @@ Listing =
       if ids.length > 0
         $('.listing > .list-header > .state_actions > .copy > .value').text ids.length
         _.off '.listing > .list-header > .state_stats'
+        _.off '.listing > .list-header > .search'
         _.on '.listing > .list-header > .state_actions'
       else
         _.on '.listing > .list-header > .state_stats'
+        _.on '.listing > .list-header > .search'
         _.off '.listing > .list-header > .state_actions'
       Listing.selected = ids
 

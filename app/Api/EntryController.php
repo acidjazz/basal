@@ -139,7 +139,6 @@ class EntryController extends MetApiController
 
     $entries = Entry::query();
 
-
     if ($this->me !== false) {
       $clients = Client::whereRaw(['users' => ['$elemMatch' => ['id' => $this->me->_id]]]);
       $entries = $entries->whereIn('client.id', $clients->get()->pluck('_id'));

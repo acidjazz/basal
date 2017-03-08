@@ -1,4 +1,4 @@
-<?
+<?php
 
 namespace App\Entities;
 
@@ -12,7 +12,6 @@ class Kernel
     'Blog',
     'Image',
     'Tags',
-    
     'Date',
     'Time',
     'DateTime',
