@@ -19,6 +19,7 @@ dependencies:
     - pecl install mongodb
     - echo "extension=mongodb.so" > /opt/circleci/php/7.0.4/etc/conf.d/mongodb.ini
     - printf "\n" | pecl install yaml-2.0.0
+    - echo "extension=yaml.so" > /opt/circleci/php/7.0.4/etc/conf.d/yaml.ini
     - composer install --no-interaction
     - npm i --prefix vendor/acidjazz/larpug/node/
   
