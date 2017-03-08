@@ -17,4 +17,4 @@ dependencies:
     - echo "extension=yaml.so" > /opt/circleci/php/7.0.4/etc/conf.d/yaml.ini
     - composer install --no-interaction
     - npm i --prefix vendor/acidjazz/larpug/node/
-    - nohup back -c "php ./artisan serve &"
+    - nohup bash -c "php ./artisan serve &"
