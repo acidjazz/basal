@@ -3,7 +3,7 @@ machine:
     America/Los_Angeles
 
   php:
-    version: 7.0.14
+    version: 7.0.4
 
   environment:
     ENVIRONMENT: testing
