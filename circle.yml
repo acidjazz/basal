@@ -10,13 +10,13 @@ machine:
     APP_ENV: testing
     APP_DEBUG: true
 
-  dependencies:
-    pre:
-      - pecl install mongodb
-      - printf "\n" | pecl install yaml-2.0.0
-      - composer install --no-interaction
-      - npm i --prefix vendor/acidjazz/larpug/node/
-    
+dependencies:
+  pre:
+    - pecl install mongodb
+    - printf "\n" | pecl install yaml-2.0.0
+    - composer install --no-interaction
+    - npm i --prefix vendor/acidjazz/larpug/node/
+  
 notify:
   webhooks:
     - url: https://discordapp.com/api/webhooks/288431600226533376/K5RaukLCBPuvzPCylQWvH89b_6VrhfRApbV9DY4B6KP1iz3vbW4hitCvM_MLVi9QIMtt
