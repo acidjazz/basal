@@ -2,7 +2,7 @@ machine:
   timezone:
     America/Los_Angeles
   services:
-    - mongod
+    - mongodb
 
   php:
     version: 7.0.4
@@ -16,10 +16,10 @@ dependencies:
   cache_directories:
     - ../mongodb-linux-x86_64-ubuntu1204-3.2.7
   pre:
-    - sudo service mongodb stop 
+    - sudo service mongod stop 
     - if [[ ! -d mongodb-linux-x86_64-ubuntu1204-3.2.7 ]]; then curl -L -O https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1204-3.2.7.tgz && tar xvzf mongodb-linux-x86_64-ubuntu1204-3.2.7.tgz 
     - sudo mv mongodb-linux-x86_64-ubuntu1204-3.2.7/bin/* /usr/bin/ 
-    - sudo service mongodb start
+    - sudo service mongod start
     - pecl install mongodb
     - printf "\n" | pecl install yaml-2.0.0
     - composer install --no-interaction
