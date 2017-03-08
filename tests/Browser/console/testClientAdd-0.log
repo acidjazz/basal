@@ -3,6 +3,6 @@
         "level": "SEVERE",
         "message": "http:\/\/basal.dev:8080\/clients - Failed to load resource: net::ERR_CONNECTION_REFUSED",
         "source": "network",
-        "timestamp": 1488593156449
+        "timestamp": 1488946556897
     }
 ]
