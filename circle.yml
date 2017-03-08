@@ -18,3 +18,4 @@ dependencies:
     - composer install --no-interaction
     - npm i --prefix vendor/acidjazz/larpug/node/
     - php ./artisan serve
+      background: true
