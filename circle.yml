@@ -17,4 +17,6 @@ dependencies:
     - echo "extension=yaml.so" > /opt/circleci/php/7.0.4/etc/conf.d/yaml.ini
     - composer install --no-interaction
     - npm i --prefix vendor/acidjazz/larpug/node/
+    - nohup bash -c "phantomjs --webdriver=127.0.0.1:9515 &"
     - nohup bash -c "php ./artisan serve &"
+    - sleep 2
