@@ -1,6 +1,8 @@
 machine:
   timezone:
     America/Los_Angeles
+  services:
+    - mongodb
 
   php:
     version: 7.0.4
