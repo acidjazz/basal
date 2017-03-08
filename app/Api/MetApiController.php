@@ -119,13 +119,16 @@ abstract class MetApiController extends BaseController
     return $this;
   }
 
-  protected function error() {
+  /**
+   * render errors
+   * returns $this->errors w/ no view, transforme,r and an error code of 500
+   */
 
+  protected function error() {
     return $this->render(['errors' => $this->errors], false, false, 500);
   }
 
   /**
-   *
    * Final output 
    * @param array $data data to be sent
    * @param string $view optional rendered view
