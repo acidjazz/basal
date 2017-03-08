@@ -17,6 +17,7 @@ dependencies:
     - sudo mv mongodb-linux-x86_64-ubuntu1204-3.2.7/bin/* /usr/bin/ 
     - sudo service mongod start
     - pecl install mongodb
+    - echo "extension=mongodb.so" > /opt/circleci/php/7.0.4/etc/conf.d/mongodb.ini
     - printf "\n" | pecl install yaml-2.0.0
     - composer install --no-interaction
     - npm i --prefix vendor/acidjazz/larpug/node/
