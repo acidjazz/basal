@@ -11,7 +11,7 @@ machine:
 
 dependencies:
   cache_directories:
-    - mongodb-linux-x86_64-ubuntu1204-3.2.7
+    - ../mongodb-linux-x86_64-ubuntu1204-3.2.7
   pre:
     - sudo service mongod stop 
     - if [[ ! -d mongodb-linux-x86_64-ubuntu1204-3.2.7 ]]; then curl -L -O https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1204-3.2.7.tgz && tar xvzf mongodb-linux-x86_64-ubuntu1204-3.2.7.tgz; fi 
