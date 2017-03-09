@@ -39,8 +39,7 @@ dependencies:
     - tar -xzf sc-latest-linux.tar.gz
     # Wait for tunnel to be ready
     - nohup bash -c "php ./artisan serve &"
-    - cd sc-*-linux
-    - nohup bash -c "./bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --readyfile ~/sauce_is_ready"
+    - nohup bash -c "./sc-*-linux/bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --readyfile ~/sauce_is_ready"
     - sleep 2
 
 test:
