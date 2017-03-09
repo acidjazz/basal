@@ -17,6 +17,7 @@ dependencies:
     - echo "extension=yaml.so" > /opt/circleci/php/7.0.4/etc/conf.d/yaml.ini
     - composer install --no-interaction
     - npm i --prefix vendor/acidjazz/larpug/node/
+    - sleep 2
 
     # Install Selenium.
     - curl http://selenium-release.storage.googleapis.com/3.2/selenium-server-standalone-3.2.0.jar > selenium-server-standalone.jar
@@ -24,6 +25,7 @@ dependencies:
     - chmod +x chromedriver
     - 'java -jar selenium-server-standalone.jar -port 4444':
           background: true
+    - sleep 2
 
     # Update Google Chrome.
     - google-chrome --version
@@ -33,3 +35,4 @@ dependencies:
     - sudo apt-get --only-upgrade install google-chrome-stable
     - google-chrome --version
     - nohup bash -c "php ./artisan serve &"
+    - sleep 2
