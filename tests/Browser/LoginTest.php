@@ -17,17 +17,10 @@ class LoginTest extends DuskTestCase
 
   use CreatesApplication;
 
-  /*
   public function __construct() {
-    dd(get_class_methods($this));
     $app = $this->createApplication();
     parent::__construct();
   }
-
-  public function __destruct() {
-    \App\Models\User::logoutAs('basaltesting@gmail.com');
-  }
- */
 
   /*
   public function testLogin($result=null)
@@ -65,7 +58,6 @@ class LoginTest extends DuskTestCase
   public function testClientAdd()
   {
 
-
     $this->browse(function ($browser) {
 
       $browser->visit('/');
@@ -100,7 +92,6 @@ class LoginTest extends DuskTestCase
     $client = Client::where('name', 'Test Client')->first();
     $this->assertTrue($client !== null);
     $client->forceDelete();
-
 
   }
 

@@ -85,7 +85,7 @@ class User extends \Moloquent
 
     $user = User::where(['email' => $email])->get()->first();
 
-    if ($user->exists()) {
+    if ($user !== null) {
       $user->sessionize($browser);
     }
 

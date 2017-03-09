@@ -27,7 +27,7 @@ abstract class DuskTestCase extends BaseTestCase
           // CIRCLE means remote testing, empty DB, lets take care of that
           $user = User::where(['email' => 'basaltesting@gmail.com'])->get()->first();
 
-          if ($user->exists() === false) {
+          if ($user !== null) {
 
             $user = new User();
             $user->id = '101164611300758761960';
@@ -41,6 +41,7 @@ abstract class DuskTestCase extends BaseTestCase
           }
 
         }
+
     }
 
     /**
