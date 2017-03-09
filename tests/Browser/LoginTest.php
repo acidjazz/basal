@@ -60,21 +60,15 @@ class LoginTest extends DuskTestCase
 
     $this->browse(function ($browser) {
 
+      $browser->driver->manage()->window()->setSize(new \Facebook\WebDriver\WebDriverDimension(1024, 900));
+
       $browser
         ->visit('/clients')
         ->assertSee('New Client')
-        ->clickLink('New Client')
-        ->pause(1000)
+        ->visit('/clients/new')
         ->assertSee('Client Name')
-        ->type('.input-name > input', 'Test Client');
-
-        //->attach('.input-image > input', __DIR__.'/images/logo.png')
-      // gotta use LocalFileDetector() cuz .. sigh.
-      $file_input = $browser->driver->findElement(\Facebook\WebDriver\WebDriverBy::cssSelector('.input-image > input'));
-      $file_input->setFileDetector(new \Facebook\WebDriver\Remote\LocalFileDetector());
-      $file_input->sendKeys(__DIR__.'/images/logo.png');
-
-      $browser
+        ->type('.input-name > input', 'Test Client')
+        ->attach('.input-image > input', __DIR__.'/images/logo.png')
         ->assertVisible('.cr-image')
         ->press('Submit')
         ->waitFor('.notice.success.on') 
@@ -84,20 +78,29 @@ class LoginTest extends DuskTestCase
         ->assertSee('Client added successfully')
         ->pause(1000);
 
-      \App\Models\User::logoutAs('basaltesting@gmail.com', $browser);
+      //\App\Models\User::logoutAs('basaltesting@gmail.com', $browser);
+
+      /* gotta use LocalFileDetector() cuz .. sigh.
+      $file_input = $browser->driver->findElement(\Facebook\WebDriver\WebDriverBy::cssSelector('.input-image > input'));
+      $file_input->setFileDetector(new \Facebook\WebDriver\Remote\LocalFileDetector());
+      $file_input->sendKeys(__DIR__.'/images/logo.png');
+       */
 
     });
-
-  }
-
-  public function testClientDelete()
-  {
 
     $client = Client::where('name', 'Test Client')->first();
     $this->assertTrue($client !== null);
     $client->forceDelete();
 
   }
+
+  /*
+  public function testClientDelete()
+  {
+
+
+  }
+
 
   /*
   public function testLogout($result=null)
