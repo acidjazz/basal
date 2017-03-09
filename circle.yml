@@ -17,7 +17,6 @@ dependencies:
     - echo "extension=yaml.so" > /opt/circleci/php/7.0.4/etc/conf.d/yaml.ini
     - composer install --no-interaction
     - npm i --prefix vendor/acidjazz/larpug/node/
-    - sleep 2
 
     # Install Selenium.
     #- curl http://selenium-release.storage.googleapis.com/3.2/selenium-server-standalone-3.2.0.jar > selenium-server-standalone.jar
@@ -34,16 +33,19 @@ dependencies:
     #- sudo apt-get update
     #- sudo apt-get --only-upgrade install google-chrome-stable
     #- google-chrome --version
-    #
+    
     - wget https://saucelabs.com/downloads/sc-latest-linux.tar.gz
     - tar -xzf sc-latest-linux.tar.gz
-    - nohup bash -c "php ./artisan serve &"
-    - nohup bash -c "./sc-*-linux/bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --readyfile ~/sauce_is_ready &"
-    - sleep 2
+    #- nohup bash -c "php ./artisan serve &"
+    #- nohup bash -c "./sc-*-linux/bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --readyfile ~/sauce_is_ready &"
 
 test:
   override:
+    - "php ./artisan serve":
+        background: true
+    - "./sc-*-linux/bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --readyfile ~/sauce_is_ready":
+        background: true
     # Wait for tunnel to be ready
     - while [ ! -e ~/sauce_is_ready ]; do sleep 1; done
-    - sleep 2
+    - sleep 10
     - ./vendor/bin/phpunit
