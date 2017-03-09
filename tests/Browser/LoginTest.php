@@ -2,16 +2,34 @@
 
 namespace Tests\Browser;
 
+use Jenssegers\Mongodb\Model as Moloquent;
+use App\Models\Client;
+use App\Models\User;
+
+use Tests\CreatesApplication;
 use Tests\DuskTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 use Facebook\WebDriver;
 
-use App\Models\Client;
-
 class LoginTest extends DuskTestCase
 {
 
+  use CreatesApplication;
+
+  /*
+  public function __construct() {
+    dd(get_class_methods($this));
+    $app = $this->createApplication();
+    parent::__construct();
+  }
+
+  public function __destruct() {
+    \App\Models\User::logoutAs('basaltesting@gmail.com');
+  }
+ */
+
+  /*
   public function testLogin($result=null)
   {
 
@@ -42,11 +60,17 @@ class LoginTest extends DuskTestCase
     });
 
   }
+  */
 
   public function testClientAdd()
   {
 
+
     $this->browse(function ($browser) {
+
+      $browser->visit('/');
+
+      \App\Models\User::loginAs('basaltesting@gmail.com', $browser);
 
       $browser
         ->visit('/clients')
@@ -62,7 +86,9 @@ class LoginTest extends DuskTestCase
         ->waitUntilMissing('.notice.success.on') 
         ->waitFor('.notice.success.on') 
         ->assertSee('Client added successfully')
-        ->pause(3000);
+        ->pause(1000);
+
+      \App\Models\User::logoutAs('basaltesting@gmail.com', $browser);
 
     });
 
@@ -75,8 +101,10 @@ class LoginTest extends DuskTestCase
     $this->assertTrue($client !== null);
     $client->forceDelete();
 
+
   }
 
+  /*
   public function testLogout($result=null)
   {
 
@@ -93,7 +121,7 @@ class LoginTest extends DuskTestCase
 
     });
   }
-
+  */
 
   public function TakeScreenshot($browser, $element=null) {
 
@@ -137,6 +165,7 @@ class LoginTest extends DuskTestCase
     }
 
     return $element_screenshot;
-}
+
+  }
 
 }

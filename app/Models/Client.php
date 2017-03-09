@@ -15,6 +15,7 @@ class Client extends \Moloquent
   protected $fillable = [ 'name' ];
 
   protected $dateFormat = 'c';
+  protected $dates = ['deleted_at'];
 
   public function structures()
   {
