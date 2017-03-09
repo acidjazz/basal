@@ -44,29 +44,33 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-      // custom 404 page
-      if (
-        $exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException ||
-        $exception instanceof NotFoundHttpException) {
-        return response(view('pages.notfound'), 404);
-      }
+      if (env('CIRCLE') === false) {
 
-      $whoops = new \Whoops\Run;
-
-      if ($request->wantsJson()) {
-        $handler = (new \Whoops\Handler\JsonResponseHandler())->setJsonApi(true);
-        $whoops->pushHandler($handler);
-      } else {
-        $handler = new \Whoops\Handler\PrettyPageHandler();
-        if (config('app.editor')) {
-          $handler->setEditor(config('app.editor'));
+        // custom 404 page
+        if (
+          $exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException ||
+          $exception instanceof NotFoundHttpException) {
+          return response(view('pages.notfound'), 404);
         }
-        $whoops->pushHandler($handler);
+
+        $whoops = new \Whoops\Run;
+
+        if ($request->wantsJson()) {
+          $handler = (new \Whoops\Handler\JsonResponseHandler())->setJsonApi(true);
+          $whoops->pushHandler($handler);
+        } else {
+          $handler = new \Whoops\Handler\PrettyPageHandler();
+          if (config('app.editor')) {
+            $handler->setEditor(config('app.editor'));
+          }
+          $whoops->pushHandler($handler);
+        }
+
+        return $whoops->handleException($exception);
+
       }
 
-      return $whoops->handleException($exception);
-
-      //return parent::render($request, $exception);
+      return parent::render($request, $exception);
     }
 
     /**

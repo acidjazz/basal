@@ -21,7 +21,7 @@ abstract class DuskTestCase extends BaseTestCase
     public static function prepare()
     {
 
-      if (env('CIRCLE') == false) {
+      if (env('CIRCLE') === false) {
         static::startChromeDriver();
       }
 
