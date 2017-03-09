@@ -66,8 +66,15 @@ class LoginTest extends DuskTestCase
         ->clickLink('New Client')
         ->pause(1000)
         ->assertSee('Client Name')
-        ->type('.input-name > input', 'Test Client')
-        ->attach('.input-image > input', __DIR__.'/images/logo.png')
+        ->type('.input-name > input', 'Test Client');
+
+        //->attach('.input-image > input', __DIR__.'/images/logo.png')
+      // gotta use LocalFileDetector() cuz .. sigh.
+      $file_input = $browser->driver->findElement(\Facebook\WebDriver\WebDriverBy::cssSelector('.input-image > input'));
+      $file_input->setFileDetector(new \Facebook\WebDriver\Remote\LocalFileDetector());
+      $file_input->sendKeys(__DIR__.'/images/logo.png');
+
+      $browser
         ->assertVisible('.cr-image')
         ->press('Submit')
         ->waitFor('.notice.success.on') 
