@@ -36,3 +36,7 @@ dependencies:
     - google-chrome --version
     - nohup bash -c "php ./artisan serve &"
     - sleep 2
+
+test:
+  override:
+    - ./vendor/bin/phpunit
