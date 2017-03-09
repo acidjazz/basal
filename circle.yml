@@ -18,13 +18,13 @@ dependencies:
     - composer install --no-interaction
     - npm i --prefix vendor/acidjazz/larpug/node/
 
-    # - nohup bash -c "phantomjs --webdriver=127.0.0.1:9515 &"
     # Install Selenium.
-    - curl http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.1.jar > selenium-server-standalone.jar
-    - curl http://chromedriver.storage.googleapis.com/2.23/chromedriver_linux64.zip | gzip -dc > chromedriver
+    - curl http://selenium-release.storage.googleapis.com/3.2/selenium-server-standalone-3.2.0.jar > selenium-server-standalone.jar
+    - curl http://chromedriver.storage.googleapis.com/2.27/chromedriver_linux64.zip | gzip -dc > chromedriver
     - chmod +x chromedriver
-    - 'java -jar selenium-server-standalone.jar -trustAllSSLCertificates -Dwebdriver.chrome.driver=chromedriver':
+    - 'java -jar selenium-server-standalone.jar -port 4444':
           background: true
+
     # Update Google Chrome.
     - google-chrome --version
     - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
@@ -32,6 +32,4 @@ dependencies:
     - sudo apt-get update
     - sudo apt-get --only-upgrade install google-chrome-stable
     - google-chrome --version
-    - sleep 2
     - nohup bash -c "php ./artisan serve &"
-    - sleep 2
