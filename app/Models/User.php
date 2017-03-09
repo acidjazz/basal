@@ -28,6 +28,29 @@ class User extends \Moloquent
 
     \Summon\Summon::$verifyAgent = false;
 
+
+    /*
+     * for testing environments, we will log in as a test user
+     */
+    if (\App::environment() === 'testing') {
+
+      $user = User::where(['email' => 'basaltesting@gmail.com'])->get()->first();
+
+      if ($user === null) {
+        $user = new User();
+        $user->id = '101164611300758761960';
+        $user->email = 'basaltesting@gmail.com';
+        $user->name = 'kevin olson';
+        $user->picture = 'https://lh6.googleusercontent.com/-HEP4u587YgI/AAAAAAAAAAI/AAAAAAAAAAs/gdJ8zJMGJt8/photo.jpg';
+        $user->provider = 'google';
+        $user->sessions = [];
+        $user->save();
+      }
+
+      return $user;
+
+    }
+
     if ($data = \Summon\Summon::check()) {
 
       $user = self::find($data['user_id']);

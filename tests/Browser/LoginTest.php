@@ -60,10 +60,6 @@ class LoginTest extends DuskTestCase
 
     $this->browse(function ($browser) {
 
-      $browser->visit('/');
-
-      \App\Models\User::loginAs('basaltesting@gmail.com', $browser);
-
       $browser
         ->visit('/clients')
         ->assertSee('New Client')
