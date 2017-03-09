@@ -64,6 +64,7 @@ class LoginTest extends DuskTestCase
         ->visit('/clients')
         ->assertSee('New Client')
         ->clickLink('New Client')
+        ->pause(1000)
         ->assertSee('Client Name')
         ->type('.input-name > input', 'Test Client')
         ->attach('.input-image > input', __DIR__.'/images/logo.png')
