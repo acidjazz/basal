@@ -36,8 +36,12 @@ abstract class DuskTestCase extends BaseTestCase
     {
         if (env('CIRCLE') === true) {
             return RemoteWebDriver::create(
-                'http://localhost:4444/wd/hub', DesiredCapabilities::chrome()
-                //'http://localhost:9515', DesiredCapabilities::phantomjs()
+              "http://".env('SAUCE_USERNAME').':'.env('SAUCE_ACCESS_KEY')
+                .'@localhost:4445/wd/hub', DesiredCapabilities::chrome()
+              //'http://localhost:4445/wd/hub', DesiredCapabilities::chrome()
+              //'http://localhost:9515', DesiredCapabilities::phantomjs()
+              //"https://".env('SAUCE_USERNAME').':'.env('SAUCE_ACCESS_KEY')
+                //.'@ondemand.saucelabs.com:443/wd/hub', DesiredCapabilities::chrome()
             );
         }
 
