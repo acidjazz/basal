@@ -39,4 +39,4 @@ dependencies:
 
 test:
   override:
-    - ./vendor/bin/phpunit
+    - /bin/bash -c ./vendor/bin/phpunit
