@@ -39,12 +39,11 @@ dependencies:
     - tar -xzf sc-latest-linux.tar.gz
     # Wait for tunnel to be ready
     - nohup bash -c "php ./artisan serve &"
+    - nohup bash -c "/bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --readyfile ~/sauce_is_ready"
     - sleep 2
     - cd sc-*-linux
 
 test:
   override:
-    - '/bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --readyfile ~/sauce_is_ready':
-           background: true
     - while [ ! -e ~/sauce_is_ready ]; do sleep 1; done
     - ./vendor/bin/phpunit
