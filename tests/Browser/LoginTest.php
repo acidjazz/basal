@@ -60,7 +60,7 @@ class LoginTest extends DuskTestCase
 
     $this->browse(function ($browser) {
 
-      $browser->driver->manage()->window()->setSize(new \Facebook\WebDriver\WebDriverDimension(1024, 900));
+      //$browser->driver->manage()->window()->setSize(new \Facebook\WebDriver\WebDriverDimension(1024, 900));
 
       $browser
         ->visit('/clients')
