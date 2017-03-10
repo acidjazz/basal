@@ -47,4 +47,5 @@ test:
         background: true
     # Wait for tunnel to be ready
     - while [ ! -e ~/sauce_is_ready ]; do sleep 1; done
+    - sleep 30
     - ./vendor/bin/phpunit
