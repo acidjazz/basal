@@ -34,8 +34,8 @@ dependencies:
     #- sudo apt-get --only-upgrade install google-chrome-stable
     #- google-chrome --version
     
-    - wget https://saucelabs.com/downloads/sc-latest-linux.tar.gz
-    - tar -xzf sc-latest-linux.tar.gz
+    - wget https://saucelabs.com/downloads/sc-4.4.4-linux.tar.gz
+    - tar -xzf sc-4.4.4-linux.tar.gz
     #- nohup bash -c "php ./artisan serve &"
     #- nohup bash -c "./sc-*-linux/bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --readyfile ~/sauce_is_ready &"
 
@@ -43,9 +43,8 @@ test:
   override:
     - php ./artisan serve:
         background: true
-    - cd sc-*-linux && ./bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --readyfile ~/sauce_is_ready":
+    - cd sc-4.4.4-linux && ./bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --readyfile ~/sauce_is_ready:
         background: true
     # Wait for tunnel to be ready
     - while [ ! -e ~/sauce_is_ready ]; do sleep 1; done
-    - sleep 10
     - ./vendor/bin/phpunit
