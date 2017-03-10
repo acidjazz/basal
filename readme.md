@@ -2,6 +2,9 @@
 # basal
 ### making content great again
 [![CircleCI](https://circleci.com/gh/acidjazz/basal.svg?style=svg)](https://circleci.com/gh/acidjazz/basal)
+[![codecov](https://codecov.io/gh/acidjazz/basal/branch/master/graph/badge.svg)](https://codecov.io/gh/acidjazz/basal)
+[![Dependency Status](https://www.gemnasium.com/badges/github.com/acidjazz/basal.svg)](https://www.gemnasium.com/github.com/acidjazz/basal)
+
 
 ## intoduction
 
