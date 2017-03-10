@@ -51,8 +51,9 @@ abstract class DuskTestCase extends BaseTestCase
           }
 
           $capabilities = DesiredCapabilities::chrome();
+          $capabilities->setCapability('name', env('CIRCLE_PROJECT_REPONAME'));
           $capabilities->setCapability('build', env('CIRCLE_BUILD_NUM'));
-          //$capabilities->setCapability('tunnelIdentifier', env('CIRCLE_BUILD_NUM').':'.env('CIRCLE_NODE_INDEX'));
+          $capabilities->setCapability('tunnelIdentifier', env('CIRCLE_BUILD_NUM').':'.env('CIRCLE_NODE_INDEX'));
 
           $driver = RemoteWebDriver::create(
             "http://".env('SAUCE_USERNAME').':'.env('SAUCE_ACCESS_KEY')
@@ -62,6 +63,8 @@ abstract class DuskTestCase extends BaseTestCase
             //"https://".env('SAUCE_USERNAME').':'.env('SAUCE_ACCESS_KEY')
               //.'@ondemand.saucelabs.com:443/wd/hub', DesiredCapabilities::chrome()
           );
+
+          return $driver;
         }
 
         return RemoteWebDriver::create(
