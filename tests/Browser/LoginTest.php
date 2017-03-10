@@ -61,6 +61,10 @@ class LoginTest extends DuskTestCase
     $this->browse(function ($browser) {
 
       //$browser->driver->manage()->window()->setSize(new \Facebook\WebDriver\WebDriverDimension(1024, 900));
+      $browser->visit('/')
+        ->assertSee('welcome to basal');
+
+      \App\Models\User::loginAs('basaltesting@gmail.com', $browser);
 
       $browser
         ->visit('/clients')
@@ -78,13 +82,7 @@ class LoginTest extends DuskTestCase
         ->assertSee('Client added successfully')
         ->pause(1000);
 
-      //\App\Models\User::logoutAs('basaltesting@gmail.com', $browser);
-
-      /* gotta use LocalFileDetector() cuz .. sigh.
-      $file_input = $browser->driver->findElement(\Facebook\WebDriver\WebDriverBy::cssSelector('.input-image > input'));
-      $file_input->setFileDetector(new \Facebook\WebDriver\Remote\LocalFileDetector());
-      $file_input->sendKeys(__DIR__.'/images/logo.png');
-       */
+      \App\Models\User::logoutAs('basaltesting@gmail.com', $browser);
 
     });
 

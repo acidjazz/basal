@@ -35,14 +35,28 @@ abstract class DuskTestCase extends BaseTestCase
     protected function driver()
     {
         if (env('CIRCLE') === true) {
-            return RemoteWebDriver::create(
-              "http://".env('SAUCE_USERNAME').':'.env('SAUCE_ACCESS_KEY')
-                .'@localhost:4445/wd/hub', DesiredCapabilities::chrome()
-              //'http://localhost:4445/wd/hub', DesiredCapabilities::chrome()
-              //'http://localhost:9515', DesiredCapabilities::phantomjs()
-              //"https://".env('SAUCE_USERNAME').':'.env('SAUCE_ACCESS_KEY')
-                //.'@ondemand.saucelabs.com:443/wd/hub', DesiredCapabilities::chrome()
-            );
+
+          $user = User::where(['email' => 'basaltesting@gmail.com'])->get()->first();
+
+          if ($user === null) {
+            $user = new User();
+            $user->id = '101164611300758761960';
+            $user->email = 'basaltesting@gmail.com';
+            $user->name = 'kevin olson';
+            $user->picture = 'https://lh6.googleusercontent.com/-HEP4u587YgI/AAAAAAAAAAI/AAAAAAAAAAs/gdJ8zJMGJt8/photo.jpg';
+            $user->provider = 'google';
+            $user->sessions = [];
+            $user->save();
+          }
+
+          return RemoteWebDriver::create(
+            "http://".env('SAUCE_USERNAME').':'.env('SAUCE_ACCESS_KEY')
+              .'@localhost:4445/wd/hub', DesiredCapabilities::chrome()
+            //'http://localhost:4445/wd/hub', DesiredCapabilities::chrome()
+            //'http://localhost:9515', DesiredCapabilities::phantomjs()
+            //"https://".env('SAUCE_USERNAME').':'.env('SAUCE_ACCESS_KEY')
+              //.'@ondemand.saucelabs.com:443/wd/hub', DesiredCapabilities::chrome()
+          );
         }
 
         return RemoteWebDriver::create(
