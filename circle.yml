@@ -49,3 +49,5 @@ test:
 
   post:
     - bash <(curl -s https://codecov.io/bash)
+    - killall --wait sc  # wait for Sauce Connect to close the tunnel
+

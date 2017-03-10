@@ -34,6 +34,7 @@ abstract class DuskTestCase extends BaseTestCase
      */
     protected function driver()
     {
+        //'tunnel-identifier' => env('CIRCLE_BUILD_NUM')
         if (env('CIRCLE') === true) {
 
           $user = User::where(['email' => 'basaltesting@gmail.com'])->get()->first();
@@ -49,9 +50,12 @@ abstract class DuskTestCase extends BaseTestCase
             $user->save();
           }
 
-          return RemoteWebDriver::create(
+          $capabilities = DesiredCapabilities::chrome();
+          $capabilities->setCapability('tunnelIdentifier', env('CIRCLE_BUILD_NUM'));
+
+          $driver = RemoteWebDriver::create(
             "http://".env('SAUCE_USERNAME').':'.env('SAUCE_ACCESS_KEY')
-              .'@localhost:4445/wd/hub', DesiredCapabilities::chrome()
+            .'@localhost:4445/wd/hub', $capabilities 
             //'http://localhost:4445/wd/hub', DesiredCapabilities::chrome()
             //'http://localhost:9515', DesiredCapabilities::phantomjs()
             //"https://".env('SAUCE_USERNAME').':'.env('SAUCE_ACCESS_KEY')
@@ -62,5 +66,10 @@ abstract class DuskTestCase extends BaseTestCase
         return RemoteWebDriver::create(
             'http://localhost:9515', DesiredCapabilities::chrome()
         );
+    }
+
+    protected function tearDown()
+    {
+
     }
 }
