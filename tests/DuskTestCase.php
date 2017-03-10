@@ -51,7 +51,7 @@ abstract class DuskTestCase extends BaseTestCase
           }
 
           $capabilities = DesiredCapabilities::chrome();
-          $capabilities->setCapability('tunnelIdentifier', env('CIRCLE_BUILD_NUM'));
+          $capabilities->setCapability('build', env('CIRCLE_BUILD_NUM'));
 
           $driver = RemoteWebDriver::create(
             "http://".env('SAUCE_USERNAME').':'.env('SAUCE_ACCESS_KEY')
