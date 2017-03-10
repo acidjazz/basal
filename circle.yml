@@ -41,7 +41,8 @@ test:
   override:
     - php ./artisan serve:
         background: true
-    - cd sc-4.4.4-linux && ./bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY -i $CIRCLE_BUILD_NUM:$CIRCLE_NODE_INDEX --readyfile ~/sauce_is_ready:
+    - cd sc-4.4.4-linux && ./bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --readyfile ~/sauce_is_ready:
+      #- cd sc-4.4.4-linux && ./bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY -i $CIRCLE_BUILD_NUM:$CIRCLE_NODE_INDEX --readyfile ~/sauce_is_ready:
         background: true
     # Wait for tunnel to be ready
     - while [ ! -e ~/sauce_is_ready ]; do sleep 1; done
