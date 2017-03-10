@@ -3,6 +3,6 @@
 ### making content great again
 > early development
 >
-[![Build Status](https://travis-ci.org/acidjazz/basal.svg?branch=master)](https://travis-ci.org/acidjazz/basal)
+[![CircleCI](https://circleci.com/gh/acidjazz/basal.svg?style=svg)](https://circleci.com/gh/acidjazz/basal)
 
 # installation
