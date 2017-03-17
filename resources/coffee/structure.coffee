@@ -123,7 +123,7 @@ Structure =
       .always ->
         Spinner.d()
       .done (response) ->
-        Notice.i response.data.status, 'success'
+        Notice.i response.data.status, type: 'success'
         _.on '.modify > .submit > .cta'
         if Structure._id is false
           window.history.pushState {}, '', "/structures/#{response.data._id}"

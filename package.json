@@ -4,6 +4,7 @@
   "description": "minimal content management",
   "main": "index.js",
   "scripts": {
+    "serve": "php ./artisan serve",
     "sync": "./node_modules/gulp/bin/gulp.js sync",
     "prod": "./node_modules/gulp/bin/gulp.js prod",
     "vendor": "./node_modules/gulp/bin/gulp.js vendor",

@@ -6,12 +6,12 @@ block content
     form.modify(name="modify")
       #template
         .entity
-          .input
+          .input.input-entity-name
             input(type="text",
             placeholder="Name",
             title="only a-z, 0-9, -, _, - and spaces are allowed",
             pattern="^[a-zA-Z0-9\/_\\- ]+$",required)
-          .input
+          .input.input-entity-type
             select(name="entityOption")
               option
               option(value="Text") Text
@@ -34,7 +34,7 @@ block content
         .clear
       .detail.name
         .label Structure Name
-        .input
+        .input.input-name
           input(type="text",name="structureName")
         .clear
       .detail.clientAccess

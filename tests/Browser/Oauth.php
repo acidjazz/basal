@@ -3,17 +3,19 @@
 namespace Tests\Browser;
 
 use Jenssegers\Mongodb\Model as Moloquent;
-use App\Models\Client;
-use App\Models\User;
+//use App\Models\Client;
+//use App\Models\User;
 
-use Tests\CreatesApplication;
+//use Tests\CreatesApplication;
 use Tests\DuskTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 use Facebook\WebDriver;
 
-class LoginTest extends DuskTestCase
+class Oauth extends DuskTestCase
 {
+
+  /*
 
   use CreatesApplication;
 
@@ -22,7 +24,6 @@ class LoginTest extends DuskTestCase
     parent::__construct();
   }
 
-  /*
   public function testLogin($result=null)
   {
 
@@ -54,51 +55,6 @@ class LoginTest extends DuskTestCase
 
   }
   */
-
-  public function testClientAdd()
-  {
-
-    $this->browse(function ($browser) {
-
-      //$browser->driver->manage()->window()->setSize(new \Facebook\WebDriver\WebDriverDimension(1024, 900));
-      $browser->visit('/')
-        ->assertSee('welcome to basal');
-
-      \App\Models\User::loginAs('basaltesting@gmail.com', $browser);
-
-      $browser
-        ->visit('/clients')
-        ->assertSee('New Client')
-        ->visit('/clients/new')
-        ->assertSee('Client Name')
-        ->type('.input-name > input', 'Test Client')
-        ->attach('.input-image > input', __DIR__.'/images/logo.png')
-        ->assertVisible('.cr-image')
-        ->press('Submit')
-        ->waitFor('.notice.success.on') 
-        ->assertSee('File uploaded successfully')
-        ->waitUntilMissing('.notice.success.on') 
-        ->waitFor('.notice.success.on') 
-        ->assertSee('Client added successfully')
-        ->pause(1000);
-
-      \App\Models\User::logoutAs('basaltesting@gmail.com', $browser);
-
-    });
-
-    $client = Client::where('name', 'Test Client')->first();
-    $this->assertTrue($client !== null);
-    $client->forceDelete();
-
-  }
-
-  /*
-  public function testClientDelete()
-  {
-
-
-  }
-
 
   /*
   public function testLogout($result=null)

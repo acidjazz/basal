@@ -7,6 +7,7 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 
 use App\Models\User;
+use App\Models\Client;
 
 abstract class DuskTestCase extends BaseTestCase
 {
@@ -74,6 +75,16 @@ abstract class DuskTestCase extends BaseTestCase
 
     protected function tearDown()
     {
+    /*
+      dump('tearDown()');
 
+      $client = Client::where('name', 'Test Client')->first();
+      $this->assertTrue($client !== null);
+      $client->forceDelete();
+
+      \App\Models\User::logoutAs('basaltesting@gmail.com', $browser);
+
+     */
     }
 }
+
