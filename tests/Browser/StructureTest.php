@@ -28,6 +28,7 @@ class StructureTest extends DuskTestCase
       self::$me = \App\Models\User::loginAs('basaltesting@gmail.com', $browser);
 
       ClientPage::createTestClient('Client For Structure');
+      $this->assertEquals(Client::get()->count(), 1);
 
       $browser
         ->visit('/structures')
