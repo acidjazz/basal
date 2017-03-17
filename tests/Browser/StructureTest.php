@@ -35,6 +35,7 @@ class StructureTest extends DuskTestCase
         ->visit('/structures/new')
         ->waitFor('.page.structure') 
         ->assertSee('Client')
+        ->pause(1000)
         ->waitFor('.selectize-dropdown-content') 
         ->click('.selectize-dropdown-content > div:first-child')
         ->type('.input-name > input', 'Test Structure')
