@@ -19,11 +19,11 @@ class ClientPage extends BasePage
         return '/';
     }
 
-    public static function createTestClient()
+    public static function createTestClient($name='Test Client')
     {
 
       $client = new Client();
-      $client->name = 'Test Client';
+      $client->name = $name;
       $client->profile = 'https://s3.amazonaws.com/basal/hWc1sEx0TBjgyCJe71tnhvj72q0M9dimtSt8W3rZ.jpeg';
       $client->users = [
         [
@@ -39,10 +39,10 @@ class ClientPage extends BasePage
 
     }
 
-    public static function removeTestClient()
+    public static function removeTestClient($name='Test Client')
     {
 
-      $client = Client::where('name', 'Test Client')->first();
+      $client = Client::where('name', $name)->first();
       $client->forceDelete();
 
     }

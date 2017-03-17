@@ -27,7 +27,7 @@ class StructureTest extends DuskTestCase
 
       self::$me = \App\Models\User::loginAs('basaltesting@gmail.com', $browser);
 
-      ClientPage::createTestClient();
+      ClientPage::createTestClient('Client For Structure');
 
       $browser
         ->visit('/structures')
@@ -50,7 +50,7 @@ class StructureTest extends DuskTestCase
         \App\Models\User::logoutAs('basaltesting@gmail.com', $browser);
     });
 
-    ClientPage::removeTestClient();
+    ClientPage::removeTestClient('Client For Structure');
 
     $structure = Structure::where('name', 'Test Structure')->first();
     $this->assertTrue($structure !== null);
