@@ -51,7 +51,7 @@ abstract class DuskTestCase extends BaseTestCase
             $user->save();
           }
 
-          $capabilities = DesiredCapabilities::firefox();
+          $capabilities = DesiredCapabilities::chrome();
           $capabilities->setCapability('name', env('CIRCLE_PROJECT_REPONAME'));
           $capabilities->setCapability('build', env('CIRCLE_BUILD_NUM'));
           $capabilities->setCapability('tunnelIdentifier', env('CIRCLE_BUILD_NUM').':'.env('CIRCLE_NODE_INDEX'));
