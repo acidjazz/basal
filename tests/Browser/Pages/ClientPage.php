@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Pages;
 
+use App\Models\User;
 use App\Models\Client;
 
 use Laravel\Dusk\Browser;
@@ -22,12 +23,14 @@ class ClientPage extends BasePage
     public static function createTestClient($name='Test Client')
     {
 
+      $user = User::where('email', 'basaltesting@gmail.com')->first();
+
       $client = new Client();
       $client->name = $name;
       $client->profile = 'https://s3.amazonaws.com/basal/hWc1sEx0TBjgyCJe71tnhvj72q0M9dimtSt8W3rZ.jpeg';
       $client->users = [
         [
-          'id'      => '58c109b03f5f19b9db6f9206',
+          'id'      => $user->_id,
           'email'   => 'basaltestign@gmail.com',
           'name'    => 'kevin olson',
           'picture' => 'https://lh6.googleusercontent.com/-HEP4u587YgI/AAAAAAAAAAI/AAAAAAAAAAs/gdJ8zJMGJt8/photo.jpg',

@@ -28,7 +28,6 @@ class StructureTest extends DuskTestCase
       self::$me = \App\Models\User::loginAs('basaltesting@gmail.com', $browser);
 
       ClientPage::createTestClient('Client For Structure');
-      $this->assertEquals(Client::get()->count(), 1);
 
       $browser
         ->visit('/structures')
@@ -36,7 +35,6 @@ class StructureTest extends DuskTestCase
         ->visit('/structures/new')
         ->waitFor('.page.structure') 
         ->assertSee('Client')
-        ->click('.selectize-control.single')
         ->waitFor('.selectize-dropdown-content') 
         ->click('.selectize-dropdown-content > div:first-child')
         ->type('.input-name > input', 'Test Structure')
