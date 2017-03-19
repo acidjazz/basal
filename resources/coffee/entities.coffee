@@ -69,6 +69,12 @@ Entities =
         value: input
         text: input
 
+  Time: (el, name, value) ->
+    el.find('input').flatpickr
+      enableTime: true
+      noCalendar: true
+      dateFormat: 'h:i K'
+
   Date: (el, name, value) ->
     el.find('input').flatpickr
       dateFormat: 'm/d/Y'

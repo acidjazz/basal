@@ -30,7 +30,7 @@
     "cropperjs": "^1.0.0-beta.2",
     "croppie": "^2.4.0",
     "del": "^2.2.2",
-    "flatpickr": "^2.4.2",
+    "flatpickr": "^2.4.4",
     "gsap": "^1.19.1",
     "gulp": "^3.9.1",
     "gulp-clean-css": "^3.0.3",
