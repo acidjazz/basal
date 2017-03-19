@@ -1,9 +1,15 @@
+extends ../extends/layout.pug
+block content
+  .newlogo.off
+    .hexagon
+      include ../../vector/hexagon.svg
+    .svg
+      include ../../vector/logo.svg
 
-.hexagon
-  .side
-  .side
-  .side
-  .side
-  .side
-  .side
 
+
+    script.
+      console.log('we got some js');
+      setInterval(function() {
+        _.swap('.newlogo');
+      }, 4000);

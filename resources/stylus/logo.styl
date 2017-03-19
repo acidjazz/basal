@@ -1,35 +1,50 @@
-.hexagon 
-  position: relative
-  width: 300px 
-  height: 173.21px
-  background-color: #cc0000
-  margin: 86.60px 0
-  border-left: solid 10px #333333
-  border-right: solid 10px #333333
+.newlogo
+  width 400px
+  height 106px
+  margin 30px auto 0 auto
+  position relative
+  > .hexagon
+    position absolute
+    top 31px
+    left 162px
+    margin auto
+    width 75px
+    height 75px
+    opacity 0
+    > svg > path
+      fill gc(black3)
+  > .svg
+    position absolute
+    top 0
+    left 0
+    width 400px
+    height 200px
+    transform translate(0, 0)
+    transition transform 2s ease-in-out
+    > svg > path, > svg > polygon
+      transition transform 2s ease-in-out, opacity 2s ease-in-out
+      opacity 1
+    > svg > path, > svg > polygon
+      fill gc(black3)
 
-.hexagon:before,
-.hexagon:after {
-  content: ""
-  position: absolute
-  z-index: 1
-  width: 212.13px
-  height: 212.13px
-  -webkit-transform: scaleY(0.5774) rotate(-45deg)
-  -ms-transform: scaleY(0.5774) rotate(-45deg)
-  transform: scaleY(0.5774) rotate(-45deg)
-  background-color: inherit
-  left: 33.9340px
-}
+.newlogo.on 
+  > .hexagon
+    transition opacity 0.2s ease-in-out 0.4s
 
-.hexagon:before {
-  top: -106.0660px
-  border-top: solid 14.1421px #333333
-  border-right: solid 14.1421px #333333
-}
+.newlogo.off 
+  > .hexagon
+    opacity 1
+    transition opacity 0.6s ease-in-out 1.4s
+  > .svg
+    transform translate(-30px, 0)
+    > svg > path,  svg > polygon
+      opacity 0
+    > svg > path:nth-child(1)
+      transform translate(483px, 0)
+    > svg > path:nth-child(2)
+      transform translate(244px, 0)
+    > svg > path:nth-child(4)
+      transform translate(-240px, 0)
+    > svg > polygon:nth-child(5)
+      transform translate(-332px, 0)
 
-.hexagon:after {
-  bottom: -106.0660px
-  border-bottom: solid 14.1421px #333333
-  border-left: solid 14.1421px #333333
-}
-  
