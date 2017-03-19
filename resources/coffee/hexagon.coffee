@@ -91,18 +91,16 @@ hexagon = ->
       ctx.fillRect opts.cx + (@x + x) * opts.len + Math.random() * opts.sparkDist * (if Math.random() < .5 then 1 else -1) - (opts.sparkSize / 2), opts.cy + (@y + y) * opts.len + Math.random() * opts.sparkDist * (if Math.random() < .5 then 1 else -1) - (opts.sparkSize / 2), opts.sparkSize, opts.sparkSize
     return
 
-  looop()
-###
-window.addEventListener 'resize', ->
-  w = c.width = window.innerWidth
-  h = c.height = window.innerHeight
-  ctx.fillStyle = 'black'
-  ctx.fillRect 0, 0, w, h
-  opts.cx = w / 2
-  opts.cy = h / 2
-  dieX = w / 2 / opts.len
-  dieY = h / 2 / opts.len
-  return
-###
+  window.addEventListener 'resize', ->
+    w = c.width = window.innerWidth
+    h = c.height = window.innerHeight
+    ctx.fillStyle = 'black'
+    ctx.fillRect 0, 0, w, h
+    opts.cx = w / 2
+    opts.cy = h / 2
+    dieX = w / 2 / opts.len
+    dieY = h / 2 / opts.len
+    return
 
+  looop()
 
