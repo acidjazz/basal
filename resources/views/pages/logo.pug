@@ -1,13 +1,16 @@
 extends ../extends/layout.pug
 block content
+  canvas#canvas
   .newlogo.off
-    .hexagon
-      include ../../vector/hexagon.svg
-    .svg
-      include ../../vector/logo.svg
+    .inner
+      .hexagon
+        include ../../vector/hexagon.svg
+      .svg
+        include ../../vector/logo.svg
 
     script.
-      console.log('we got some js');
       setInterval(function() {
         _.swap('.newlogo');
       }, 4000);
+      hexagon();
+      $('header').hide();

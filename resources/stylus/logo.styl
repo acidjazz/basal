@@ -1,37 +1,52 @@
+#canvas
+  position absolute
+  top 0 
+  left 0
+  width 100vw
+  height 100vh
+
 .newlogo
   width 400px
   height 106px
   margin 30px auto 0 auto
-  position relative
-  > .hexagon
-    position absolute
-    top 31px
-    left 162px
-    margin auto
-    width 75px
-    height 75px
-    opacity 0
-    > svg > path
-      fill gc(black3)
-  > .svg
-    position absolute
-    top 0
-    left 0
-    width 400px
-    height 200px
-    transform translate(0, 0)
-    transition transform 1s ease-in-out
-    > svg > path, > svg > polygon
-      transition transform 1s ease-in-out, opacity 1s ease-in-out
-      opacity 1
-    > svg > path, > svg > polygon
-      fill gc(black3)
+  position absolute
+  top 50%
+  left 50%
+  margin-top -53px
+  margin-left -200px
+  > .inner
+    width 100%
+    height 100%
+    position relative
+    > .hexagon
+      position absolute
+      top 31px
+      left 162px
+      margin auto
+      width 75px
+      height 75px
+      opacity 0
+      > svg > path
+        fill gc(white1)
+    > .svg
+      position absolute
+      top 0
+      left 0
+      width 400px
+      height 200px
+      transform translate(0, 0)
+      transition transform 1s ease-in-out
+      > svg > path, > svg > polygon
+        transition transform 1s ease-in-out, opacity 1s ease-in-out
+        opacity 1
+      > svg > path, > svg > polygon
+        fill gc(white1)
 
-.newlogo.on 
+.newlogo.on > .inner
   > .hexagon
     transition opacity 0.3s ease-in-out 0s
 
-.newlogo.off 
+.newlogo.off > .inner
   > .hexagon
     opacity 1
     transition opacity 0.3s ease-in-out 0.7s
