@@ -12,6 +12,7 @@
 */
 
 Route::get('/', function() { return view('pages.home'); });
+Route::get('/logo', function() { return view('pages.logo'); });
 Route::get('guide', function() { return view('pages.guide'); });
 Route::get('loading', function() { return view('pages.loading'); });
 Route::get('users', function() { return view('pages.users'); });
