@@ -46,9 +46,12 @@ RUN service php-fpm restart
 
 RUN curl -sS https://getcomposer.org/installer | php
 
-RUN npm install
 
-RUN mkdir -p npm i --prefix vendor/acidjazz/larpug/node
+RUN cd /var/www/html
+
+RUN git clone git@github.com:acidjazz/basal.git
+
+RUN npm install
 
 RUN npm i --prefix vendor/acidjazz/larpug/node
 
