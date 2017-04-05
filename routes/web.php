@@ -11,7 +11,8 @@
 |
 */
 
-Route::get('/', function() { return view('pages.intro'); });
+Route::get('/', function() { return view('pages.home'); });
+Route::get('/intro', function() { return view('pages.intro'); });
 Route::get('/home', function() { return view('pages.home'); });
 Route::get('guide', function() { return view('pages.guide'); });
 Route::get('loading', function() { return view('pages.loading'); });
