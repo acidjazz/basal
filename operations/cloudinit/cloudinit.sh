@@ -3,9 +3,9 @@
 # setup access to our s3 bucket containing credentials
 # grab our deploy key
 
-ROLE=recipegen-deploy
-BUCKET=recipegen2-vault
-REPO=git@github.com:martiansf/recipegen.git
+ROLE=basal-deploy
+BUCKET=basal-vault
+REPO=git@github.com:acidjazz/basal.git
 
 wget -O /home/ec2-user/mycreds -q "http://169.254.169.254/latest/meta-data/iam/security-credentials/$ROLE"
 
