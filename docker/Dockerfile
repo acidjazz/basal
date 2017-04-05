@@ -4,7 +4,7 @@ MAINTAINER Chris Antenesse
 
 ## php Setup
 
-RUN yum -y install php70 php70-fpm php70-devel php7-pear php70-pecl-yaml php70-mbstring php70-pdo php70-pecl-imagick php70-bcmath php70-zip
+RUN yum -y install php70 php70-fpm php70-devel php7-pear php70-pecl-yaml php70-mbstring php70-pdo php70-pecl-imagick php70-bcmath php70-zip wget
 
 RUN sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 200M/' /etc/php.ini
 
@@ -24,13 +24,13 @@ RUN npm install npm@latest -g
 # nginx setup
 RUN yum -y install nginx
 
-ADD nginx/nginx.conf /etc/nginx/nginx.conf
+ADD docker/nginx/nginx.conf /etc/nginx/nginx.conf
 
 RUN service nginx start
 
 ## mongo setup
 
-ADD mongo/mongodb.repo /etc/yum.repos.d/mongodb.repo
+ADD docker/mongo/mongodb.repo /etc/yum.repos.d/mongodb.repo
 
 RUN yum -y install mongodb-org-server mongodb-org-shell mongodb-org-tools gcc openssl-devel
 
@@ -46,14 +46,21 @@ RUN service php-fpm restart
 
 RUN curl -sS https://getcomposer.org/installer | php
 
+ADD . /var/www/html
+
+RUN php ~/composer.phar install
+
+RUN wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo
 
 RUN cd /var/www/html
 
-RUN git clone git@github.com:acidjazz/basal.git
+RUN yarn
 
-RUN npm install
+RUN cd vendor/acidjazz/larpug/node
 
-RUN npm i --prefix vendor/acidjazz/larpug/node
+RUN yarn
+
+RUN cd /var/www/html
 
 RUN chmod -R 777 /var/www/html/storage
 
