@@ -4,12 +4,6 @@
    "keywords": ["basal", "cms", "minimal"],
    "license": "MIT",
    "type": "project",
-   "repositories": [
-     {
-       "type": "git",
-       "url": "https://github.com/acidjazz/dusk"
-     }
-   ],
  
     "require": {
       "php": ">=7.0.0",
