@@ -29,11 +29,16 @@ RUN pecl7 install mongodb
 ## basal setup
 RUN /usr/sbin/useradd web
 
-RUN su - web -c 'curl -sS https://getcomposer.org/installer | php'
 
 ADD . /var/www/html
 
-RUN chown web -R /var/www/html
+RUN rm -rf /var/www/html/vendor
+RUN rm -rf /var/www/html/node_modules
+RUN rm -rf /var/www/html/.git
+
+RUN chown -R web /var/www/html/
+
+RUN su - web -c 'curl -sS https://getcomposer.org/installer | php'
 
 RUN su - web -c 'cd /var/www/html && php /home/web/composer.phar install && yarn'
 
@@ -48,4 +53,4 @@ RUN chmod 777 /var/www/html/storage/logs -R
 RUN su - web -c 'cd /var/www/html && cp .env.example .env'
 RUN su - web -c 'cd /var/www/html && ./artisan key:generate'
 
-ENTRYPOINT ["docker/startup.sh"]
+ENTRYPOINT ["/var/www/html/docker/startup.sh"]
