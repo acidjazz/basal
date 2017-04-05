@@ -1,0 +1,59 @@
+//
+  mmm/............................................................./mmm
+  mmo................-:://::-.......-:::::::::::::-........-::///:-.omm
+  md-.............:+yhddddddhy+-..../ddddddddddddd+....../shdddddddyodm
+  mo.............-hmmmhyyyydmmmh:.../mmmmhhhhhhhhh+....:ydmmdhyyyhddoom
+  m-..............-ss:-....-ymmmy.../mmmm---------....:dmmms:-...-:/.-m
+  d.........................ymmmy.../mmmm-/+ooo+:-....ymmmy-:+ooo+/-..d
+  h.......................:smmmd:.../mmmmhmmmmmmdh+...dmmmshdmmmmmmhs-h
+  h.....................:sdmmdy:....:hhdho+//+ymmmm+..dmmmdyo//+sdmmmhh
+  d..................-+ydmmdy/.......--:.......smmmh..ymmms......:mmmmm
+  m-..............-:shmmmds/-----....:s/--...-:hmmms..:dmmd/-...-ommmmm
+  mo..............hmmmmmmhhhhhhhh...+dmmdhyyyhdmmmy-.../hmmmhyyyhmmmdhm
+  md-.............ddddddddddddddd...-+shdddddddhy/-.....-oydddddddho:dm
+  mmo.............:::::::::::::::.......-:///::-...........-:///:-..omm
+  mmm/............................................................./mmm
+
+  :: syntactic sugar by 256
+  :: https://256.io/
+  :: #{self.config.meta.repo}
+| !{'\n\n'}
+doctype
+html(lang='en')
+  head
+    title #{self.config.meta.title}
+
+    block javascript
+      script(src='/javascript/vendor.js')
+      script(src='/javascript/bundle.js')
+
+    block links
+      link(rel='stylesheet',href="/css/vendor.css",type='text/css',media='all')
+      link(rel='stylesheet',href="/css/main.css",type='text/css',media='all')
+      link(href='https://fonts.googleapis.com/css?family=Monoton|Roboto:100,200,300,400,500,600,700',rel='stylesheet',type='text/css')
+
+    block analytics
+      include analytics
+
+    block meta
+      include meta
+
+    block favicon
+      include favicon
+
+    body
+
+      block includes
+        include ../includes/notice
+        include ../includes/prompt
+        include ../includes/spinner
+
+      block header
+        include ../includes/header
+
+      .container
+        block content
+      block footer
+        include ../includes/footer
+      script.
+        Global.i()

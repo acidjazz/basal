@@ -1,0 +1,17 @@
+extends ../layout/core.pug
+block content
+  .intro
+    canvas#canvas
+    .newlogo.off
+      .inner
+        .hexagon
+          include ../../vector/hexagon.svg
+        .svg
+          include ../../vector/logo.svg
+
+    script.
+      setTimeout(function() {
+        _.on('.newlogo');
+      }, 2000);
+      hexagonDraw();
+      $('header').addClass('headerintro');

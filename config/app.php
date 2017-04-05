@@ -171,6 +171,8 @@ return [
         Larjectus\ServiceProvider::class,
         Larpug\ServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Barryvdh\Cors\ServiceProvider::class,
+        
         
         /*
          * Application Service Providers...

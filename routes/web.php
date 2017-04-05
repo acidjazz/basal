@@ -11,8 +11,8 @@
 |
 */
 
-Route::get('/', function() { return view('pages.home'); });
-Route::get('/logo', function() { return view('pages.logo'); });
+Route::get('/', function() { return view('pages.intro'); });
+Route::get('/home', function() { return view('pages.home'); });
 Route::get('guide', function() { return view('pages.guide'); });
 Route::get('loading', function() { return view('pages.loading'); });
 Route::get('users', function() { return view('pages.users'); });
@@ -26,3 +26,4 @@ Route::get('entries/deleted', function() { return view('pages.entries'); });
 Route::get('entries/{_idn}', function() { return view('pages.entry'); });
 Route::get('invite/{id}', function() { return view('pages.invite'); });
 
+Route::get('/vue', function() { return view('pages.vue'); });

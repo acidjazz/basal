@@ -1,106 +1,128 @@
-hexagon = ->
+hexagons = ->
   c = document.getElementById 'canvas'
   w = c.width = window.innerWidth
   h = c.height = window.innerHeight
+  sum = w + h
   ctx = c.getContext('2d')
   opts =
-    len: 20
-    count: 50
-    baseTime: 10
-    addedTime: 10
-    dieChance: .05
-    spawnChance: 1
-    sparkChance: .1
-    sparkDist: 10
-    sparkSize: 2
-    color: 'hsl(hue,100%,light%)'
-    baseLight: 50
-    addedLight: 10
-    shadowToTimePropMult: 6
-    baseLightInputMultiplier: .01
-    addedLightInputMultiplier: .02
-    cx: w / 2
-    cy: h / 2
-    repaintAlpha: .04
-    hueChange: .1
+    side: 35
+    picksParTick: 2
+    baseTime: 400
+    addedTime: 100
+    colors: [
+      'rgba(0,0,0,alp)'
+      'rgba(180,30,30,alp)'
+      'rgba(255,255,255,alp)'
+    ]
+    addedAlpha: 20
+    strokeColor: 'rgb(255,255,255)'
+    hueSpeed: .4
+    repaintAlpha: 1
+  difX = Math.sqrt(3) * opts.side / 2
+  difY = opts.side * 3 / 2
+  rad = Math.PI / 6
+  cos = Math.cos(rad) * opts.side
+  sin = Math.sin(rad) * opts.side
+  hexs = []
   tick = 0
-  lines = []
-  dieX = w / 2 / opts.len
-  dieY = h / 2 / opts.len
-  baseRad = Math.PI * 2 / 6
-
-  ctx.fillStyle = 'black'
-  ctx.fillRect 0, 0, w, h
 
   looop = ->
     window.requestAnimationFrame looop
-    ++tick
-    ctx.globalCompositeOperation = 'source-over'
+    tick += opts.hueSpeed
     ctx.shadowBlur = 0
-    ctx.fillStyle = 'rgba(0,0,0,alp)'.replace('alp', opts.repaintAlpha)
+    ctx.fillStyle = 'rgba(100,100,100,alp)'.replace('alp', opts.repaintAlpha)
     ctx.fillRect 0, 0, w, h
-    ctx.globalCompositeOperation = 'lighter'
-    if lines.length < opts.count and Math.random() < opts.spawnChance
-      lines.push new Line
-    lines.map (line) ->
-      line.step()
+    i = 0
+    while i < opts.picksParTick
+      hexs[Math.random() * hexs.length | 0].pick()
+      ++i
+    hexs.map (hex) ->
+      hex.step()
       return
     return
 
-  Line = ->
-    @reset()
-    return
-
-  Line::reset = ->
-    @x = 0
-    @y = 0
-    @addedX = 0
-    @addedY = 0
-    @rad = 0
-    @lightInputMultiplier = opts.baseLightInputMultiplier + opts.addedLightInputMultiplier * Math.random()
-    @color = opts.color.replace('hue', tick * opts.hueChange)
-    @cumulativeTime = 0
-    @beginPhase()
-    return
-
-  Line::beginPhase = ->
-    @x += @addedX
-    @y += @addedY
+  Hex = (x, y) ->
+    @x = x
+    @y = y
+    @sum = @x + @y
+    @picked = false
     @time = 0
-    @targetTime = opts.baseTime + opts.addedTime * Math.random() | 0
-    @rad += baseRad * (if Math.random() < .5 then 1 else -1)
-    @addedX = Math.cos(@rad)
-    @addedY = Math.sin(@rad)
-    if Math.random() < opts.dieChance or @x > dieX or @x < -dieX or @y > dieY or @y < -dieY
-      @reset()
+    @targetTime = 0
+    @xs = [
+      @x + cos
+      @x
+      @x - cos
+      @x - cos
+      @x
+      @x + cos
+    ]
+    @ys = [
+      @y - sin
+      @y - (opts.side)
+      @y - sin
+      @y + sin
+      @y + opts.side
+      @y + sin
+    ]
     return
 
-  Line::step = ->
-    ++@time
-    ++@cumulativeTime
-    if @time >= @targetTime
-      @beginPhase()
+  Hex::pick = ->
+    @color = opts.colors[Math.random() * opts.colors.length | 0]
+    @picked = true
+    @time = @time or 0
+    @targetTime = @targetTime or opts.baseTime + opts.addedTime * Math.random() | 0
+    return
+
+  Hex::step = ->
     prop = @time / @targetTime
-    wave = Math.sin(prop * Math.PI / 2)
-    x = @addedX * wave
-    y = @addedY * wave
-    ctx.shadowBlur = prop * opts.shadowToTimePropMult
-    ctx.fillStyle = ctx.shadowColor = @color.replace('light', opts.baseLight + opts.addedLight * Math.sin(@cumulativeTime * @lightInputMultiplier))
-    ctx.fillRect opts.cx + (@x + x) * opts.len, opts.cy + (@y + y) * opts.len, 2, 2
-    if Math.random() < opts.sparkChance
-      ctx.fillRect opts.cx + (@x + x) * opts.len + Math.random() * opts.sparkDist * (if Math.random() < .5 then 1 else -1) - (opts.sparkSize / 2), opts.cy + (@y + y) * opts.len + Math.random() * opts.sparkDist * (if Math.random() < .5 then 1 else -1) - (opts.sparkSize / 2), opts.sparkSize, opts.sparkSize
+    ctx.beginPath()
+    ctx.moveTo @xs[0], @ys[0]
+    i = 1
+    while i < @xs.length
+      ctx.lineTo @xs[i], @ys[i]
+      ++i
+    ctx.lineTo @xs[0], @ys[0]
+    if @picked
+      ++@time
+      if @time >= @targetTime
+        @time = 0
+        @targetTime = 0
+        @picked = false
+      ctx.fillStyle = ctx.shadowColor = @color.replace('alp', Math.sin(prop * Math.PI))
+      ctx.fill()
+    else
+      ctx.strokeStyle = ctx.shadowColor = opts.strokeColor
+      ctx.stroke()
     return
 
+  x = 0
+  while x < w
+    i = 0
+    y = 0
+    while y < h
+      ++i
+      hexs.push new Hex(x + difX * i % 2, y)
+      y += difY
+    x += difX * 2
+  looop()
   window.addEventListener 'resize', ->
+    `var x`
+    `var i`
+    `var y`
     w = c.width = window.innerWidth
     h = c.height = window.innerHeight
-    ctx.fillStyle = 'black'
-    ctx.fillRect 0, 0, w, h
-    opts.cx = w / 2
-    opts.cy = h / 2
-    dieX = w / 2 / opts.len
-    dieY = h / 2 / opts.len
+    sum = w + h
+    hexs.length = 0
+    x = 0
+    while x < w
+      i = 0
+      y = 0
+      while y < h
+        ++i
+        hexs.push new Hex(x + difX * i % 2, y)
+        y += difY
+      x += difX * 2
     return
 
-  looop()
-
+  # ---
+  # generated by js2coffee 2.2.0

@@ -1,0 +1,44 @@
+
+extends ../layout/core.pug
+
+block prepend javascript
+  //- cat vue2.js | openssl dgst -sha384 -binary | openssl enc -base64 -A 
+  link(
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.0/css/bulma.css" 
+    integrity="sha256-i1MIGXdkXeJJLRlh6NXC1pmb/Rj3jEr0Y4tU0KjK9s4=" 
+    crossorigin="anonymous")
+
+  script(
+    src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.js"
+    integrity="sha256-EPspFp4BhR8v7BKqFRV5F8DLQSwVsWafs1qzcnBb/3M="
+    crossorigin="anonymous")
+
+block content
+
+  template#template-message
+    article(class="message",v-show="isVisible")
+      .message-header
+        p {{ title }}
+        button.delete(@click="isVisible = false")
+      .message-body {{ body }}
+
+  template#template-modal
+    .modal.is-active
+      .modal-background
+      .modal-content
+        p {{content}}
+      button.modal-close(@click="$emit('close')")
+
+  .vue
+    modal(v-if="showModal",@close="showModal = false",content='lorem ipsum dolar sit amet')
+    message(title="hello world", body="lorem ipsum dolar sit amet")
+    message(title="hello world", body="lorem ipsum dolar sit amet")
+    message(title="hello world", body="lorem ipsum dolar sit amet")
+    message(title="hello world", body="lorem ipsum dolar sit amet")
+    message(title="hello world", body="lorem ipsum dolar sit amet")
+
+    button(@click="showModal = true") Show Modal
+
+  script.
+    test();

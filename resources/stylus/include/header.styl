@@ -1,6 +1,15 @@
 header
   height 80px
   background-color gc(black4)
+  &.headerintro
+    background-color transparent
+    position fixed
+    z-index 10
+    width 100%
+    > .inner > .logo,
+    > .inner > .name,
+    > .inner > .menu
+      display none !important
   > .inner
     padding 20px
     max-width 930px

@@ -33,6 +33,11 @@ dirs =
   stylus: 'resources/stylus'
   svg:    'resources/vector'
 
+
+onError = (err) ->
+  console.log err
+  this.emit 'end'
+
 config = {}
 objectify = (complete) ->
   secure = [ 'oauth', 'database', 'filesystems' ]
@@ -77,6 +82,7 @@ gulp.task 'vendor', ['requires'], ->
   ])
   .pipe(gulpif(env != 'dev',uglify()))
   .pipe(concat('vendor.js'))
+  .on('error', onError)
   .pipe gulp.dest('public/javascript/')
 
   gulp.src([
@@ -88,9 +94,9 @@ gulp.task 'vendor', ['requires'], ->
     'node_modules/cropperjs/dist/cropper.css',
     'node_modules/hint.css/hint.css',
   ])
-
   .pipe(gulpif(env != 'dev',clean()))
   .pipe(concat('vendor.css'))
+  .on('error', onError)
   .pipe gulp.dest('public/css/')
 
 gulp.task 'coffee', ['larjectus'], ->
@@ -105,6 +111,7 @@ gulp.task 'coffee', ['larjectus'], ->
     .pipe(gulpif(env != 'dev',uglify()))
     .pipe(concat('bundle.js'))
     .pipe(gulpif(env == 'dev',sourcemaps.write()))
+    .on('error', onError)
     .pipe(gulp.dest('./public/javascript'))
     .pipe(sync.stream())
 
