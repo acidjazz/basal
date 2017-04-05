@@ -7,7 +7,7 @@ RUN touch /etc/sysconfig/network
 
 ADD docker/mongo/mongodb.repo /etc/yum.repos.d/mongodb.repo
 
-RUN curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
+RUN curl --silent --location https://rpm.nodesource.com/setup_7.x | bash -
 
 RUN curl https://dl.yarnpkg.com/rpm/yarn.repo -o /etc/yum.repos.d/yarn.repo
 
@@ -48,3 +48,8 @@ RUN su - web -c 'cd /var/www/html/vendor/acidjazz/larpug/node && yarn'
 RUN su - web -c 'chmod -R 777 /var/www/html/storage'
 
 RUN su - web -c 'cd /var/www/html && npm run prod'
+
+RUN chmod 777 /var/www/html/storage/logs -R 
+
+RUN su - web -c 'cd /var/www/html && cp .env.example .env'
+RUN su - web -c 'cd /var/www/html && ./artisan key:generate'
