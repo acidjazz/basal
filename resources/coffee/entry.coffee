@@ -83,7 +83,7 @@ Entry =
       if Entry._id isnt false
         call = "/api/entries/update/#{Entry._id}"
 
-      _.get call,
+      _.post call,
         name: name
         structure: Entry.structure
         entities: entities

@@ -32,8 +32,8 @@ Route::get('structures/restore/{_id}', 'StructureController@restore');
 Route::get('structures/force/{_id}', 'StructureController@force');
 
 Route::get('entries', 'EntryController@get');
-Route::get('entries/add', 'EntryController@add');
-Route::get('entries/update/{_id}', 'EntryController@update');
+Route::post('entries/add', 'EntryController@add');
+Route::post('entries/update/{_id}', 'EntryController@update');
 Route::get('entries/delete/{_id}', 'EntryController@delete');
 Route::get('entries/restore/{_id}', 'EntryController@restore');
 Route::get('entries/force/{_id}', 'EntryController@force');
