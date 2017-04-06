@@ -1,4 +1,4 @@
 #!/bin/bash
 
 service php-fpm start
-service nginx start
+nginx -g 'daemon off;'
