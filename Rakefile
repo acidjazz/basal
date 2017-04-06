@@ -10,5 +10,6 @@ end
 namespace :run do
     task :app do
         cmd = "docker run -p 8080:80 acidjazz/basal"
+        system(cmd)
     end
 end
