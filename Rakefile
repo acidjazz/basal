@@ -13,3 +13,7 @@ namespace :run do
         system(cmd)
     end
 end
+
+
+task "default" => ["build:all",
+                  "run:app"]
