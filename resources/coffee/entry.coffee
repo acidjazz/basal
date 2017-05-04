@@ -147,7 +147,7 @@ Entry =
         value = Entry.entry.entities[i].value
 
         switch entity.type
-          when 'Tags', 'Text','Link','Date','Time','DateTime','DateRange','DateTimeRange' then html.find('input').val value
+          when 'Tags', 'Text','Number','Link','Date','Time','DateTime','DateRange','DateTimeRange' then html.find('input').val value
 
       html.find('input,select,textarea').attr 'tabindex', tabindex++
       body.append html
