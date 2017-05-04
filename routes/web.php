@@ -11,6 +11,8 @@
 |
 */
 
+use App\Entities\Kernel;
+
 Route::get('/', function() { return view('pages.home'); });
 Route::get('/intro', function() { return view('pages.intro'); });
 Route::get('/home', function() { return view('pages.home'); });
@@ -20,7 +22,11 @@ Route::get('users', function() { return view('pages.users'); });
 Route::get('clients', function() { return view('pages.clients'); });
 Route::get('clients/{_idn}', function() { return view('pages.client'); });
 Route::get('structures', function() { return view('pages.structures'); });
-Route::get('structures/{_idn}', function() { return view('pages.structure'); });
+
+Route::get('structures/{_idn}', function() { 
+  return view('pages.structure', ['entities' => (new Kernel())->getEntities()] ); 
+});
+
 Route::get('structures/deleted', function() { return view('pages.structures'); });
 Route::get('entries', function() { return view('pages.entries'); });
 Route::get('entries/deleted', function() { return view('pages.entries'); });

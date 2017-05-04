@@ -159,5 +159,5 @@ gulp.task 'sync', ->
   watch()
 
 gulp.task 'watch', watch
-gulp.task 'default', ['stylus','coffee','cleanup']
+gulp.task 'default', ['stylus','coffee']
 gulp.task 'prod', ['goprod','default']

@@ -65,7 +65,7 @@ Entry =
       type = $(el).data 'type'
 
       switch type
-        when 'Text','Link','Date','Time','DateTime','DateRange','DateTimeRange' then value = $(el).find('input').val()
+        when 'Text','Number','Link','Date','Time','DateTime','DateRange','DateTimeRange' then value = $(el).find('input').val()
         when 'Tags' then value = $(el).find('input').val().split ','
         when 'Blog'
           blog = Entities.blogGetCode entity_name
