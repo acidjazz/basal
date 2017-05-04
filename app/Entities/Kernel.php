@@ -8,6 +8,7 @@ class Kernel
   protected $entities = [
 
     'Text',
+    'Number',
     'Link',
     'Blog',
     'Image',

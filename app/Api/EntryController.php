@@ -29,7 +29,9 @@ class EntryController extends MetApiController
     $this->addOption('name', 'required|string');
     $this->addOption('entities', 'required|array');
     $this->addOption('entities.*.type', 'required|in:'.implode((new Kernel())->getEntities(), ','));
-    $this->addOption('entities.*.value', 'required');
+
+    // do we want to require every entity value?
+    //$this->addOption('entities.*.value', 'required');
 
     if (!$query = $this->getQuery()) {
       return $this->error();

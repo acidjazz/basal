@@ -14,16 +14,8 @@ block content
           .input.input-entity-type
             select(name="entityOption")
               option
-              option(value="Text") Text
-              option(value="Link") Link
-              option(value="Blog") Blog
-              option(value="Image") Image
-              option(value="Tags") Tags
-              option(value="Date") Date
-              option(value="Time") Time
-              option(value="DateTime") DateTime
-              option(value="DateRange") DateRange
-              option(value="DateTimeRange") DateTimeRange
+              each entity in self.entities
+                option(value=entity)=entity
           button.remove.cta -
           .clear
 
