@@ -113,6 +113,12 @@ class StructureController extends MetApiController
       ];
     }
 
+    /* 
+     * lets turn of the restriction of structure modification 
+     * when entries exist for now, i can't really thing of any
+     * severe issues coming from this besides extra/missing data
+     * in entries, and that's more user-error
+     *
     if (isset($query['combined']['entities'])) {
 
       $structure->entities = $query['combined']['entities'];
@@ -124,6 +130,7 @@ class StructureController extends MetApiController
       }
 
     }
+     */
 
     $structure->save();
 
