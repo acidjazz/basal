@@ -112,25 +112,24 @@ class StructureController extends MetApiController
         'profile' => $client->profile,
       ];
     }
-
-    /* 
-     * lets turn of the restriction of structure modification 
-     * when entries exist for now, i can't really thing of any
-     * severe issues coming from this besides extra/missing data
-     * in entries, and that's more user-error
-     *
     if (isset($query['combined']['entities'])) {
 
       $structure->entities = $query['combined']['entities'];
 
+      /* 
+       * lets turn of the restriction of structure modification 
+       * when entries exist for now, i can't really thing of any
+       * severe issues coming from this besides extra/missing data
+       * in entries, and that's more user-error
+       *
       if (Entry::where(['structure.id' => $_id])->count() > 0) {
         if ($structure->isDirty() && isset($structure->getDirty()['entities'])) {
           return $this->addError('Update Error', 'You cannot update a structure with existing entries')->error();
         }
       }
+      */
 
     }
-     */
 
     $structure->save();
 
