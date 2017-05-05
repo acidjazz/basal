@@ -44,5 +44,3 @@ Route::post('upload', 'FileController@upload');
 Route::get('invite/add', 'InviteController@add');
 Route::get('invite/get', 'InviteController@get');
 
-
-

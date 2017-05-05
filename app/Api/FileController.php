@@ -5,6 +5,10 @@ namespace App\Api;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+use App\Entities\Kernel;
+
+use \Eventviva\ImageResize;
+
 class FileController extends MetApiController
 {
   public function __construct(Request $request)
@@ -21,12 +25,10 @@ class FileController extends MetApiController
       return $this->error();
     }
 
-    $fileName = $request->file->hashName();
-
-    if (Storage::disk('s3')->exists($fileName) !== true) {
+    if (Storage::disk('s3')->exists($request->file->hashName()) !== true) {
 
       $result = Storage::disk('s3')->getDriver()->put(
-        $fileName,
+        $request->file->hashName(),
         file_get_contents($request->file->path()),
         [
           'visibility' => 'public', 
@@ -34,11 +36,28 @@ class FileController extends MetApiController
         ]
       );
 
+      /* create thumbnails if this is an image */
+      if (in_array($request->file->extension(), ['jpeg', 'jpg', 'gif', 'png'])) {
+
+        foreach (Kernel::getThumbnails() as $size) {
+
+          $result = Storage::disk('s3')->getDriver()->put(
+            pathinfo($request->file->hashName(), PATHINFO_FILENAME)."-{$size}.{$request->file->extension()}",
+            (string) (new ImageResize($request->file->path()))->resizeToHeight($size),
+            [
+              'visibility' => 'public', 
+              'ContentType' => $request->file->getMimeType(),
+            ]
+          );
+        }
+
+      }
+
     } else {
       $result = 'exists';
     }
 
-    return $this->render(['result' => $result, 'url' => Storage::disk('s3')->url($fileName)]);
+    return $this->render(['result' => $result, 'url' => Storage::disk('s3')->url($request->file->hashName())]);
   }
   public function test(Request $request)
   {
