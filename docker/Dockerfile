@@ -11,7 +11,7 @@ RUN curl --silent --location https://rpm.nodesource.com/setup_7.x | bash -
 
 RUN curl https://dl.yarnpkg.com/rpm/yarn.repo -o /etc/yum.repos.d/yarn.repo
 
-RUN yum -y install php70 php70-fpm php70-devel php7-pear php70-pecl-yaml php70-mbstring php70-pdo gcc openssl-devel php70-bcmath php70-zip nodejs yarn mongodb-org-server mongodb-org-shell mongodb-org-tools nginx
+RUN yum -y install php70 php70-fpmp php70-gd php70-devel php7-pear php70-pecl-yaml php70-mbstring php70-pdo gcc openssl-devel php70-bcmath php70-zip nodejs yarn mongodb-org-server mongodb-org-shell mongodb-org-tools nginx
 
 # php config
 RUN sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 200M/' /etc/php.ini

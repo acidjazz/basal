@@ -54,6 +54,8 @@ Entities =
       cache: false
       contentType: false
       processData: false
+      always: ->
+        Spinner.d()
       error: ->
         Notice.d()
       success: (result) ->
