@@ -133,6 +133,9 @@ class EntryController extends MetApiController
     $this->addOption('deleted', "in:true,false");
     $this->addOption('view', "in:true,false", "false");
 
+    $this->addOption('sort', "regex:/[a-zA-Z0-9]+/");
+    $this->addOption('asc', "in:true,false", "false");
+
     $this->addOption('search', 'regex:/[a-zA-Z0-9 ]+/');
 
     if (!$query = $this->getQuery()) {
@@ -185,14 +188,28 @@ class EntryController extends MetApiController
       $entries = $entries->onlyTrashed();
     }
 
-    $entries = $entries->orderBy('updated_at', 'desc');
+    $order = 'desc';
+
+    if (isset($query['combined']['asc']) && $query['combined']['asc'] !== 'false') {
+      $order = 'asc';
+    }
+
+    if (isset($query['combined']['sort'])) {
+      $entries = $entries->orderBy('entities.'.$query['combined']['sort'].'.value',$order);
+    } else {
+      $entries = $entries->orderBy('updated_at',$order);
+    }
+
     $entries = $entries->paginate(config('settings.perpage'));
 
     $this->addPaginate($entries);
 
     $view = false;
     if ($query['combined']['view'] === 'true') {
-      $view = view('partial.entries', ['entries' => $entries->items(), 'paginate' => $this->meta['paginate']])->render();
+      $view = view('partial.entries', [
+        'entries' => $entries->items(), 
+        'paginate' => $this->meta['paginate']
+      ])->render();
     }
 
     return $this->render($entries->items(),$view);
