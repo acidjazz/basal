@@ -150,7 +150,7 @@ class EntryController extends MetApiController
     }
 
     # filter only client accessable structures for client-based users
-    if ($this->me->client && count($this->me->client) === 3) {
+    if ($this->me && $this->me->client && count($this->me->client) === 3) {
       $structures = Structure::where(['client.id' => $this->me->client['id'], 'clientAccess' => true]);
       $entries = $entries->whereIn('structure.id', $structures->get()->pluck('_id'));
     }
