@@ -46,6 +46,7 @@ return [
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
@@ -66,17 +67,28 @@ return [
             'sslmode' => 'prefer',
         ],
 
-        'mongodb' => array(
+        'sqlsrv' => [
+            'driver' => 'sqlsrv',
+            'host' => env('DB_HOST', 'localhost'),
+            'port' => env('DB_PORT', '1433'),
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+        ],
+      'mongodb' => array(
             'driver'   => 'mongodb',
             'host'     => env('MONGODB_HOST', 'localhost'),
             'port'     => env('MONGODB_PORT', 27017),
             'username' => env('MONGODB_USERNAME', ''),
             'password' => env('MONGODB_PASSWORD', ''),
-            'database' => env('MONGODB_DATABASE', 'basal'),
+            'database' => env('MONGODB_DATABASE', 'bassal'),
             'options' => array(
                 'db' => env('MONGODB_AUTHDATABASE', '') //Sets the auth DB
             )
         ),
+
 
 
     ],

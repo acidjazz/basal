@@ -1,66 +1,27 @@
 {
-  "name": "basal",
-  "version": "0.0.2",
-  "description": "minimal content management",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "serve": "php ./artisan serve",
-    "sync": "./node_modules/gulp/bin/gulp.js sync",
-    "prod": "./node_modules/gulp/bin/gulp.js prod",
-    "vendor": "./node_modules/gulp/bin/gulp.js vendor",
-    "dev": "./node_modules/gulp/bin/gulp.js default"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/acidjazz/basal.git"
-  },
-  "keywords": [
-    "cms"
-  ],
-  "author": "Kevin Olson",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/acidjazz/basal/issues"
-  },
-  "homepage": "https://github.com/acidjazz/basal#readme",
-  "dependencies": {
-    "browser-sync": "^2.18.8",
-    "browserify": "^14.1.0",
-    "coffee-script": "^1.12.4",
-    "cropperjs": "^1.0.0-beta.2",
-    "croppie": "^2.4.0",
-    "del": "^2.2.2",
-    "flatpickr": "^2.4.4",
-    "gsap": "^1.19.1",
-    "gulp": "^3.9.1",
-    "gulp-clean-css": "^3.0.3",
-    "gulp-coffee": "^2.3.3",
-    "gulp-concat": "^2.6.1",
-    "gulp-htmlmin": "^3.0.0",
-    "gulp-if": "^2.0.2",
-    "gulp-notify": "^3.0.0",
-    "gulp-pug": "^3.2.0",
-    "gulp-sourcemaps": "^2.4.1",
-    "gulp-stylus": "^2.6.0",
-    "gulp-uglify": "^2.0.1",
-    "gulp-util": "^3.0.8",
-    "hint.css": "^2.4.1",
-    "jquery": "^3.1.1",
-    "jquery-datetimepicker": "^2.5.4",
-    "json-browse": "^0.2.0",
-    "moment": "^2.17.1",
-    "novacancy.js": "0.0.1",
-    "objectus": "^1.1.1",
-    "qs": "^6.3.1",
-    "rollup-plugin-coffee-script": "^1.1.0",
-    "rollup-stream": "^1.19.0",
-    "selectize": "^0.12.4",
-    "summernote": "^0.8.2",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch-poll": "npm run watch -- --watch-poll",
+    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "npm run production",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
-    "webpack": "^2.3.1",
-    "webpack-dev-server": "2"
+    "axios": "^0.16.1",
+    "cross-env": "^4.0.0",
+    "jquery": "^3.1.1",
+    "laravel-mix": "0.*",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
+    "vue": "^2.1.10"
+  },
+  "dependencies": {
+    "bulma": "^0.4.1",
+    "bulmaswatch": "^0.4.1",
+    "font-awesome": "^4.7.0",
+    "pug": "^2.0.0-rc.1"
   }
 }

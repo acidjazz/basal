@@ -2,114 +2,43 @@
 
 namespace App\Models;
 
+use Illuminate\Notifications\Notifiable;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
-class User extends \Moloquent
+use Illuminate\Auth\Authenticatable;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+
+
+class User extends Eloquent implements
+    AuthenticatableContract,
+    AuthorizableContract,
+    CanResetPasswordContract
 {
 
-  use SoftDeletes;
+    use Notifiable, SoftDeletes, Authenticatable, Authorizable, CanResetPassword;
+    
 
-  protected $collection = 'user';
-  protected $primaryKey = '_id';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'email', 'password', 'provider', 'provider_id', 'profile', 'avatar',
+    ];
 
-  protected $fillable = [
-    'name', 'email','sessions'
-  ];
-
-  protected $dateFormat = 'c';
-  protected $dates = ['deleted_at'];
-
-  /*
-   * Look for a session
-   * look for a set cookie and verify in the DB that its active
-   */
-
-  public static function loggedIn() {
-
-    \Summon\Summon::$verifyAgent = false;
-
-    if ($data = \Summon\Summon::check()) {
-
-      $user = self::find($data['user_id']);
-
-      if ($user != null && isset($user->sessions[$data['hash']])) {
-        return $user;
-      }
-
-    }
-
-    return false;
-
-  }
-
-  /*
-   * Create a session
-   * add to sessions and place a session cookie
-   */
-
-  public function sessionize($browser=false)
-  {
-
-    $session = \Summon\Summon::set($this->_id, $this->sessions, $browser);
-    $session['sessions'] = \Summon\Summon::clean($session['sessions']);
-    $this->sessions = $session['sessions'];
-    $this->save();
-
-    return true; 
-
-  }
-
-  /*
-   * Kill our current session
-   * removes the associated cookie and data inside sessions
-   */
-
-  public function logout($browser=false)
-  {
-
-    $this->sessions = \Summon\Summon::remove($this->sessions,$browser);
-    $this->save();
-
-    return true;
-
-  }
-
-  /*
-   * Simuulate a login
-   * mostly used for unit testing
-   * @param $email - e-mail address to login with
-   */
-
-  public static function loginAs($email, $browser=false)
-  {
-
-    $user = User::where(['email' => $email])->get()->first();
-
-    if ($user !== null) {
-      $user->sessionize($browser);
-    }
-
-    return $user;
-
-  }
-
-  /*
-   * Simuulate a lgoout
-   * mostly used for unit testing
-   * @param $email - e-mail address to lgoout with
-   */
-
-  public static function logoutAs($email, $browser=false)
-  {
-
-    $user = User::where(['email' => $email])->get()->first();
-
-    if ($user->exists()) {
-      $user->logout($browser);
-    }
-
-    return $user;
-
-  }
-
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 }

@@ -1,4 +1,0 @@
-split
-screen -t serve npm run serve
-focus
-screen -t sync npm run sync

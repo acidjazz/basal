@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Laravel',
+    'name' => env('APP_NAME', 'Laravel'),
 
     /*
     |--------------------------------------------------------------------------
@@ -167,13 +167,7 @@ return [
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
-        Jenssegers\Mongodb\MongodbServiceProvider::class,
-        Larjectus\ServiceProvider::class,
-        Larpug\ServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
-        Barryvdh\Cors\ServiceProvider::class,
-        
-        
+
         /*
          * Application Service Providers...
          */
@@ -182,6 +176,41 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+
+        /*
+         *
+         * native pugjs templating in laravel
+         *
+         * https://github.com/acidjazz/larpug
+         *
+         */
+        #Larpug\ServiceProvider::class,
+        
+        /*
+         * pug templates for Laravel via Pug.php
+         * https://github.com/BKWLD/laravel-pug
+         */
+        Bkwld\LaravelPug\ServiceProvider::class,
+
+        /* socialite
+         *
+         */
+        //Laravel\Socialite\SocialiteServiceProvider::class,
+        SocialiteProviders\Manager\ServiceProvider::class,
+
+        /*
+         *
+         * https://github.com/tymondesigns/jwt-auth
+         */
+        //Tymon\JWTAuth\Providers\JWT\Provider::class,
+
+        /*
+         *
+         * https://github.com/jenssegers/laravel-mongodb
+         *
+         */
+        Jenssegers\Mongodb\MongodbServiceProvider::class,
 
     ],
 
@@ -209,9 +238,7 @@ return [
         'Cookie' => Illuminate\Support\Facades\Cookie::class,
         'Crypt' => Illuminate\Support\Facades\Crypt::class,
         'DB' => Illuminate\Support\Facades\DB::class,
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Eloquent' => Illuminate\Database\Eloquent\Model::class,
-        'Moloquent' => Jenssegers\Mongodb\Eloquent\Model::class,
         'Event' => Illuminate\Support\Facades\Event::class,
         'File' => Illuminate\Support\Facades\File::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
@@ -233,6 +260,11 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        //'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'Moloquent' => Jenssegers\Mongodb\Eloquent\Model::class,
+        
+        
 
     ],
 

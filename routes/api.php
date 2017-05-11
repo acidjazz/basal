@@ -13,34 +13,25 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('auth', 'AuthController@auth');
-Route::get('auth/google', 'AuthController@google');
-Route::get('auth/logout', 'AuthController@logout');
+/*
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+ */
 
-Route::get('users', 'UserController@get');
-Route::get('users/update/{_id}', 'UserController@update');
 
-Route::get('clients', 'ClientController@get');
-Route::get('clients/add', 'ClientController@add');
-Route::get('clients/update/{_id}', 'ClientController@update');
+Route::post('login', 'Auth\LoginController@login');
 
-Route::get('structures', 'StructureController@get');
-Route::get('structures/add', 'StructureController@add');
-Route::get('structures/update/{_id}', 'StructureController@update');
-Route::get('structures/delete/{_id}', 'StructureController@delete');
-Route::get('structures/restore/{_id}', 'StructureController@restore');
-Route::get('structures/force/{_id}', 'StructureController@force');
+Route::group([
+    'prefix' => 'restricted',
+    'middleware' => 'auth:api',
+], function () {
 
-Route::get('entries', 'EntryController@get');
-Route::post('entries/add', 'EntryController@add');
-Route::post('entries/update/{_id}', 'EntryController@update');
-Route::get('entries/update/{_id}', 'EntryController@update');
-Route::get('entries/delete/{_id}', 'EntryController@delete');
-Route::get('entries/restore/{_id}', 'EntryController@restore');
-Route::get('entries/force/{_id}', 'EntryController@force');
+    // Authentication Routes...
+    Route::get('logout', 'Auth\LoginController@logout');
 
-Route::post('upload', 'FileController@upload');
-
-Route::get('invite/add', 'InviteController@add');
-Route::get('invite/get', 'InviteController@get');
+    Route::get('/test', function () {
+        return 'authenticated';
+    });
+});
 

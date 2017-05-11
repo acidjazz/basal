@@ -67,6 +67,7 @@ class Handler extends ExceptionHandler
       return $whoops->handleException($exception);
 
       //return parent::render($request, $exception);
+
     }
 
     /**

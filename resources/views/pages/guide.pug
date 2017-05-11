@@ -1,21 +1,2216 @@
+extends ../layout/core.pug
 
-extends ../layout/core
+block meta
+  title=__('meta.titles.guide')
 
 block content
-  .guide
 
-    .sections
+  style.
+  :stylus
+    .hero .container
+      width 95%
 
-      .gsection.gcolors
-        .title Colors
-        each color, name in self.config.color
-          .color(class='color_'+name) #{name} (#{color})
 
-      .gsection.fonts
-        .title Fonts
-        each atts, name in self.config.font
-          .font(class="font_"+name) #{name} #{atts['font-family']}
-          each value, att in atts
-            .detail #{att}: <b>#{value}</b>
-
-      .clear
+  section.hero.is-primary
+    .hero-body
+      .container
+        h1.title  basal style guide
+  .columns
+    .column.is-2
+      aside.menu.section
+        p.menu-label  Elements
+        ul.menu-list
+          li
+            a(href='#typography') Typography
+          li
+            a(href='#box') Box
+          li
+            a(href='#buttons') Buttons
+          li
+            a(href='#content') Content
+          li
+            a(href='#delete') Delete
+          li
+            a(href='#form') Form
+          li
+            a(href='#icon') Icon
+          li
+            a(href='#images') Images
+          li
+            a(href='#notifications') Notifications
+          li
+            a(href='#progress') Progress bars
+          li
+            a(href='#table') Table
+          li
+            a(href='#tag') Tag
+        p.menu-label  Components
+        ul.menu-list
+          li
+            a(href='#hero') Hero
+          li
+            a(href='#card') Card
+          li
+            a(href='#level') Level
+          li
+            a(href='#media') Media object
+          li
+            a(href='#menu') Menu
+          li
+            a(href='#message') Message
+          li
+            a(href='#modal') Modal
+          li
+            a(href='#nav') Nav
+          li
+            a(href='#pagination') Pagination
+          li
+            a(href='#panel') Panel
+          li
+            a(href='#tabs') Tabs
+    .column
+      section#typography.section
+        h1.title  Typography
+        hr
+        .columns
+          .column
+            h1.title.is-1  Title 1
+            h2.title.is-2  Title 2
+            h3.title.is-3  Title 3
+            h4.title.is-4  Title 4
+            h5.title.is-5  Title 5
+            h6.title.is-6  Title 6
+          .column
+            h1.subtitle.is-1  Subtitle 1
+            h2.subtitle.is-2  Subtitle 2
+            h3.subtitle.is-3  Subtitle 3
+            h4.subtitle.is-4  Subtitle 4
+            h5.subtitle.is-5  Subtitle 5
+            h6.subtitle.is-6  Subtitle 6
+          .column
+            h1.title  Title
+            h2.subtitle  Subtitle
+            p.title.is-1  Title 1
+            p.subtitle.is-3  Subtitle 3
+            p.title.is-2  Title 2
+            p.subtitle.is-4  Subtitle 4
+            p.title.is-3  Title 3
+            p.subtitle.is-5  Subtitle 5
+      section#box.section
+        h1.title  Box
+        hr
+        .box
+          article.media
+            .media-left
+              figure.image.is-64x64
+                img(alt='Image', src='https://s3.amazonaws.com/uifaces/faces/twitter/zeldman/128.jpg')
+            .media-content
+              .content
+                p
+                  strong John Smith
+                  |  
+                  small @johnsmith
+                  |  
+                  small 31m
+                  br
+                  |  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+              nav.level
+                .level-left
+                  a.level-item
+                    span.icon.is-small
+                      i.fa.fa-reply
+                  a.level-item
+                    span.icon.is-small
+                      i.fa.fa-retweet
+                  a.level-item
+                    span.icon.is-small
+                      i.fa.fa-heart
+      section#buttons.section
+        h1.title  Buttons
+        hr
+        .columns
+          .column
+            .block
+              a.button Button
+              |  
+              a.button.is-white White
+              |  
+              a.button.is-light Light
+              |  
+              a.button.is-dark Dark
+              |  
+              a.button.is-black Black
+              |  
+              a.button.is-link Link
+            .block
+              a.button.is-primary Primary
+              |  
+              a.button.is-info Info
+              |  
+              a.button.is-success Success
+              |  
+              a.button.is-warning Warning
+              |  
+              a.button.is-danger Danger
+            .block
+              a.button.is-focused Focus
+              |  
+              a.button.is-primary.is-focused Focus
+              |  
+              a.button.is-info.is-focused Focus
+              |  
+              a.button.is-success.is-focused Focus
+              |  
+              a.button.is-warning.is-focused Focus
+              |  
+              a.button.is-danger.is-focused Focus
+            .block
+              a.button.is-hovered Hover
+              |  
+              a.button.is-primary.is-hovered Hover
+              |  
+              a.button.is-info.is-hovered Hover
+              |  
+              a.button.is-success.is-hovered Hover
+              |  
+              a.button.is-warning.is-hovered Hover
+              |  
+              a.button.is-danger.is-hovered Hover
+            .block
+              a.button.is-active Active
+              |  
+              a.button.is-primary.is-active Active
+              |  
+              a.button.is-info.is-active Active
+              |  
+              a.button.is-success.is-active Active
+              |  
+              a.button.is-warning.is-active Active
+              |  
+              a.button.is-danger.is-active Active
+            .block
+              a.button.is-loading Loading
+              |  
+              a.button.is-primary.is-loading Loading
+              |  
+              a.button.is-info.is-loading Loading
+              |  
+              a.button.is-success.is-loading Loading
+              |  
+              a.button.is-warning.is-loading Loading
+              |  
+              a.button.is-danger.is-loading Loading
+            p.field
+              a.button
+                span.icon.is-small
+                  i.fa.fa-bold
+              a.button
+                span.icon.is-small
+                  i.fa.fa-italic
+              a.button
+                span.icon.is-small
+                  i.fa.fa-underline
+              a.button
+                span.icon
+                  i.fa.fa-github
+                |  
+                span GitHub
+              a.button.is-primary
+                span.icon
+                  i.fa.fa-twitter
+                |  
+                span Twitter
+              a.button.is-success
+                span.icon.is-small
+                  i.fa.fa-check
+                |  
+                span Save
+              |  
+              a.button.is-danger.is-outlined
+                span Delete
+                span.icon.is-small
+                  i.fa.fa-times
+            .field.is-grouped
+              p.field.has-addons
+                a.button
+                  span.icon.is-small
+                    i.fa.fa-bold
+                  |  
+                  span Bold
+                a.button
+                  span.icon.is-small
+                    i.fa.fa-italic
+                  |  
+                  span Italic
+                a.button
+                  span.icon.is-small
+                    i.fa.fa-underline
+                  |  
+                  span Underline
+              p.field.has-addons
+                a.button
+                  span.icon.is-small
+                    i.fa.fa-align-left
+                  |  
+                  span Left
+                a.button
+                  span.icon.is-small
+                    i.fa.fa-align-center
+                  |  
+                  span Center
+                a.button
+                  span.icon.is-small
+                    i.fa.fa-align-right
+                  |  
+                  span Right
+          .column
+            .block
+              a.button.is-small Small
+              |  
+              a.button Normal
+              |  
+              a.button.is-medium Medium
+              |  
+              a.button.is-large Large
+            .block
+              a.button.is-outlined Outlined
+              |  
+              a.button.is-primary.is-outlined Outlined
+              |  
+              a.button.is-info.is-outlined Outlined
+              |  
+              a.button.is-success.is-outlined Outlined
+              |  
+              a.button.is-danger.is-outlined Outlined
+            .notification.is-primary
+              a.button.is-primary.is-inverted.is-outlined Invert Outlined
+              |  
+              a.button.is-info.is-inverted.is-outlined Invert Outlined
+              |  
+              a.button.is-success.is-inverted.is-outlined Invert Outlined
+              |  
+              a.button.is-danger.is-inverted.is-outlined Invert Outlined
+            .notification.is-primary
+              a.button.is-primary.is-inverted Inverted
+              |  
+              a.button.is-info.is-inverted Inverted
+              |  
+              a.button.is-success.is-inverted Inverted
+              |  
+              a.button.is-danger.is-inverted Inverted
+            p.field
+              a.button.is-small
+                span.icon.is-small
+                  i.fa.fa-github
+                |  
+                span GitHub
+              a.button
+                span.icon
+                  i.fa.fa-github
+                |  
+                span GitHub
+              a.button.is-medium
+                span.icon
+                  i.fa.fa-github
+                |  
+                span GitHub
+              a.button.is-large
+                span.icon.is-medium
+                  i.fa.fa-github
+                |  
+                span GitHub
+            p.field
+              a.button.is-small
+                span.icon.is-small
+                  i.fa.fa-header
+            p.field
+              a.button
+                span.icon.is-small
+                  i.fa.fa-header
+              a.button
+                span.icon
+                  i.fa.fa-header
+            p.field
+              a.button.is-medium
+                span.icon.is-small
+                  i.fa.fa-header
+              a.button.is-medium
+                span.icon
+                  i.fa.fa-header
+              a.button.is-medium
+                span.icon.is-medium
+                  i.fa.fa-header
+            p.field
+              a.button.is-large
+                span.icon.is-small
+                  i.fa.fa-header
+              a.button.is-large
+                span.icon
+                  i.fa.fa-header
+              a.button.is-large
+                span.icon.is-medium
+                  i.fa.fa-header
+              a.button.is-large
+                span.icon.is-large
+                  i.fa.fa-header
+      section#content.section
+        h1.title  Content
+        hr
+        .content
+          h1  Hello World
+          p
+            | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices eleifend gravida, nulla nunc varius lectus, nec rutrum justo nibh eu lectus. Ut vulputate semper dui. Fusce erat odio, sollicitudin vel erat vel, interdum mattis neque.
+          h2  Second level
+          p
+            | Curabitur accumsan turpis pharetra 
+            strong augue tincidunt
+            |  blandit. Quisque condimentum maximus mi, sit amet commodo arcu rutrum id. Proin pretium urna vel cursus venenatis. Suspendisse potenti. Etiam mattis sem rhoncus lacus dapibus facilisis. Donec at dignissim dui. Ut et neque nisl.
+          ul
+            li  In fermentum leo eu lectus mollis, quis dictum mi aliquet.
+            li  Morbi eu nulla lobortis, lobortis est in, fringilla felis.
+            li  Aliquam nec felis in sapien venenatis viverra fermentum nec lectus.
+            li  Ut non enim metus.
+          h3  Third level
+          p
+            | Quisque ante lacus, malesuada ac auctor vitae, congue 
+            a(href='#') non ante
+            |  . Phasellus lacus ex, semper ac tortor nec, fringilla condimentum orci. Fusce eu rutrum tellus.
+          ol
+            li  Donec blandit a lorem id convallis.
+            li  Cras gravida arcu at diam gravida gravida.
+            li  Integer in volutpat libero.
+            li  Donec a diam tellus.
+            li  Aenean nec tortor orci.
+            li  Quisque aliquam cursus urna, non bibendum massa viverra eget.
+            li  Vivamus maximus ultricies pulvinar.
+          blockquote
+            | Ut venenatis, nisl scelerisque sollicitudin fermentum, quam libero hendrerit ipsum, ut blandit est tellus sit amet turpis.
+          p
+            | Quisque at semper enim, eu hendrerit odio. Etiam auctor nisl et 
+            em justo sodales
+            |  elementum. Maecenas ultrices lacus quis neque consectetur, et lobortis nisi molestie.
+          p
+            | Sed sagittis enim ac tortor maximus rutrum. Nulla facilisi. Donec mattis vulputate risus in luctus. Maecenas vestibulum interdum commodo.
+          p
+            | Suspendisse egestas sapien non felis placerat elementum. Morbi tortor nisl, suscipit sed mi sit amet, mollis malesuada nulla. Nulla facilisi. Nullam ac erat ante.
+          h4  Fourth level
+          p
+            | Nulla efficitur eleifend nisi, sit amet bibendum sapien fringilla ac. Mauris euismod metus a tellus laoreet, at elementum ex efficitur.
+          p
+            | Maecenas eleifend sollicitudin dui faucibus sollicitudin augue cursus non. Ut finibus eleifend arcu ut vehicula. Mauris eu est maximus est porta condimentum in eu justo. Nulla id iaculis sapien.
+          table
+            thead
+              tr
+                th  One
+                th  Two
+            tbody
+              tr
+                td  Three
+                td  Four
+              tr
+                td  Five
+                td  Six
+              tr
+                td  Seven
+                td  Eight
+              tr
+                td  Nine
+                td  Ten
+              tr
+                td  Eleven
+                td  Twelve
+          p
+            | Phasellus porttitor enim id metus volutpat ultricies. Ut nisi nunc, blandit sed dapibus at, vestibulum in felis. Etiam iaculis lorem ac nibh bibendum rhoncus. Nam interdum efficitur ligula sit amet ullamcorper. Etiam tristique, leo vitae porta faucibus, mi lacus laoreet metus, at cursus leo est vel tellus. Sed ac posuere est. Nunc ultricies nunc neque, vitae ultricies ex sodales quis. Aliquam eu nibh in libero accumsan pulvinar. Nullam nec nisl placerat, pretium metus vel, euismod ipsum. Proin tempor cursus nisl vel condimentum. Nam pharetra varius metus non pellentesque.
+          h5  Fifth level
+          p
+            | Aliquam sagittis rhoncus vulputate. Cras non luctus sem, sed tincidunt ligula. Vestibulum at nunc elit. Praesent aliquet ligula mi, in luctus elit volutpat porta. Phasellus molestie diam vel nisi sodales, a eleifend augue laoreet. Sed nec eleifend justo. Nam et sollicitudin odio.
+          h6  Sixth level
+          p
+            | Cras in nibh lacinia, venenatis nisi et, auctor urna. Donec pulvinar lacus sed diam dignissim, ut eleifend eros accumsan. Phasellus non tortor eros. Ut sed rutrum lacus. Etiam purus nunc, scelerisque quis enim vitae, malesuada ultrices turpis. Nunc vitae maximus purus, nec consectetur dui. Suspendisse euismod, elit vel rutrum commodo, ipsum tortor maximus dui, sed varius sapien odio vitae est. Etiam at cursus metus.
+      section#delete.section
+        h1.title  Delete
+        hr
+        .block
+          span.tag.is-success
+            | Hello World 
+            button.delete.is-small
+          a.delete.is-small
+          a.delete
+          a.delete.is-medium
+          a.delete.is-large
+        .notification.is-danger
+          button.delete
+          |  Lorem ipsum dolor sit amet, consectetur adipiscing elit lorem ipsum dolor sit amet, consectetur adipiscing elit
+        article.message.is-info
+          .message-header
+            | Info 
+            button.delete
+          .message-body
+            | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque risus mi, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum felis venenatis efficitur. Aenean ac eleifend lacus, in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+      section#form.section
+        h1.title  Form
+        hr
+        .columns
+          .column
+            .field
+              label.label Name
+              p.control
+                input.input(type='text', placeholder='Text input')
+            .field
+              label.label Username
+              p.control.has-icons-left.has-icons-right
+                input.input.is-success(type='text', placeholder='Text input', value='bulma')
+                span.icon.is-small.is-left
+                  i.fa.fa-user
+                span.icon.is-small.is-right
+                  i.fa.fa-check
+              p.help.is-success This username is available
+            .field
+              label.label Email
+              p.control.has-icons-left.has-icons-right
+                input.input.is-danger(type='text', placeholder='Email input', value='hello@')
+                span.icon.is-small.is-left
+                  i.fa.fa-envelope
+                span.icon.is-small.is-right
+                  i.fa.fa-warning
+              p.help.is-danger This email is invalid
+            .field
+              label.label Subject
+              p.control
+                span.select
+                  select
+                    option Select dropdown
+                    option With options
+            .field
+              label.label Message
+              p.control
+                textarea.textarea(placeholder='Textarea')
+            .field
+              p.control
+                label.checkbox
+                  input(type='checkbox')
+                  |  I agree to the 
+                  a(href='#') terms and conditions
+            .field
+              p.control
+                label.radio
+                  input(type='radio', name='question')
+                  |  Yes
+                |  
+                label.radio
+                  input(type='radio', name='question')
+                  |  No
+            .field.is-grouped
+              p.control
+                button.button.is-primary Submit
+              p.control
+                button.button.is-link Cancel
+            br
+            h4.subtitle  Disabled
+            hr
+            .field
+              p.control
+                input.input(disabled='', placeholder='Disabled input', type='text')
+            .field
+              p.control
+                textarea.textarea(disabled='', placeholder='Disabled textarea')  
+            .field
+              p.control
+                label.checkbox.is-disabled
+                  input(disabled='', type='checkbox')
+                  |  Remember me
+            .field
+              p.control
+                label.radio.is-disabled
+                  input(disabled='', name='question', type='radio')
+                  |  Yes
+                |  
+                label.radio.is-disabled
+                  input(disabled='', name='question', type='radio')
+                  |  No
+            .field.is-grouped
+              p.control
+                button.button.is-primary(disabled='')  Submit
+              p.control
+                button.button(disabled='')  Cancel
+            br
+            h3.title  Horizontal Form
+            hr
+            .field.is-horizontal
+              .field-label.is-normal
+                label.label From
+              .field-body
+                .field.is-grouped
+                  p.control.is-expanded.has-icons-left
+                    input.input(type='text', placeholder='Name')
+                    span.icon.is-small.is-left
+                      i.fa.fa-user
+                .field
+                  p.control.is-expanded.has-icons-left.has-icons-right
+                    input.input.is-success(type='email', placeholder='Email', value='alex@smith.com')
+                    span.icon.is-small.is-left
+                      i.fa.fa-envelope
+                    span.icon.is-small.is-right
+                      i.fa.fa-check
+                  p.help.is-success This email is correct
+            .field.is-horizontal
+              .field-label.is-normal
+                label.label Department
+              .field-body
+                .field.is-narrow
+                  .control
+                    .select.is-fullwidth
+                      select
+                        option Business development
+                        option Marketing
+                        option Sales
+            .field.is-horizontal
+              .field-label
+                label.label Already a member?
+              .field-body
+                .field.is-narrow
+                  .control
+                    label.radio
+                      input(type='radio', name='member')
+                      |  Yes
+                    |  
+                    label.radio
+                      input(type='radio', name='member')
+                      |  No
+            .field.is-horizontal
+              .field-label.is-normal
+                label.label Subject
+              .field-body
+                .field
+                  .control
+                    input.input.is-danger(type='text', placeholder='e.g. Partnership opportunity')
+                  p.help.is-danger  This field is required
+            .field.is-horizontal
+              .field-label.is-normal
+                label.label Question
+              .field-body
+                .field
+                  .control
+                    textarea.textarea(placeholder='Explain how we can help you')
+            .field.is-horizontal
+              .field-label
+              .field-body
+                .field
+                  .control
+                    button.button.is-primary  Send message
+          .column
+            br
+            h3.subtitle  Colors
+            hr
+            .field
+              p.control
+                input.input.is-primary(type='text', placeholder='Primary input')
+            .field
+              p.control
+                input.input.is-info(type='text', placeholder='Info input')
+            .field
+              p.control
+                input.input.is-success(type='text', placeholder='Success input')
+            .field
+              p.control
+                input.input.is-warning(type='text', placeholder='Warning input')
+            .field
+              p.control
+                input.input.is-danger(type='text', placeholder='Danger input')
+            br
+            h3.subtitle  Sizes
+            hr
+            .field
+              p.control
+                input.input.is-small(type='text', placeholder='Small input')
+            .field
+              p.control
+                input.input(type='text', placeholder='Normal input')
+            .field
+              p.control
+                input.input.is-medium(type='text', placeholder='Medium input')
+            .field
+              p.control
+                input.input.is-large(type='text', placeholder='Large input')
+            .field
+              p.control
+                span.select.is-small
+                  select
+                    option Select dropdown
+                    option With options
+            .field
+              p.control
+                span.select
+                  select
+                    option Select dropdown
+                    option With options
+            .field
+              p.control
+                span.select.is-medium
+                  select
+                    option Select dropdown
+                    option With options
+            .field
+              p.control
+                span.select.is-large
+                  select
+                    option Select dropdown
+                    option With options
+            .field
+              label.label.is-small Small input
+              p.control.has-icons-left.has-icons-right
+                input.input.is-small(type='email', placeholder='Email')
+                span.icon.is-small.is-left
+                  i.fa.fa-envelope
+                span.icon.is-small.is-right
+                  i.fa.fa-check
+            .field
+              label.label Normal input
+              p.control.has-icons-left.has-icons-right
+                input.input(type='email', placeholder='Email')
+                span.icon.is-small.is-left
+                  i.fa.fa-envelope
+                span.icon.is-small.is-right
+                  i.fa.fa-check
+            .field
+              p.control.has-icons-left.has-icons-right
+                input.input(type='email', placeholder='Email')
+                span.icon.is-left
+                  i.fa.fa-envelope
+                span.icon.is-right
+                  i.fa.fa-check
+            .field
+              label.label.is-medium Medium input
+              p.control.has-icons-left.has-icons-right
+                input.input.is-medium(type='email', placeholder='Email')
+                span.icon.is-small.is-left
+                  i.fa.fa-envelope
+                span.icon.is-small.is-right
+                  i.fa.fa-check
+            .field
+              p.control.has-icons-left.has-icons-right
+                input.input.is-medium(type='email', placeholder='Email')
+                span.icon.is-left
+                  i.fa.fa-envelope
+                span.icon.is-right
+                  i.fa.fa-check
+            .field
+              p.control.has-icons-left.has-icons-right
+                input.input.is-medium(type='email', placeholder='Email')
+                span.icon.is-medium.is-left
+                  i.fa.fa-envelope
+                span.icon.is-medium.is-right
+                  i.fa.fa-check
+            .field
+              label.label.is-large Large input
+              p.control.has-icons-left.has-icons-right
+                input.input.is-large(type='email', placeholder='Email')
+                span.icon.is-small.is-left
+                  i.fa.fa-envelope
+                span.icon.is-small.is-right
+                  i.fa.fa-check
+            .field
+              p.control.has-icons-left.has-icons-right
+                input.input.is-large(type='email', placeholder='Email')
+                span.icon.is-left
+                  i.fa.fa-envelope
+                span.icon.is-right
+                  i.fa.fa-check
+            .field
+              p.control.has-icons-left.has-icons-right
+                input.input.is-large(type='email', placeholder='Email')
+                span.icon.is-medium.is-left
+                  i.fa.fa-envelope
+                span.icon.is-medium.is-right
+                  i.fa.fa-check
+            .field
+              p.control.has-icons-left.has-icons-right
+                input.input.is-large(type='email', placeholder='Email')
+                span.icon.is-large.is-left
+                  i.fa.fa-envelope
+                span.icon.is-large.is-right
+                  i.fa.fa-check
+            br
+            h4.subtitle  With Font Awesome icons
+            hr
+            .field
+              p.control.has-icons-left
+                input.input(type='email', placeholder='Email')
+                span.icon.is-small.is-left
+                  i.fa.fa-envelope
+            .field
+              p.control.has-icons-left
+                input.input(type='password', placeholder='Password')
+                span.icon.is-small.is-left
+                  i.fa.fa-lock
+            .field
+              p.control
+                button.button.is-success  Login
+            br
+            h3.title  Form addons
+            hr
+            .field.has-addons
+              p.control
+                input.input(type='text', placeholder='Find a repository')
+              p.control
+                a.button.is-info Search
+            .field.has-addons
+              p.control
+                span.select
+                  select
+                    option $
+                    option &pound;
+                    option &euro;
+              p.control
+                input.input(type='text', placeholder='Amount of money')
+              p.control
+                a.button Transfer
+            .field.has-addons
+              p.control
+                span.select
+                  select
+                    option $
+                    option &pound;
+                    option &euro;
+              p.control.is-expanded
+                input.input(type='text', placeholder='Amount of money')
+              p.control
+                a.button Transfer
+            .field.has-addons
+              p.control.is-expanded
+                span.select.is-fullwidth
+                  select(name='country')
+                    option(value='Argentina') Argentina
+                    option(value='Bolivia') Bolivia
+                    option(value='Brazil') Brazil
+                    option(value='Chile') Chile
+                    option(value='Colombia') Colombia
+                    option(value='Ecuador') Ecuador
+                    option(value='Guyana') Guyana
+                    option(value='Paraguay') Paraguay
+                    option(value='Peru') Peru
+                    option(value='Suriname') Suriname
+                    option(value='Uruguay') Uruguay
+                    option(value='Venezuela') Venezuela
+              p.control
+                button.button.is-primary(type='submit') Choose
+            .field.is-grouped
+              p.control.is-expanded
+                input.input(type='text', placeholder='Find a repository')
+              p.control
+                a.button.is-info Search
+      section#icon.section
+        h1.title  Icons
+        hr
+        span.icon.is-small
+          i.fa.fa-home
+        span.icon
+          i.fa.fa-home
+        span.icon.is-medium
+          i.fa.fa-home
+        span.icon.is-large
+          i.fa.fa-home
+      section#images.section
+        h1.title  Images
+        hr
+        figure.image.is-128x128
+          img(src='https://s3.amazonaws.com/uifaces/faces/twitter/zeldman/128.jpg')
+      section#notifications.section
+        h1.title  Notifications
+        hr
+        .columns
+          .column
+            .notification
+              button.delete
+              |  Lorem ipsum dolor sit amet, 
+              a(href='#') consectetur
+              |  adipiscing elit lorem ipsum dolor sit amet, consectetur adipiscing elit
+            .notification.is-primary
+              button.delete
+              |  Primar lorem ipsum dolor sit amet, 
+              a(href='#') consectetur
+              |  adipiscing elit lorem ipsum dolor sit amet, consectetur adipiscing elit
+            .notification.is-info
+              button.delete
+              |  Info lorem ipsum dolor sit amet, 
+              a(href='#') consectetur
+              |  adipiscing elit lorem ipsum dolor sit amet, consectetur adipiscing elit
+          .column
+            .notification.is-success
+              button.delete
+              |  Success lorem ipsum dolor sit amet, 
+              a(href='#') consectetur
+              |  adipiscing elit lorem ipsum dolor sit amet, consectetur adipiscing elit
+            .notification.is-warning
+              button.delete
+              |  Warning lorem ipsum dolor sit amet, 
+              a(href='#') consectetur
+              |  adipiscing elit lorem ipsum dolor sit amet, consectetur adipiscing elit
+            .notification.is-danger
+              button.delete
+              |  Danger lorem ipsum dolor sit amet, 
+              a(href='#') consectetur
+              |  adipiscing elit lorem ipsum dolor sit amet, consectetur adipiscing elit
+      section#progress.section
+        h1.title  Progress bars
+        hr
+        |  
+        progress.progress(max='100', value='15') 15%
+        |  
+        progress.progress.is-primary(max='100', value='30') 30%
+        |  
+        progress.progress.is-info(max='100', value='45') 45%
+        |  
+        progress.progress.is-success(max='100', value='60') 60%
+        |  
+        progress.progress.is-warning(max='100', value='75') 75%
+        |  
+        progress.progress.is-danger(max='100', value='90') 90%
+        |  
+        progress.progress.is-small(max='100', value='15') 15%
+        |  
+        progress.progress(max='100', value='30') 30%
+        |  
+        progress.progress.is-medium(max='100', value='45') 45%
+        |  
+        progress.progress.is-large(max='100', value='60') 60%
+      section#table.section
+        h1.title  Table
+        hr
+        table.table
+          thead
+            tr
+              th
+                abbr(title='Position') Pos
+              th  Team
+              th
+                abbr(title='Played') Pld
+              th
+                abbr(title='Won') W
+              th
+                abbr(title='Drawn') D
+              th
+                abbr(title='Lost') L
+              th
+                abbr(title='Goals for') GF
+              th
+                abbr(title='Goals against') GA
+              th
+                abbr(title='Goal difference') GD
+              th
+                abbr(title='Points') Pts
+              th  Qualification or relegation
+          tfoot
+            tr
+              th
+                abbr(title='Position') Pos
+              th  Team
+              th
+                abbr(title='Played') Pld
+              th
+                abbr(title='Won') W
+              th
+                abbr(title='Drawn') D
+              th
+                abbr(title='Lost') L
+              th
+                abbr(title='Goals for') GF
+              th
+                abbr(title='Goals against') GA
+              th
+                abbr(title='Goal difference') GD
+              th
+                abbr(title='Points') Pts
+              th  Qualification or relegation
+          tbody
+            tr
+              th  1
+              td
+                a(href='https://en.wikipedia.org/wiki/Leicester_City_F.C.', title='Leicester City F.C.') Leicester City
+                |  
+                strong (C)
+              td  38
+              td  23
+              td  12
+              td  3
+              td  68
+              td  36
+              td  +32
+              td  81
+              td
+                | Qualification for the 
+                a(href='https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Champions_League#Group_stage', title='2016–17 UEFA Champions League') Champions League group stage
+            tr
+              th  2
+              td
+                a(href='https://en.wikipedia.org/wiki/Arsenal_F.C.', title='Arsenal F.C.') Arsenal
+              td  38
+              td  20
+              td  11
+              td  7
+              td  65
+              td  36
+              td  +29
+              td  71
+              td
+                | Qualification for the 
+                a(href='https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Champions_League#Group_stage', title='2016–17 UEFA Champions League') Champions League group stage
+            tr
+              th  3
+              td
+                a(href='https://en.wikipedia.org/wiki/Tottenham_Hotspur_F.C.', title='Tottenham Hotspur F.C.') Tottenham Hotspur
+              td  38
+              td  19
+              td  13
+              td  6
+              td  69
+              td  35
+              td  +34
+              td  70
+              td
+                | Qualification for the 
+                a(href='https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Champions_League#Group_stage', title='2016–17 UEFA Champions League') Champions League group stage
+            tr
+              th  4
+              td
+                a(href='https://en.wikipedia.org/wiki/Manchester_City_F.C.', title='Manchester City F.C.') Manchester City
+              td  38
+              td  19
+              td  9
+              td  10
+              td  71
+              td  41
+              td  +30
+              td  66
+              td
+                | Qualification for the 
+                a(href='https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Champions_League#Play-off_round', title='2016–17 UEFA Champions League') Champions League play-off round
+            tr
+              th  5
+              td
+                a(href='https://en.wikipedia.org/wiki/Manchester_United_F.C.', title='Manchester United F.C.') Manchester United
+              td  38
+              td  19
+              td  9
+              td  10
+              td  49
+              td  35
+              td  +14
+              td  66
+              td
+                | Qualification for the 
+                a(href='https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Europa_League#Group_stage', title='2016–17 UEFA Europa League') Europa League group stage
+            tr
+              th  6
+              td
+                a(href='https://en.wikipedia.org/wiki/Southampton_F.C.', title='Southampton F.C.') Southampton
+              td  38
+              td  18
+              td  9
+              td  11
+              td  59
+              td  41
+              td  +18
+              td  63
+              td
+                | Qualification for the 
+                a(href='https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Europa_League#Group_stage', title='2016–17 UEFA Europa League') Europa League group stage
+            tr
+              th  7
+              td
+                a(href='https://en.wikipedia.org/wiki/West_Ham_United_F.C.', title='West Ham United F.C.') West Ham United
+              td  38
+              td  16
+              td  14
+              td  8
+              td  65
+              td  51
+              td  +14
+              td  62
+              td
+                | Qualification for the 
+                a(href='https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Europa_League#Third_qualifying_round', title='2016–17 UEFA Europa League') Europa League third qualifying round
+            tr
+              th  8
+              td
+                a(href='https://en.wikipedia.org/wiki/Liverpool_F.C.', title='Liverpool F.C.') Liverpool
+              td  38
+              td  16
+              td  12
+              td  10
+              td  63
+              td  50
+              td  +13
+              td  60
+              td
+            tr
+              th  9
+              td
+                a(href='https://en.wikipedia.org/wiki/Stoke_City_F.C.', title='Stoke City F.C.') Stoke City
+              td  38
+              td  14
+              td  9
+              td  15
+              td  41
+              td  55
+              td  &minus;14
+              td  51
+              td
+            tr
+              th  10
+              td
+                a(href='https://en.wikipedia.org/wiki/Chelsea_F.C.', title='Chelsea F.C.') Chelsea
+              td  38
+              td  12
+              td  14
+              td  12
+              td  59
+              td  53
+              td  +6
+              td  50
+              td
+            tr
+              th  11
+              td
+                a(href='https://en.wikipedia.org/wiki/Everton_F.C.', title='Everton F.C.') Everton
+              td  38
+              td  11
+              td  14
+              td  13
+              td  59
+              td  55
+              td  +4
+              td  47
+              td
+            tr
+              th  12
+              td
+                a(href='https://en.wikipedia.org/wiki/Swansea_City_A.F.C.', title='Swansea City A.F.C.') Swansea City
+              td  38
+              td  12
+              td  11
+              td  15
+              td  42
+              td  52
+              td  &minus;10
+              td  47
+              td
+            tr
+              th  13
+              td
+                a(href='https://en.wikipedia.org/wiki/Watford_F.C.', title='Watford F.C.') Watford
+              td  38
+              td  12
+              td  9
+              td  17
+              td  40
+              td  50
+              td  &minus;10
+              td  45
+              td
+            tr
+              th  14
+              td
+                a(href='https://en.wikipedia.org/wiki/West_Bromwich_Albion_F.C.', title='West Bromwich Albion F.C.') West Bromwich Albion
+              td  38
+              td  10
+              td  13
+              td  15
+              td  34
+              td  48
+              td  &minus;14
+              td  43
+              td
+            tr
+              th  15
+              td
+                a(href='https://en.wikipedia.org/wiki/Crystal_Palace_F.C.', title='Crystal Palace F.C.') Crystal Palace
+              td  38
+              td  11
+              td  9
+              td  18
+              td  39
+              td  51
+              td  &minus;12
+              td  42
+              td
+            tr
+              th  16
+              td
+                a(href='https://en.wikipedia.org/wiki/A.F.C._Bournemouth', title='A.F.C. Bournemouth') AFC Bournemouth
+              td  38
+              td  11
+              td  9
+              td  18
+              td  45
+              td  67
+              td  &minus;22
+              td  42
+              td
+            tr
+              th  17
+              td
+                a(href='https://en.wikipedia.org/wiki/Sunderland_A.F.C.', title='Sunderland A.F.C.') Sunderland
+              td  38
+              td  9
+              td  12
+              td  17
+              td  48
+              td  62
+              td  &minus;14
+              td  39
+              td
+            tr
+              th  18
+              td
+                a(href='https://en.wikipedia.org/wiki/Newcastle_United_F.C.', title='Newcastle United F.C.') Newcastle United
+                |  
+                strong (R)
+              td  38
+              td  9
+              td  10
+              td  19
+              td  44
+              td  65
+              td  &minus;21
+              td  37
+              td
+                | Relegation to the 
+                a(href='https://en.wikipedia.org/wiki/2016%E2%80%9317_Football_League_Championship', title='2016–17 Football League Championship') Football League Championship
+            tr
+              th  19
+              td
+                a(href='https://en.wikipedia.org/wiki/Norwich_City_F.C.', title='Norwich City F.C.') Norwich City
+                |  
+                strong (R)
+              td  38
+              td  9
+              td  7
+              td  22
+              td  39
+              td  67
+              td  &minus;28
+              td  34
+              td
+                | Relegation to the 
+                a(href='https://en.wikipedia.org/wiki/2016%E2%80%9317_Football_League_Championship', title='2016–17 Football League Championship') Football League Championship
+            tr
+              th  20
+              td
+                a(href='https://en.wikipedia.org/wiki/Aston_Villa_F.C.', title='Aston Villa F.C.') Aston Villa
+                |  
+                strong (R)
+              td  38
+              td  3
+              td  8
+              td  27
+              td  27
+              td  76
+              td  &minus;49
+              td  17
+              td
+                | Relegation to the 
+                a(href='https://en.wikipedia.org/wiki/2016%E2%80%9317_Football_League_Championship', title='2016–17 Football League Championship') Football League Championship
+        br
+        table.table.is-striped
+          thead
+            tr
+              th  One
+              th  Two
+          tbody
+            tr
+              td  Three
+              td  Four
+            tr
+              td  Five
+              td  Six
+            tr
+              td  Seven
+              td  Eight
+            tr
+              td  Nine
+              td  Ten
+            tr
+              td  Eleven
+              td  Twelve
+        br
+        table.table.is-bordered
+          thead
+            tr
+              th  One
+              th  Two
+          tbody
+            tr
+              td  Three
+              td  Four
+        br
+        table.table.is-narrow
+          thead
+            tr
+              th  One
+              th  Two
+          tbody
+            tr
+              td  Three
+              td  Four
+            tr
+              td  Five
+              td  Six
+            tr
+              td  Seven
+              td  Eight
+            tr
+              td  Nine
+              td  Ten
+            tr
+              td  Eleven
+              td  Twelve
+        br
+        table.table.is-bordered.is-striped.is-narrow
+          thead
+            tr
+              th  One
+              th  Two
+          tbody
+            tr
+              td  Three
+              td  Four
+            tr
+              td  Five
+              td  Six
+            tr
+              td  Seven
+              td  Eight
+            tr
+              td  Nine
+              td  Ten
+            tr
+              td  Eleven
+              td  Twelve
+      section#tag.section
+        h1.title  Tag
+        hr
+        |  
+        span.tag.is-black Black
+        |  
+        span.tag.is-dark Dark
+        |  
+        span.tag.is-light Light
+        |  
+        span.tag.is-white White
+        |  
+        span.tag.is-primary Primary
+        |  
+        span.tag.is-info Info
+        |  
+        span.tag.is-success Success
+        |  
+        span.tag.is-warning Warning
+        |  
+        span.tag.is-danger Danger
+        |  
+        span.tag.is-primary.is-medium Medium
+        |  
+        span.tag.is-info.is-large Large
+        |  
+        span.tag.is-success
+          | Bar 
+          button.delete.is-small
+        |  
+        span.tag.is-warning.is-medium
+          | Hello 
+          button.delete.is-small
+        |  
+        span.tag.is-danger.is-large
+          | World 
+          button.delete
+      section#hero.section
+        h1.title Hero
+        hr
+        section.hero.is-info.is-medium
+          .hero-head
+            header.nav
+              .container
+                .nav-left
+                  a.nav-item
+                    img(src='http://bulma.io/images/bulma-type-white.png', alt='Logo')
+                span.nav-toggle
+                  span
+                  span
+                  span
+                .nav-right.nav-menu
+                  a.nav-item.is-active Home
+                  |  
+                  a.nav-item Examples
+                  |  
+                  a.nav-item Documentation
+                  span.nav-item
+                    a.button.is-primary.is-inverted
+                      span.icon
+                        i.fa.fa-github
+                      |  
+                      span Download
+          .hero-body
+            .container.has-text-centered
+              h1.title  Title
+              h2.subtitle  Subtitle
+          .hero-foot
+            nav.tabs.is-boxed
+              .container
+                ul
+                  li.is-active
+                    a Overview
+                  li
+                    a Modifiers
+                  li
+                    a Grid
+                  li
+                    a Elements
+                  li
+                    a Components
+                  li
+                    a Layout
+      section#card.section
+        h1.title Cards
+        hr
+        .columns
+          .column
+            .card
+              .card-image
+                figure.image.is-4by3
+                  img(src='https://source.unsplash.com/random/800x600', alt='Image')
+              .card-content
+                .media
+                  .media-left
+                    figure.image(style='height: 40px; width: 40px;')
+                      img(src='https://source.unsplash.com/random/96x96', alt='Image')
+                  .media-content
+                    p.title.is-4 John Smith
+                    p.subtitle.is-6 @johnsmith
+                .content
+                  | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. 
+                  a @bulmaio
+                  | . 
+                  a #css
+                  |  
+                  a #responsive
+                  br
+                  |  
+                  small 11:09 PM - 1 Jan 2016
+          .column
+            .card
+              header.card-header
+                p.card-header-title  Component
+                a.card-header-icon
+                  span.icon
+                    i.fa.fa-angle-down
+              .card-content
+                .content
+                  | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. 
+                  a @bulmaio
+                  | . 
+                  a #css
+                  |  
+                  a #responsive
+                  br
+                  |  
+                  small 11:09 PM - 1 Jan 2016
+              footer.card-footer
+                a.card-footer-item Save
+                |  
+                a.card-footer-item Edit
+                |  
+                a.card-footer-item Delete
+      section#level.section
+        h1.title Level
+        hr
+        nav.level
+          .level-left
+            .level-item
+              p.subtitle.is-5
+                strong 123
+                |  posts
+            .level-item
+              .field.has-addons
+                p.control
+                  input.input(type='text', placeholder='Find a post')
+                p.control
+                  button.button  Search
+          .level-right
+            p.level-item
+              strong All
+            p.level-item
+              a Published
+            p.level-item
+              a Drafts
+            p.level-item
+              a Deleted
+            p.level-item
+              a.button.is-success New
+        hr
+        nav.level
+          .level-item.has-text-centered
+            div
+              p.heading Tweets
+              p.title 3,456
+          .level-item.has-text-centered
+            div
+              p.heading Following
+              p.title 123
+          .level-item.has-text-centered
+            div
+              p.heading Followers
+              p.title 456K
+          .level-item.has-text-centered
+            div
+              p.heading Likes
+              p.title 789
+        hr
+        nav.level
+          p.level-item.has-text-centered
+            a.link.is-info Home
+          p.level-item.has-text-centered
+            a.link.is-info Menu
+          p.level-item.has-text-centered
+            img(src='http://bulma.io/images/bulma-type.png', alt='', style='height: 30px;')
+          p.level-item.has-text-centered
+            a.link.is-info Reservations
+          p.level-item.has-text-centered
+            a.link.is-info Contact
+        hr
+        nav.level.is-mobile
+          .level-item.has-text-centered
+            div
+              p.heading Tweets
+              p.title 3,456
+          .level-item.has-text-centered
+            div
+              p.heading Following
+              p.title 123
+          .level-item.has-text-centered
+            div
+              p.heading Followers
+              p.title 456K
+          .level-item.has-text-centered
+            div
+              p.heading Likes
+              p.title 789
+        hr
+      section#media.section
+        h1.title Media Object
+        hr
+        article.media
+          figure.media-left
+            p.image.is-64x64
+              img(src='https://s3.amazonaws.com/uifaces/faces/twitter/zeldman/128.jpg')
+          .media-content
+            .content
+              p
+                strong John Smith
+                |  
+                small @johnsmith
+                |  
+                small 31m
+                br
+                |  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+            nav.level
+              .level-left
+                a.level-item
+                  span.icon.is-small
+                    i.fa.fa-reply
+                a.level-item
+                  span.icon.is-small
+                    i.fa.fa-retweet
+                a.level-item
+                  span.icon.is-small
+                    i.fa.fa-heart
+          .media-right
+            button.delete
+        hr
+        article.media
+          figure.media-left
+            p.image.is-64x64
+              img(src='https://s3.amazonaws.com/uifaces/faces/twitter/zeldman/128.jpg')
+          .media-content
+            .field
+              p.control
+                textarea.textarea(placeholder='Add a comment...')
+            nav.level
+              .level-left
+                .level-item
+                  a.button.is-info Post comment
+              .level-right
+                .level-item
+                  label.checkbox
+                    input(type='checkbox')
+                    |  Press enter to submit
+        hr
+        h4.subtitle Nesting
+        article.media
+          figure.media-left
+            p.image.is-64x64
+              img(src='https://s3.amazonaws.com/uifaces/faces/twitter/zeldman/128.jpg')
+          .media-content
+            .content
+              p
+                strong Barbara Middleton
+                br
+                |  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.
+                br
+                |  
+                small
+                  a Like
+                  |  &middot; 
+                  a Reply
+                  |  &middot; 3 hrs
+            article.media
+              figure.media-left
+                p.image.is-48x48
+                  img(src='http://bulma.io/images/placeholders/96x96.png')
+              .media-content
+                .content
+                  p
+                    strong Sean Brown
+                    br
+                    |  Donec sollicitudin urna eget eros malesuada sagittis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam blandit nisl a nulla sagittis, a lobortis leo feugiat.
+                    br
+                    |  
+                    small
+                      a Like
+                      |  &middot; 
+                      a Reply
+                      |  &middot; 2 hrs
+                article.media
+                  | Vivamus quis semper metus, non tincidunt dolor. Vivamus in mi eu lorem cursus ullamcorper sit amet nec massa.
+                article.media
+                  | Morbi vitae diam et purus tincidunt porttitor vel vitae augue. Praesent malesuada metus sed pharetra euismod. Cras tellus odio, tincidunt iaculis diam non, porta aliquet tortor.
+            article.media
+              figure.media-left
+                p.image.is-48x48
+                  img(src='http://bulma.io/images/placeholders/96x96.png')
+              .media-content
+                .content
+                  p
+                    strong Kayli Eunice
+                    br
+                    |  Sed convallis scelerisque mauris, non pulvinar nunc mattis vel. Maecenas varius felis sit amet magna vestibulum euismod malesuada cursus libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus lacinia non nisl id feugiat.
+                    br
+                    |  
+                    small
+                      a Like
+                      |  &middot; 
+                      a Reply
+                      |  &middot; 2 hrs
+        article.media
+          figure.media-left
+            p.image.is-64x64
+              img(src='https://s3.amazonaws.com/uifaces/faces/twitter/zeldman/128.jpg')
+          .media-content
+            .field
+              p.control
+                textarea.textarea(placeholder='Add a comment...')
+            .field
+              p.control
+                button.button Post comment
+      section#menu.section
+        h1.title Menu
+        hr
+        .column.is-3
+          aside.menu
+            p.menu-label  General
+            ul.menu-list
+              li
+                a Dashboard
+              li
+                a Customers
+            p.menu-label  Administration
+            ul.menu-list
+              li
+                a Team Settings
+              li
+                a.is-active Manage Your Team
+                ul
+                  li
+                    a Members
+                  li
+                    a Plugins
+                  li
+                    a Add a member
+              li
+                a Invitations
+              li
+                a Cloud Storage Environment Settings
+              li
+                a Authentication
+            p.menu-label  Transactions
+            ul.menu-list
+              li
+                a Payments
+              li
+                a Transfers
+              li
+                a Balance
+      section#message.section
+        h1.title Message
+        hr
+        .columns
+          .column
+            article.message
+              .message-header
+                p Hello World
+                |  
+                button.delete
+              .message-body
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                strong Pellentesque risus mi
+                | , tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum 
+                a felis venenatis
+                |  efficitur. Aenean ac 
+                em eleifend lacus
+                | , in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+            article.message.is-dark
+              .message-header
+                p Dark
+                |  
+                button.delete
+              .message-body
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                strong Pellentesque risus mi
+                | , tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum 
+                a felis venenatis
+                |  efficitur. Aenean ac 
+                em eleifend lacus
+                | , in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+            article.message.is-primary
+              .message-header
+                p Primary
+                |  
+                button.delete
+              .message-body
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                strong Pellentesque risus mi
+                | , tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum 
+                a felis venenatis
+                |  efficitur. Aenean ac 
+                em eleifend lacus
+                | , in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+            article.message.is-info
+              .message-header
+                p Info
+                |  
+                button.delete
+              .message-body
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                strong Pellentesque risus mi
+                | , tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum 
+                a felis venenatis
+                |  efficitur. Aenean ac 
+                em eleifend lacus
+                | , in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+          .column
+            article.message.is-success
+              .message-header
+                p Success
+                |  
+                button.delete
+              .message-body
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                strong Pellentesque risus mi
+                | , tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum 
+                a felis venenatis
+                |  efficitur. Aenean ac 
+                em eleifend lacus
+                | , in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+            article.message.is-warning
+              .message-header
+                p Warning
+                |  
+                button.delete
+              .message-body
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                strong Pellentesque risus mi
+                | , tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum 
+                a felis venenatis
+                |  efficitur. Aenean ac 
+                em eleifend lacus
+                | , in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+            article.message.is-danger
+              .message-header
+                p
+                  strong Danger
+                  | ! 
+                  a Learn more
+                |  
+                button.delete
+              .message-body
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                strong Pellentesque risus mi
+                | , tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum 
+                a felis venenatis
+                |  efficitur. Aenean ac 
+                em eleifend lacus
+                | , in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+        .columns
+          .column
+            article.message
+              .message-body
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                strong Pellentesque risus mi
+                | , tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum 
+                a felis venenatis
+                |  efficitur. Aenean ac 
+                em eleifend lacus
+                | , in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+            article.message.is-dark
+              .message-body
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                strong Pellentesque risus mi
+                | , tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum 
+                a felis venenatis
+                |  efficitur. Aenean ac 
+                em eleifend lacus
+                | , in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+            article.message.is-primary
+              .message-body
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                strong Pellentesque risus mi
+                | , tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum 
+                a felis venenatis
+                |  efficitur. Aenean ac 
+                em eleifend lacus
+                | , in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+            article.message.is-info
+              .message-body
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                strong Pellentesque risus mi
+                | , tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum 
+                a felis venenatis
+                |  efficitur. Aenean ac 
+                em eleifend lacus
+                | , in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+          .column
+            article.message.is-success
+              .message-body
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                strong Pellentesque risus mi
+                | , tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum 
+                a felis venenatis
+                |  efficitur. Aenean ac 
+                em eleifend lacus
+                | , in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+            article.message.is-warning
+              .message-body
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                strong Pellentesque risus mi
+                | , tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum 
+                a felis venenatis
+                |  efficitur. Aenean ac 
+                em eleifend lacus
+                | , in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+            article.message.is-danger
+              .message-body
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                strong Pellentesque risus mi
+                | , tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum 
+                a felis venenatis
+                |  efficitur. Aenean ac 
+                em eleifend lacus
+                | , in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+      section#modal.section
+        h1.title Modal
+        hr
+        |  
+        a.button.is-primary.is-large(data-target='#myModal', onclick="$('#myModal').toggleClass('is-active')") Launch example modal
+        #myModal.modal
+          .modal-background
+          .modal-card
+            header.modal-card-head
+              p.modal-card-title Modal title
+              |  
+              button.delete
+            section.modal-card-body
+              | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            footer.modal-card-foot
+              a.button.is-primary Save changes
+              |  
+              a.button Cancel
+      section#nav.section
+        h1.title Nav
+        hr
+        nav.nav
+          .nav-left
+            a.nav-item
+              img(src='http://bulma.io/images/bulma-logo.png', alt='Bulma logo')
+          .nav-center
+            a.nav-item
+              span.icon
+                i.fa.fa-github
+            a.nav-item
+              span.icon
+                i.fa.fa-twitter
+          span.nav-toggle
+            span
+            span
+            span
+          .nav-right.nav-menu
+            a.nav-item Home
+            |  
+            a.nav-item Documentation
+            |  
+            a.nav-item Blog
+            .nav-item
+              .field.is-grouped
+                p.control
+                  a.button
+                    span.icon
+                      i.fa.fa-twitter
+                    |  
+                    span Tweet
+                p.control
+                  a.button.is-primary
+                    span.icon
+                      i.fa.fa-download
+                    |  
+                    span Download
+        hr
+        h4.subtitle Variant
+        nav.nav.has-shadow
+          .container
+            .nav-left
+              a.nav-item
+                img(src='http://bulma.io/images/bulma-logo.png', alt='Bulma logo')
+              |  
+              a.nav-item.is-tab.is-hidden-mobile.is-active Home
+              |  
+              a.nav-item.is-tab.is-hidden-mobile Features
+              |  
+              a.nav-item.is-tab.is-hidden-mobile Pricing
+              |  
+              a.nav-item.is-tab.is-hidden-mobile About
+            span.nav-toggle
+              span
+              span
+              span
+            .nav-right.nav-menu
+              a.nav-item.is-tab.is-hidden-tablet.is-active Home
+              |  
+              a.nav-item.is-tab.is-hidden-tablet Features
+              |  
+              a.nav-item.is-tab.is-hidden-tablet Pricing
+              |  
+              a.nav-item.is-tab.is-hidden-tablet About
+              a.nav-item.is-tab
+                figure.image.is-16x16(style='margin-right: 8px;')
+                  img(src='http://bulma.io/images/jgthms.png')
+                |  Profile
+              |  
+              a.nav-item.is-tab Log out
+      section#pagination.section
+        h1.title Pagination
+        hr
+        nav.pagination
+          a.pagination-previous.is-disabled Previous
+          |  
+          a.pagination-next Next page
+          ul.pagination-list
+            li
+              a.pagination-link 1
+            li
+              span.pagination-ellipsis &mldr;
+            li
+              a.pagination-link 45
+            li
+              a.pagination-link.is-current 46
+            li
+              a.pagination-link 47
+            li
+              span.pagination-ellipsis &mldr;
+            li
+              a.pagination-link 86
+      section#panel.section
+        h1.title Panel
+        hr
+        .column.is-4
+          nav.panel
+            p.panel-heading  Repositories
+            .panel-block
+              p.control.has-icons-left
+                input.input.is-small(type='text', placeholder='Search')
+                span.icon.is-small.is-left
+                  i.fa.fa-search
+            p.panel-tabs
+              a.is-active All
+              |  
+              a Public
+              |  
+              a Private
+              |  
+              a Sources
+              |  
+              a Forks
+            a.panel-block.is-active
+              span.panel-icon
+                i.fa.fa-book
+              |  bulma
+            a.panel-block
+              span.panel-icon
+                i.fa.fa-book
+              |  marksheet
+            a.panel-block
+              span.panel-icon
+                i.fa.fa-book
+              |  minireset.css
+            a.panel-block
+              span.panel-icon
+                i.fa.fa-book
+              |  jgthms.github.io
+            a.panel-block
+              span.panel-icon
+                i.fa.fa-code-fork
+              |  daniellowtw/infBoard
+            a.panel-block
+              span.panel-icon
+                i.fa.fa-code-fork
+              |  mojs
+            |  
+            label.panel-block
+              input(type='checkbox')
+              |  Remember me
+            .panel-block
+              button.button.is-primary.is-outlined.is-fullwidth  Reset all filters
+      section#tabs.section
+        h1.title Tabs
+        hr
+        .tabs
+          ul
+            li.is-active
+              a Pictures
+            li
+              a Music
+            li
+              a Videos
+            li
+              a Documents
+        br
+        .tabs.is-centered
+          ul
+            li.is-active
+              a
+                span.icon.is-small
+                  i.fa.fa-image
+                |  
+                span Pictures
+            li
+              a
+                span.icon.is-small
+                  i.fa.fa-music
+                |  
+                span Music
+            li
+              a
+                span.icon.is-small
+                  i.fa.fa-film
+                |  
+                span Videos
+            li
+              a
+                span.icon.is-small
+                  i.fa.fa-file-text-o
+                |  
+                span Documents
+        br
+        .tabs.is-small
+          ul
+            li.is-active
+              a Pictures
+            li
+              a Music
+            li
+              a Videos
+            li
+              a Documents
+        br
+        .tabs.is-medium
+          ul
+            li.is-active
+              a Pictures
+            li
+              a Music
+            li
+              a Videos
+            li
+              a Documents
+        br
+        .tabs.is-large
+          ul
+            li.is-active
+              a Pictures
+            li
+              a Music
+            li
+              a Videos
+            li
+              a Documents
+        br
+        .tabs.is-boxed
+          ul
+            li.is-active
+              a
+                span.icon.is-small
+                  i.fa.fa-image
+                |  
+                span Pictures
+            li
+              a
+                span.icon.is-small
+                  i.fa.fa-music
+                |  
+                span Music
+            li
+              a
+                span.icon.is-small
+                  i.fa.fa-film
+                |  
+                span Videos
+            li
+              a
+                span.icon.is-small
+                  i.fa.fa-file-text-o
+                |  
+                span Documents
+        br
+        .tabs.is-toggle
+          ul
+            li.is-active
+              a
+                span.icon.is-small
+                  i.fa.fa-image
+                |  
+                span Pictures
+            li
+              a
+                span.icon.is-small
+                  i.fa.fa-music
+                |  
+                span Music
+            li
+              a
+                span.icon.is-small
+                  i.fa.fa-film
+                |  
+                span Videos
+            li
+              a
+                span.icon.is-small
+                  i.fa.fa-file-text-o
+                |  
+                span Documents
+        br
+        .tabs.is-fullwidth
+          ul
+            li
+              a
+                span.icon
+                  i.fa.fa-angle-left
+                |  
+                span Left
+            li
+              a
+                span.icon
+                  i.fa.fa-angle-up
+                |  
+                span Up
+            li
+              a
+                span Right
+                span.icon
+                  i.fa.fa-angle-right
+        br
+        .tabs.is-centered.is-boxed
+          ul
+            li.is-active
+              a
+                span.icon.is-small
+                  i.fa.fa-image
+                |  
+                span Pictures
+            li
+              a
+                span.icon.is-small
+                  i.fa.fa-music
+                |  
+                span Music
+            li
+              a
+                span.icon.is-small
+                  i.fa.fa-film
+                |  
+                span Videos
+            li
+              a
+                span.icon.is-small
+                  i.fa.fa-file-text-o
+                |  
+                span Documents
+        br
+        .tabs.is-toggle.is-fullwidth.is-large
+          ul
+            li.is-active
+              a
+                span.icon
+                  i.fa.fa-image
+                |  
+                span Pictures
+            li
+              a
+                span.icon
+                  i.fa.fa-music
+                |  
+                span Music
+            li
+              a
+                span.icon
+                  i.fa.fa-film
+                |  
+                span Videos
+            li
+              a
+                span.icon
+                  i.fa.fa-file-text-o
+                |  
+                span Documents
+  footer.footer
+    .container
+      .content.has-text-centered
+        p
+          a.icon(href='//github.com/jenil/bulmaswatch', target='_blank', onclick="ga('send', 'event', 'footer', 'click', 'github');")
+            i.fa.fa-github
+          |  &nbsp;
+          a.icon(href='//twitter.com/geekGogari', target='_blank', onclick="ga('send', 'event', 'footer', 'click', 'twitter');")
+            i.fa.fa-twitter
+        p
+          strong Bulmaswatch
+          |  by 
+          a(href='http://jgog.in', target='_blank') Jenil Gogari
+          | .
+          br
+          |  Based on 
+          a(href='http://bulma.io', target='_blank', onclick="ga('send', 'event', 'footer', 'click', 'bulma');") Bulma
+          | . Icons from 
+          a(href='http://fontawesome.io/', target='_blank', onclick="ga('send', 'event', 'footer', 'click', 'font-awesome');") Font Awesome
+          | . Web Fonts from 
+          a(href='https://fonts.google.com/', target='_blank', onclick="ga('send', 'event', 'footer', 'click', 'google');") Google
+          | .
+          br
+          |  The source code is licensed 
+          a(href='http://opensource.org/licenses/mit-license.php', target='_blank') MIT
+          | .
+        form(action='https://www.paypal.com/cgi-bin/webscr', method='post', target='_top')
+          input(type='hidden', name='cmd', value='_s-xclick')
+          |  
+          input(type='hidden', name='encrypted', value='-----BEGIN PKCS7-----MIIHLwYJKoZIhvcNAQcEoIIHIDCCBxwCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYBZYpqRnPa7r4UrVdJ8MLu5Qig4F2XrsliVt1QsFDPQWvBDrhHbFnRXh6THK1HXQumsqQkcXQRkulIlgI/pPnbIap1sL6MIqh3b3bVVj/hC+p3oyvwncfu3vK9fAC44pgGnx2f31U3Za3IZNR67BoO/loXtPAj28RpfhcMGfLhEAjELMAkGBSsOAwIaBQAwgawGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQI0RMjmN+zvRWAgYjSbZhbozcTsMy/bkKUKs4TCjZAbyZFPA+8cxBzjGat124nXeIemYKgn2SjJtBWxJeZjxcXNywxh4wJ/wqiIy57VRJVGv20nVpVYvfMT7a/kWYOBFq8ez8kVuWTKF1l4rsCw5GvRHNL/9674Fi2Nw6zzUgwUaCbscq9OBv/Xiyj67cBg8FA/IzFoIIDhzCCA4MwggLsoAMCAQICAQAwDQYJKoZIhvcNAQEFBQAwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tMB4XDTA0MDIxMzEwMTMxNVoXDTM1MDIxMzEwMTMxNVowgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDBR07d/ETMS1ycjtkpkvjXZe9k+6CieLuLsPumsJ7QC1odNz3sJiCbs2wC0nLE0uLGaEtXynIgRqIddYCHx88pb5HTXv4SZeuv0Rqq4+axW9PLAAATU8w04qqjaSXgbGLP3NmohqM6bV9kZZwZLR/klDaQGo1u9uDb9lr4Yn+rBQIDAQABo4HuMIHrMB0GA1UdDgQWBBSWn3y7xm8XvVk/UtcKG+wQ1mSUazCBuwYDVR0jBIGzMIGwgBSWn3y7xm8XvVk/UtcKG+wQ1mSUa6GBlKSBkTCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb22CAQAwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQUFAAOBgQCBXzpWmoBa5e9fo6ujionW1hUhPkOBakTr3YCDjbYfvJEiv/2P+IobhOGJr85+XHhN0v4gUkEDI8r2/rNk1m0GA8HKddvTjyGw/XqXa+LSTlDYkqI8OwR8GEYj4efEtcRpRYBxV8KxAW93YDWzFGvruKnnLbDAF6VR5w/cCMn5hzGCAZowggGWAgEBMIGUMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbQIBADAJBgUrDgMCGgUAoF0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMTcwMjA0MDY0NjE2WjAjBgkqhkiG9w0BCQQxFgQULh0pZ3ghBES7pIr2Bq6fHZvG7GowDQYJKoZIhvcNAQEBBQAEgYB0imo8GsKJZpxA78mUkeTvp3QkxetHnh65ahnAuaioM6hO83tftk2oZXQTyJXIUPjynjbMzqh3ehRzsV5UmT5kvOGmh4WNr3+K3dk7HLN4a//tX1srKHY1xKU50Crdmnuur5nezKaS97sJvHAGb5ClVNW69NlII7BB0DO+d/jdog==-----END PKCS7-----\
+          ')
+          |  
+          input(type='image', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif', border='0', name='submit', alt='PayPal - The safer, easier way to pay online!')
+          |  
+          img(alt='', border='0', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif', width='1', height='1')

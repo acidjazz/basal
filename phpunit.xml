@@ -9,12 +9,6 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-
-        <testsuite name="Browser Tests">
-            <directory suffix="Test.php">./tests/Browser</directory>
-        </testsuite>
-
-
         <testsuite name="Feature Tests">
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
@@ -34,9 +28,4 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
     </php>
-
-    <logging>
-      <log type="coverage-clover" target="build/logs/clover.xml"/>
-    </logging>
-
 </phpunit>
