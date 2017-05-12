@@ -11,7 +11,7 @@ namespace :image do
 	end
 
     task :tag do
-        cmd = "docker tag basal:latest 751311555268.dkr.ecr.us-east-1.amazonaws.com/basal:latest"
+        cmd = "docker tag basal:latest 751311555268.dkr.ecr.us-east-1.amazonaws.com/basal:#{$commit}"
         system(cmd)
     end
 
