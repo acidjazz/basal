@@ -8,6 +8,14 @@ machine:
     APP_ENV: testing
     APP_DEBUG: true
     APP_URL: http://127.0.0.1:8000
+  ruby:
+    version: 2.4.0
+  services:
+    - docker
+
+compile:
+  override:
+    - rake
 
 dependencies:
   pre:
@@ -51,4 +59,5 @@ test:
   post:
     - bash <(curl -s https://codecov.io/bash)
     - killall --wait sc  # wait for Sauce Connect to close the tunnel
+  
 
