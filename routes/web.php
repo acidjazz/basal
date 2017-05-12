@@ -12,12 +12,11 @@
 |
 */
 
-//Route::get('/', function () { return view('pages.home'); });
 Route::get('/guide', function () { return view('pages.guide'); });
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index');
 
 Route::get('login/google', 'Auth\LoginController@redirectToProvider');
 Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback');

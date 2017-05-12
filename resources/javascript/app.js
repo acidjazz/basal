@@ -17,10 +17,10 @@ window.Vue = require('vue');
 
 //Vue.component('example', require('./components/Example.vue'));
 import User from './components/User.vue';
+import UserMenu from './components/UserMenu.vue';
 import Search from './components/Search.vue';
 
 const app = new Vue({
   el: '#app',
-  components: { User, Search }
+  components: { User, UserMenu, Search }
 });
-

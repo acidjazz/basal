@@ -51,6 +51,11 @@ class Handler extends ExceptionHandler
         return response(view('pages.notfound'), 404);
       }
 
+      if ($exception instanceof \Illuminate\Auth\AuthenticationException)
+      {
+        redirect('/');
+      }
+
       $whoops = new \Whoops\Run;
 
       if ($request->wantsJson()) {
@@ -66,7 +71,7 @@ class Handler extends ExceptionHandler
 
       return $whoops->handleException($exception);
 
-      //return parent::render($request, $exception);
+      return parent::render($request, $exception);
 
     }
 
