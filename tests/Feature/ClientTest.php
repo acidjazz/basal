@@ -7,8 +7,20 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+use Tests\CreatesApplication;
+
 class ClientTest extends TestCase
 {
+
+  use CreatesApplication;
+
+  public function __construct() {
+    $app = $this->createApplication();
+    parent::__construct();
+  }
+
+
+
     /**
      * A basic test example.
      *
