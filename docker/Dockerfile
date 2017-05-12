@@ -1,4 +1,4 @@
-FROM amazonlinux
+FROM amazonlinux:8ae6f52035b5
 
 MAINTAINER Chris Antenesse
 
