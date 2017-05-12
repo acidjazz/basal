@@ -1,13 +1,6 @@
 machine:
   timezone:
     America/Los_Angeles
-  php:
-    version: 7.0.4
-  environment:
-    ENVIRONMENT: testing
-    APP_ENV: testing
-    APP_DEBUG: true
-    APP_URL: http://127.0.0.1:8000
   ruby:
     version: 2.4.0
   services:
@@ -20,4 +13,3 @@ compile:
 dependencies:
   pre:
     - gem install rake
-
