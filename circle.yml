@@ -1,3 +1,7 @@
+general:
+  branches:
+    ignore:
+      - basal2
 machine:
   timezone:
     America/Los_Angeles
@@ -30,7 +34,7 @@ test:
     # Wait for tunnel to be ready
     #- while [ ! -e ~/sauce_is_ready ]; do sleep 1; done
     #- timeout 30s ./vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml tests || ./vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml tests
-    - ./vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml tests
+    - ./vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml tests/Feature 
 
   post:
     - bash <(curl -s https://codecov.io/bash)
