@@ -11,5 +11,17 @@ compile:
     - rake
 
 dependencies:
-  pre:
+  override:
     - gem install rake
+
+database:
+  override:
+    - sleep 1
+
+test:
+  override:
+    - sleep 1
+
+deployment:
+  override:
+    - sleep 1
