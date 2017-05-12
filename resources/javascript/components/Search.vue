@@ -1,11 +1,25 @@
 
-
 <template lang="pug">
-.field.has-addons.search
-  p.control.has-icons-right
-    input.input(type='text', placeholder='Search all entries')
-    span.icon.is-small
+.field.has-addons#search
+  p.control.has-icons-left
+    input.input(type='text', placeholder=placeholder)
+    span.icon.is-left.is-small
       i.fa.fa-search
   p.control
-    button.button  Search
+    a.button Search
+  
 </template>
+
+<script>
+
+export default {
+
+  daata () {
+    return {
+      placeholder: 'Search all entries'
+    }
+  }
+
+}
+
+</script>
