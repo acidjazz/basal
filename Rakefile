@@ -1,6 +1,7 @@
 task :prepare do
     $branch = ENV['CIRCLE_BRANCH']
     $commit = ENV['CIRCLE_SHA1']
+    $docker_token = ENV['DOCKER_TOKEN']
 end
 
 namespace :image do
@@ -14,6 +15,9 @@ namespace :image do
         system(cmd)
     end
 
+    task :login do
+        cmd = "docker login -u AWS -p #{$docker_token} -e none https://751311555268.dkr.ecr.us-east-1.amazonaws.com"
+
     task :push do
         cmd = "docker push 751311555268.dkr.ecr.us-east-1.amazonaws.com/basal:latest"
         system(cmd)
@@ -21,6 +25,7 @@ namespace :image do
 
     task :all => ["image:build",
                   "image:tag",
+                  "image:login",
                   "image:push"]
 end
 
