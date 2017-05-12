@@ -17,6 +17,7 @@ namespace :image do
 
     task :login do
         cmd = "docker login -u AWS -p #{$docker_token} -e none https://751311555268.dkr.ecr.us-east-1.amazonaws.com"
+    end
 
     task :push do
         cmd = "docker push 751311555268.dkr.ecr.us-east-1.amazonaws.com/basal:latest"
