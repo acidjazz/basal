@@ -13,15 +13,18 @@ compile:
 dependencies:
   override:
     - gem install rake
+    - wget https://releases.hashicorp.com/terraform/0.8.8/terraform_0.8.8_linux_amd64.zip
+    - unzip terraform_0.8.8_linux_amd64.zip -d terraform
+    - mv terraform/terraform /home/ubuntu/bin/terraform
 
 database:
   override:
-    - sleep 1
+    - echo 'skipping DB phase'
 
 test:
   override:
-    - sleep 1
+    - echo 'skipping tests'
 
 deployment:
   override:
-    - sleep 1
+    - echo 'skipping deployment'
