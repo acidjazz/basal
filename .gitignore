@@ -16,3 +16,9 @@ composer.lock
 /public/hot
 /storage/*.key
 
+# terraform
+*.tfstate*
+
+# idea
+.idea/
+
