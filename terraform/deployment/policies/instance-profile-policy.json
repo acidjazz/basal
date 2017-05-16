@@ -5,11 +5,21 @@
       "Sid": "ecsInstanceRole",
       "Effect": "Allow",
       "Action": [
+        "ecr:GetAuthorizationToken",
         "ecs:DeregisterContainerInstance",
         "ecs:DiscoverPollEndpoint",
         "ecs:Poll",
         "ecs:RegisterContainerInstance",
-        "ecs:Submit*"
+        "ecs:Submit*",
+        "ecs:CreateCluster",
+        "ecs:StartTelemetrySession",
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+
       ],
       "Resource": [
         "*"
