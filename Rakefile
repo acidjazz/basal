@@ -46,7 +46,7 @@ end
 
 namespace :deploy do
     task :create do
-        cmd = "terraform plan -var 'aws_access_key_deployment=#{$deploy_access_key}' -var 'aws_secret_key_deployment=#{$deploy_secret_key}' -var 'region=us-east-1' -var 'ecs_cluster_name=basal' -var 'docker_username=751311555268.dkr.ecr.us-east-1.amazonaws.com' -var 'version=#{$commit}' -var 'deploy_id=#{$deploy_id}' -var 'deploy_type=#{$deploy_type}'"
+        cmd = "terraform plan terraform/deployment -var 'aws_access_key_deployment=#{$deploy_access_key}' -var 'aws_secret_key_deployment=#{$deploy_secret_key}' -var 'region=us-east-1' -var 'ecs_cluster_name=basal' -var 'docker_username=751311555268.dkr.ecr.us-east-1.amazonaws.com' -var 'version=#{$commit}' -var 'deploy_id=#{$deploy_id}' -var 'deploy_type=#{$deploy_type}'"
         system(cmd)
     end
 end
