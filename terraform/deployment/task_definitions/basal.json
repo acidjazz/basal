@@ -1,0 +1,21 @@
+[
+    {
+        "name": "basal-${deploy_id}",
+        "image": "${docker_username}/basal:${version}",
+        "cpu": 256,
+        "memory": 768,
+        "essential": true,
+        "portMappings": [
+            {
+                "hostPort": 80,
+                "containerPort": 80,
+                "protocol": "tcp"
+            }
+        ],
+        "links": [],
+        "command": [],
+        "entryPoint": [],
+        "environment": [],
+        "mountPoints": []
+    }
+]
