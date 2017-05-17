@@ -297,6 +297,12 @@ data "template_file" "basal_task_definition" {
     docker_username = "${var.docker_username}"
     version = "${var.version}"
     deploy_id = "${var.deploy_id}"
+    app_key = "${var.app_key}"
+    db_password = "${var.db_password}"
+    s3_key = "${var.s3_key}"
+    s3_secret = "{var.s3_secret}"
+    auth_google_id = "{var.auth_google_id}"
+    auth_google_secret = "{var.auth_google_secret}"
   }
 }
 
