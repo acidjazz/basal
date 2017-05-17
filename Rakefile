@@ -54,7 +54,7 @@ namespace :image do
     end
 
     task :push do
-        cmd = "docker push 751311555268.dkr.ecr.us-east-1.amazonaws.com/basal:${$commit}"
+        cmd = "docker push 751311555268.dkr.ecr.us-east-1.amazonaws.com/basal:#{$commit}"
         system_safe(cmd)
     end
 
