@@ -266,10 +266,11 @@ resource "aws_elb" "basal-elb" {
   ]
 
   listener {
-    instance_port     = 80
-    instance_protocol = "http"
-    lb_port           = 80
-    lb_protocol       = "http"
+    instance_port      = 80
+    instance_protocol  = "http"
+    lb_port            = 443
+    lb_protocol        = "https"
+    ssl_certificate_id = "arn:aws:elasticloadbalancing:us-east-1:751311555268:loadbalancer/app/basal/53f1384142eafa57"
   }
 
   health_check {
