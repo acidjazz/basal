@@ -18,27 +18,27 @@
         "environment": [
             {
                 "name": "APP_KEY",
-                "value": "$app_key"
+                "value": "${app_key}"
             },
             {
                 "name": "DB_PASSWORD",
-                "value": "$db_password"
+                "value": "${db_password}"
             },
             {
                 "name": "S3_KEY",
-                "value": "$s3_key"
+                "value": "${s3_key}"
             },
             {
                 "name": "S3_SECRET",
-                "value": "$s3_secret"
+                "value": "${s3_secret}"
             },
             {
                 "name": "AUTH_GOOGLE_ID",
-                "value": "$auth_google_id"
+                "value": "${auth_google_id}"
             },
             {
                 "name": "AUTH_GOOGLE_SECRET",
-                "value": "$auth_google_secret"
+                "value": "${auth_google_secret}"
             }
         ],
         "mountPoints": []
