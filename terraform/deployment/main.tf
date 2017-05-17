@@ -270,7 +270,7 @@ resource "aws_elb" "basal-elb" {
     instance_protocol  = "http"
     lb_port            = 443
     lb_protocol        = "https"
-    ssl_certificate_id = "arn:aws:elasticloadbalancing:us-east-1:751311555268:loadbalancer/app/basal/53f1384142eafa57"
+    ssl_certificate_id = "arn:aws:acm:us-east-1:751311555268:certificate/b1770c65-95f3-4d79-94a8-d891092d0de4"
   }
 
   health_check {
