@@ -113,7 +113,7 @@ EOF
 
 resource "aws_iam_instance_profile" "app" {
   name  = "basal-ecs-instance-profile-${var.deploy_id}"
-  role = "${aws_iam_role.app_instance.name}"
+  roles = ["${aws_iam_role.app_instance.name}"]
 }
 
 resource "aws_iam_role" "app_instance" {
