@@ -1,8 +1,9 @@
 #!/bin/bash
 env
 yum -y install openssh-server passwd
-service sshd start
+useradd basal
 echo thePassword | passwd basal --stdin
+service sshd start
 cat /var/www/html/.env
 sleep 1000000000
 #service php-fpm start
