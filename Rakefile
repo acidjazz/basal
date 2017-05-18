@@ -89,5 +89,5 @@ end
 
 
 task "default" => ["prepare",
-                   "image:all",
+                   "image:all"
                    "deploy:create"]
