@@ -13,6 +13,7 @@ task :prepare do
         _, $commit = system_safe("git rev-parse HEAD")
     else
         $commit = ENV["CIRCLE_SHA1"]
+        $commit = $commit.strip! || $commit
     end
 
     # a commit to master results in a new core/persistent deployment
@@ -28,7 +29,7 @@ task :prepare do
     $deploy_access_key = get_secret("secret/aws/admin_access_key", $environment)
     $deploy_secret_key = get_secret("secret/aws/admin_secret_key", $environment)
     $app_key = get_secret("secret/basal/app_key", $environment)
-    $db_passwrod = get_secret("secret/mlab/db_password", $environment)
+    $db_password = get_secret("secret/mlab/db_password", $environment)
     $s3_key = get_secret("secret/aws/s3_access_key", $environment)
     $s3_secret = get_secret("secret/aws/s3_secret_key", $environment)
     $auth_google_id = get_secret("secret/google/auth_google_id", $environment)
@@ -76,6 +77,7 @@ namespace :deploy do
         system_safe(cmd)
 
         cmd = "AWS_ACCESS_KEY_ID=#{$deploy_access_key} AWS_SECRET_ACCESS_KEY=#{$deploy_secret_key} aws s3 cp terraform/deployment/terraform.tfstate s3://basal-deployment-state/#{$commit}.tfstate"
+        system_safe(cmd)
     end
 end
 

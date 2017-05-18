@@ -113,7 +113,7 @@ EOF
 
 resource "aws_iam_instance_profile" "app" {
   name  = "basal-ecs-instance-profile-${var.deploy_id}"
-  roles = ["${aws_iam_role.app_instance.name}"]
+  role = "${aws_iam_role.app_instance.name}"
 }
 
 resource "aws_iam_role" "app_instance" {
@@ -155,8 +155,8 @@ resource "aws_security_group" "basal_elb_sg" {
 
   ingress {
     protocol    = "tcp"
-    from_port   = 80
-    to_port     = 80
+    from_port   = 443
+    to_port     = 443
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -227,6 +227,7 @@ resource "aws_launch_configuration" "app" {
   iam_instance_profile        = "${aws_iam_instance_profile.app.name}"
   associate_public_ip_address = true
   user_data                   = "${data.template_file.user_data.rendered}"
+  key_name                    = "vault"
 
   lifecycle {
     create_before_destroy = true
