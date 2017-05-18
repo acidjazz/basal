@@ -10,6 +10,11 @@
                 "hostPort": 80,
                 "containerPort": 80,
                 "protocol": "tcp"
+            },
+            {
+                "hostPort": 1222,
+                "containerPort": 22,
+                "protocol": "tcp"
             }
         ],
         "links": [],
