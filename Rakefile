@@ -13,7 +13,6 @@ task :prepare do
         _, $commit = system_safe("git rev-parse HEAD")
     else
         $commit = ENV["CIRCLE_SHA1"]
-        $commit = $commit.strip! || $commit
     end
 
     # a commit to master results in a new core/persistent deployment
