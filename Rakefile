@@ -90,6 +90,8 @@ namespace :image do
     task :login do
         # this command will generate a login command for ECR
         cmd = "AWS_ACCESS_KEY_ID=#{$deploy_access_key} AWS_SECRET_ACCESS_KEY=#{$deploy_secret_key} aws ecr get-login --region us-east-1"
+
+        puts cmd
         _, login_cmd = system_safe(cmd)
 
         # this takes the output from the last command and executes it
