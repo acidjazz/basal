@@ -23,7 +23,7 @@ task :prepare do
     end
 
     if ENV["DEPLOY_ACCESS_KEY"].nil?
-        $deploy_access_key = get_secret("secret/$environment/aws/admin_access_key")
+        $deploy_access_key = get_secret("secret/aws/admin_access_key", $environment)
     else
         $deploy_access_key = ENV["DEPLOY_ACCESS_KEY"]
     end
