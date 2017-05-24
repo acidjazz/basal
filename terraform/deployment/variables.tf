@@ -48,10 +48,6 @@ variable "instance_type" {
   default = "t2.medium"
 }
 
-variable "app_key" {
-  description = "laravel app key"
-}
-
 variable "db_password" {
   description = "database password for mongo"
 }

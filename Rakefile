@@ -34,13 +34,6 @@ task :prepare do
         $deploy_secret_key = ENV["DEPLOY_ACCESS_KEY"]
     end
 
-    if ENV["APP_KEY"].nil?
-        $app_key = get_secret("secret/basal/app_key", $environment)
-
-    else
-        $app_key = ENV["APP_KEY"]
-    end
-
     if ENV["DB_PASSWORD"].nil?
         $db_password = get_secret("secret/mlab/db_password", $environment)
     else
@@ -111,7 +104,7 @@ end
 
 namespace :deploy do
     task :create do
-        cmd = "cd terraform/deployment && terraform apply -var 'aws_access_key_deployment=#{$deploy_access_key}' -var 'aws_secret_key_deployment=#{$deploy_secret_key}' -var 'region=us-east-1' -var 'ecs_cluster_name=basal' -var 'docker_username=751311555268.dkr.ecr.us-east-1.amazonaws.com' -var 'version=#{$commit}' -var 'deploy_id=#{$deploy_id}' -var 'deploy_type=#{$environment}' -var 'app_key=#{$app_key}' -var 'db_password=#{$db_password}' -var 's3_key=#{$s3_key}' -var 's3_secret=#{$s3_secret}' -var 'auth_google_id=#{$auth_google_id}' -var 'auth_google_secret=#{$auth_google_secret}'"
+        cmd = "cd terraform/deployment && terraform apply -var 'aws_access_key_deployment=#{$deploy_access_key}' -var 'aws_secret_key_deployment=#{$deploy_secret_key}' -var 'region=us-east-1' -var 'ecs_cluster_name=basal' -var 'docker_username=751311555268.dkr.ecr.us-east-1.amazonaws.com' -var 'version=#{$commit}' -var 'deploy_id=#{$deploy_id}' -var 'deploy_type=#{$environment}' -var 'db_password=#{$db_password}' -var 's3_key=#{$s3_key}' -var 's3_secret=#{$s3_secret}' -var 'auth_google_id=#{$auth_google_id}' -var 'auth_google_secret=#{$auth_google_secret}'"
         system_safe(cmd)
 
         cmd = "AWS_ACCESS_KEY_ID=#{$deploy_access_key} AWS_SECRET_ACCESS_KEY=#{$deploy_secret_key} aws s3 cp terraform/deployment/terraform.tfstate s3://basal-deployment-state/#{$deploy_id}.tfstate"
