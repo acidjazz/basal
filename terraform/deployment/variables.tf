@@ -45,5 +45,25 @@ variable "amis" {
 }
 
 variable "instance_type" {
-  default = "t2.micro"
+  default = "t2.medium"
+}
+
+variable "db_password" {
+  description = "database password for mongo"
+}
+
+variable "s3_key" {
+  description = "s3 key for docs"
+}
+
+variable "s3_secret" {
+  description = "s3 secret for docs"
+}
+
+variable "auth_google_id" {
+  description = "Google Id"
+}
+
+variable "auth_google_secret" {
+  description = "Google auth secret"
 }

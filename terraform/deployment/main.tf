@@ -155,8 +155,8 @@ resource "aws_security_group" "basal_elb_sg" {
 
   ingress {
     protocol    = "tcp"
-    from_port   = 80
-    to_port     = 80
+    from_port   = 443
+    to_port     = 443
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -227,6 +227,7 @@ resource "aws_launch_configuration" "app" {
   iam_instance_profile        = "${aws_iam_instance_profile.app.name}"
   associate_public_ip_address = true
   user_data                   = "${data.template_file.user_data.rendered}"
+  key_name                    = "vault"
 
   lifecycle {
     create_before_destroy = true
@@ -266,10 +267,11 @@ resource "aws_elb" "basal-elb" {
   ]
 
   listener {
-    instance_port     = 80
-    instance_protocol = "http"
-    lb_port           = 80
-    lb_protocol       = "http"
+    instance_port      = 80
+    instance_protocol  = "http"
+    lb_port            = 443
+    lb_protocol        = "https"
+    ssl_certificate_id = "arn:aws:acm:us-east-1:751311555268:certificate/b1770c65-95f3-4d79-94a8-d891092d0de4"
   }
 
   health_check {
@@ -296,6 +298,11 @@ data "template_file" "basal_task_definition" {
     docker_username = "${var.docker_username}"
     version = "${var.version}"
     deploy_id = "${var.deploy_id}"
+    db_password = "${var.db_password}"
+    s3_key = "${var.s3_key}"
+    s3_secret = "${var.s3_secret}"
+    auth_google_id = "${var.auth_google_id}"
+    auth_google_secret = "${var.auth_google_secret}"
   }
 }
 

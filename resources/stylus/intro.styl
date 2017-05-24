@@ -1,4 +1,3 @@
-
 .intro
   width 100vw
   height 100vh
@@ -37,8 +36,12 @@
       width 75px
       height 75px
       opacity 0
-      > svg > path
-        fill gc(white1)
+      &.white
+        > svg > path
+          fill gc(white1)
+      &.blue
+        > svg > path
+          fill gc(blue2)
     > .svg
       position absolute
       top 0
@@ -50,8 +53,12 @@
       > svg > path, > svg > polygon
         transition transform 1s ease-in-out, opacity 1s ease-in-out
         opacity 1
-      > svg > path, > svg > polygon
-        fill gc(white1)
+      &.white
+        > svg > path, > svg > polygon
+          fill gc(white1)
+      &.blue
+        > svg > path, > svg > polygon
+          fill gc(blue2)
 
 .newlogo.on > .inner
   > .hexagon

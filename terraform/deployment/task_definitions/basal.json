@@ -10,12 +10,38 @@
                 "hostPort": 80,
                 "containerPort": 80,
                 "protocol": "tcp"
+            },
+            {
+                "hostPort": 1222,
+                "containerPort": 22,
+                "protocol": "tcp"
             }
         ],
         "links": [],
         "command": [],
         "entryPoint": [],
-        "environment": [],
+        "environment": [
+            {
+                "name": "DB_PASSWORD",
+                "value": "${db_password}"
+            },
+            {
+                "name": "S3_KEY",
+                "value": "${s3_key}"
+            },
+            {
+                "name": "S3_SECRET",
+                "value": "${s3_secret}"
+            },
+            {
+                "name": "AUTH_GOOGLE_ID",
+                "value": "${auth_google_id}"
+            },
+            {
+                "name": "AUTH_GOOGLE_SECRET",
+                "value": "${auth_google_secret}"
+            }
+        ],
         "mountPoints": []
     }
 ]
