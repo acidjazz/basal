@@ -2,11 +2,11 @@ extends ../layout/core.pug
 block content
   .intro
     canvas#canvas
-    .newlogo.off
+    a.newlogo.off(href='/home')
       .inner
-        .hexagon
+        .hexagon.white
           include ../../vector/hexagon.svg
-        .svg
+        .svg.white
           include ../../vector/logo.svg
 
     script.
