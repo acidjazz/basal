@@ -5,38 +5,33 @@ general:
 machine:
   timezone:
     America/Los_Angeles
-  php:
-    version: 7.0.4
-  environment:
-    ENVIRONMENT: testing
-    APP_ENV: testing
-    APP_DEBUG: true
-    APP_URL: http://127.0.0.1:8000
+  ruby:
+    version: 2.4.0
+  services:
+    - docker
+
+compile:
+  override:
+    - rake
 
 dependencies:
-  pre:
-    - pecl install mongodb
-    - echo "extension=mongodb.so" > /opt/circleci/php/7.0.4/etc/conf.d/mongodb.ini
-    - printf "\n" | pecl install yaml-2.0.0
-    - echo "extension=yaml.so" > /opt/circleci/php/7.0.4/etc/conf.d/yaml.ini
-    - composer install --no-interaction
-    - npm i --prefix vendor/acidjazz/larpug/node/
+  override:
+    - gem install rake sbuild
+    - wget https://releases.hashicorp.com/terraform/0.8.8/terraform_0.8.8_linux_amd64.zip
+    - unzip terraform_0.8.8_linux_amd64.zip -d terraform
+    - mv terraform/terraform /home/ubuntu/bin/terraform
+    - wget https://releases.hashicorp.com/vault/0.7.2/vault_0.7.2_linux_amd64.zip
+    - unzip vault_0.7.2_linux_amd64.zip -d vault
+    - mv vault/vault /home/ubuntu/bin/vault
 
-    #- wget https://saucelabs.com/downloads/sc-4.4.4-linux.tar.gz
-    #- tar -xzf sc-4.4.4-linux.tar.gz
+database:
+  override:
+    - echo 'skipping DB phase'
 
 test:
   override:
-    - php ./artisan serve:
-        background: true
-    #- cd sc-4.4.4-linux && ./bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --readyfile ~/sauce_is_ready:
-    #    background: true
-    # Wait for tunnel to be ready
-    #- while [ ! -e ~/sauce_is_ready ]; do sleep 1; done
-    #- timeout 30s ./vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml tests || ./vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml tests
-    - ./vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml tests/Feature 
+    - echo 'skipping tests'
 
-  post:
-    - bash <(curl -s https://codecov.io/bash)
-    #- killall --wait sc  # wait for Sauce Connect to close the tunnel
-
+deployment:
+  override:
+    - echo 'skipping deployment'
