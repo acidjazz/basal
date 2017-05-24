@@ -121,7 +121,7 @@ end
 
 namespace :run do
     task :app do
-        cmd = "docker run -p 8080:80 acidjazz/basal"
+        cmd = "docker run -p 8080:80 751311555268.dkr.ecr.us-east-1.amazonaws.com/basal:#{$commit}"
         system_safe(cmd)
     end
 end
