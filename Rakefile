@@ -38,7 +38,7 @@ task :prepare do
         $app_key = get_secret("secret/basal/app_key", $environment)
 
     else
-        $app_key = ENV["DEPLOY_ACCESS_KEY"]
+        $app_key = ENV["APP_KEY"]
     end
 
     if ENV["DB_PASSWORD"].nil?
