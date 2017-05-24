@@ -6,7 +6,9 @@
 [![Dependency Status](https://www.gemnasium.com/badges/github.com/acidjazz/basal.svg)](https://www.gemnasium.com/github.com/acidjazz/basal)
 
 ## intoduction
-basal provides a simple way to handle dynamic data without needing any back-end functionality, this cuts out the need for databases, server-side rendering, or even servers themselves (S3 static websites/etc).  
+
+basal is a tool to help allow dynamic content on static sites, cutting out out the need for databases, server-side rendering, or even servers themselves (S3 hosted websites/etc). this also provides a customizable look and feel for you and others (client, partners, etc) to modify this content.
+
 
 ## installation
 > coming soon
