@@ -60,9 +60,9 @@ task :prepare do
     end
 
     if ENV["AUTH_GOOGLE_ID"].nil?
-        auth_google_id = get_secret("secret/google/auth_google_id", $environment)
+        $auth_google_id = get_secret("secret/google/auth_google_id", $environment)
     else
-        $deploy_access_key = ENV["AUTH_GOOGLE_ID"]
+        $auth_google_id = ENV["AUTH_GOOGLE_ID"]
     end
 
     if ENV["AUTH_GOOGLE_SECRET"].nil?
@@ -79,12 +79,12 @@ end
 namespace :image do
 	task :build do
 		cmd = "docker build -f docker/Dockerfile -t basal ."
-		#system_safe(cmd)
+		system_safe(cmd)
 	end
 
     task :tag do
         cmd = "docker tag basal:latest 751311555268.dkr.ecr.us-east-1.amazonaws.com/basal:#{$commit}"
-        #system_safe(cmd)
+        system_safe(cmd)
     end
 
     task :login do
