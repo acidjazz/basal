@@ -19,7 +19,7 @@ task :prepare do
     if $branch == "master"
         $environment = "production"
     else
-        $environment = "develop"
+        $environment = "production"
     end
 
     if ENV["DEPLOY_ACCESS_KEY"].nil?
